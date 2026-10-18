@@ -1,0 +1,292 @@
+{
+ "film": "DAWN_AND_YEAR_test",
+ "fps": 24,
+ "made": "2026-10-18T03:16:59.739Z",
+ "fade_out_s": 3,
+ "runtime_s": 72.167,
+ "events": [
+  {
+   "n": 1,
+   "shot_id": "A_summer_top",
+   "act": "VI DAWN",
+   "rung": "wide",
+   "style": "fricke_reggio",
+   "clip": "<clips>/A_summer_top.mp4",
+   "missing": false,
+   "in_frame": 23,
+   "out_frame": 265,
+   "frames": 242,
+   "seconds": 10.083,
+   "cut_rule": "in:on_stillness out:on_stillness",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    264,
+    276
+   ],
+   "transition_in": "fade_from_black",
+   "transition_s": 2,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 0,
+   "key_instant_s": null,
+   "sound": {
+    "voice_start_s": -0.5,
+    "voice_est_s": 9.6,
+    "voice": "Seen from above, at sunrise on the longest day, every stone throws its shadow the same way — south-west, straight down the monument's axis."
+   }
+  },
+  {
+   "n": 2,
+   "shot_id": "A_contrast_am",
+   "act": "VI DAWN",
+   "rung": "insert",
+   "style": "ozu",
+   "clip": "<clips>/A_contrast_am.mp4",
+   "missing": false,
+   "in_frame": 0,
+   "out_frame": 95,
+   "frames": 95,
+   "seconds": 3.958,
+   "cut_rule": "in:on_stillness out:on_stillness",
+   "in_window": [
+    0,
+    0
+   ],
+   "out_window": [
+    84,
+    96
+   ],
+   "transition_in": "cut",
+   "transition_s": 0,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 10.083,
+   "key_instant_s": null,
+   "sound": {
+    "voice_start_s": 9.583,
+    "voice_est_s": 3.2,
+    "voice": "On any other morning, the shadows point elsewhere."
+   }
+  },
+  {
+   "n": 3,
+   "shot_id": "A_summer_sw",
+   "act": "VI DAWN",
+   "rung": "medium",
+   "style": "kubrick",
+   "clip": "<clips>/A_summer_sw.mp4",
+   "missing": false,
+   "in_frame": 23,
+   "out_frame": 312,
+   "frames": 289,
+   "seconds": 12.042,
+   "cut_rule": "in:on_stillness out:after_instant",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    312,
+    324
+   ],
+   "transition_in": "cut",
+   "transition_s": 0,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 14.042,
+   "key_instant_s": 18.417,
+   "sound": {
+    "voice_start_s": 13.542,
+    "voice_est_s": 8.8,
+    "voice": "Stand on that line and look back north-east. The first light of the solstice appears inside the slot of the Great Trilithon."
+   }
+  },
+  {
+   "n": 4,
+   "shot_id": "A_axis_5s",
+   "act": "VI DAWN",
+   "rung": "insert",
+   "style": "kubrick",
+   "clip": "<clips>/A_axis_5s.mp4",
+   "missing": false,
+   "in_frame": 0,
+   "out_frame": 120,
+   "frames": 120,
+   "seconds": 5,
+   "cut_rule": "fixed (no handles)",
+   "in_window": null,
+   "out_window": null,
+   "transition_in": "cut",
+   "transition_s": 0,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 26.083,
+   "key_instant_s": 29.167,
+   "sound": null
+  },
+  {
+   "n": 5,
+   "shot_id": "A_autumn_set",
+   "act": "VIII THE YEAR",
+   "rung": "medium",
+   "style": "herzog",
+   "clip": "<clips>/A_autumn_set.mp4",
+   "missing": false,
+   "in_frame": 22,
+   "out_frame": 219,
+   "frames": 197,
+   "seconds": 8.208,
+   "cut_rule": "in:on_stillness out:on_stillness",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    216,
+    228
+   ],
+   "transition_in": "dissolve",
+   "transition_s": 2,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 29.083,
+   "key_instant_s": null,
+   "sound": {
+    "voice_start_s": 28.583,
+    "voice_est_s": 9.2,
+    "voice": "Not every day is marked. At the equinox the Sun sets due west — at the edge of a gap, not inside one."
+   }
+  },
+  {
+   "n": 6,
+   "shot_id": "A_winter_top",
+   "act": "VIII THE YEAR",
+   "rung": "wide",
+   "style": "fricke_reggio",
+   "clip": "<clips>/A_winter_top.mp4",
+   "missing": false,
+   "in_frame": 22,
+   "out_frame": 265,
+   "frames": 243,
+   "seconds": 10.125,
+   "cut_rule": "in:on_stillness out:on_stillness",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    264,
+    276
+   ],
+   "transition_in": "dissolve",
+   "transition_s": 1,
+   "transition_by": "context: day changes",
+   "pair": null,
+   "start_s": 36.292,
+   "key_instant_s": null,
+   "sound": {
+    "voice_start_s": 35.792,
+    "voice_est_s": 7.6,
+    "voice": "Six months on, the shadows turn round. In the low winter afternoon they run north-east, up the same axis."
+   }
+  },
+  {
+   "n": 7,
+   "shot_id": "A_contrast_pm",
+   "act": "VIII THE YEAR",
+   "rung": "insert",
+   "style": "ozu",
+   "clip": "<clips>/A_contrast_pm.mp4",
+   "missing": false,
+   "in_frame": 0,
+   "out_frame": 95,
+   "frames": 95,
+   "seconds": 3.958,
+   "cut_rule": "in:on_stillness out:on_stillness",
+   "in_window": [
+    0,
+    0
+   ],
+   "out_window": [
+    84,
+    96
+   ],
+   "transition_in": "cut",
+   "transition_s": 0,
+   "transition_by": "row",
+   "pair": null,
+   "start_s": 46.417,
+   "key_instant_s": null,
+   "sound": null
+  },
+  {
+   "n": 8,
+   "shot_id": "A_winter_ne",
+   "act": "VIII THE YEAR",
+   "rung": "medium",
+   "style": "kubrick",
+   "clip": "<clips>/A_winter_ne.mp4",
+   "missing": false,
+   "in_frame": 22,
+   "out_frame": 269,
+   "frames": 247,
+   "seconds": 10.292,
+   "cut_rule": "in:match out:after_instant",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    264,
+    276
+   ],
+   "transition_in": "match_cut",
+   "transition_s": 0,
+   "transition_by": "row",
+   "pair": "A_summer_sw",
+   "start_s": 50.375,
+   "key_instant_s": 58.667,
+   "sound": {
+    "voice_start_s": 49.875,
+    "voice_est_s": 7.2,
+    "voice": "The axis works both ways. From the other side, the midwinter Sun goes down through the same slot."
+   }
+  },
+  {
+   "n": 9,
+   "shot_id": "A_station_moon",
+   "act": "VIII THE YEAR",
+   "rung": "medium",
+   "style": "kurosawa",
+   "clip": "<clips>/A_station_moon.mp4",
+   "missing": false,
+   "in_frame": 24,
+   "out_frame": 324,
+   "frames": 300,
+   "seconds": 12.5,
+   "cut_rule": "in:on_motion out:after_instant",
+   "in_window": [
+    12,
+    24
+   ],
+   "out_window": [
+    312,
+    324
+   ],
+   "transition_in": "dissolve",
+   "transition_s": 1,
+   "transition_by": "context: day changes",
+   "pair": null,
+   "start_s": 59.667,
+   "key_instant_s": 72.083,
+   "sound": {
+    "voice_start_s": 59.167,
+    "voice_est_s": 9.6,
+    "voice": "Four smaller stones mark a rectangle. Its long side points north-west — to where the Moon sets at its northernmost, once every 18.6 years."
+   }
+  }
+ ]
+}

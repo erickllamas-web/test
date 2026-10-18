@@ -1,0 +1,328 @@
+{
+ "OTIO_SCHEMA": "Timeline.1",
+ "name": "DAWN_AND_YEAR_test",
+ "global_start_time": {
+  "OTIO_SCHEMA": "RationalTime.1",
+  "rate": 24,
+  "value": 0
+ },
+ "tracks": {
+  "OTIO_SCHEMA": "Stack.1",
+  "name": "tracks",
+  "children": [
+   {
+    "OTIO_SCHEMA": "Track.1",
+    "name": "V1",
+    "kind": "Video",
+    "children": [
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_summer_top",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 23
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 242
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_summer_top.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VI DAWN",
+        "rung": "wide",
+        "style": "fricke_reggio",
+        "cut_rule": "in:on_stillness out:on_stillness"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_contrast_am",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 0
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 95
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_contrast_am.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VI DAWN",
+        "rung": "insert",
+        "style": "ozu",
+        "cut_rule": "in:on_stillness out:on_stillness"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_summer_sw",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 23
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 289
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_summer_sw.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VI DAWN",
+        "rung": "medium",
+        "style": "kubrick",
+        "cut_rule": "in:on_stillness out:after_instant"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_axis_5s",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 0
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 120
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_axis_5s.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VI DAWN",
+        "rung": "insert",
+        "style": "kubrick",
+        "cut_rule": "fixed (no handles)"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Transition.1",
+      "name": "dissolve",
+      "transition_type": "SMPTE_Dissolve",
+      "in_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 24
+      },
+      "out_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 24
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_autumn_set",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 22
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 197
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_autumn_set.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VIII THE YEAR",
+        "rung": "medium",
+        "style": "herzog",
+        "cut_rule": "in:on_stillness out:on_stillness"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Transition.1",
+      "name": "dissolve",
+      "transition_type": "SMPTE_Dissolve",
+      "in_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 12
+      },
+      "out_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 12
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_winter_top",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 22
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 243
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_winter_top.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VIII THE YEAR",
+        "rung": "wide",
+        "style": "fricke_reggio",
+        "cut_rule": "in:on_stillness out:on_stillness"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_contrast_pm",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 0
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 95
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_contrast_pm.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VIII THE YEAR",
+        "rung": "insert",
+        "style": "ozu",
+        "cut_rule": "in:on_stillness out:on_stillness"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_winter_ne",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 22
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 247
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_winter_ne.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VIII THE YEAR",
+        "rung": "medium",
+        "style": "kubrick",
+        "cut_rule": "in:match out:after_instant"
+       }
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Transition.1",
+      "name": "dissolve",
+      "transition_type": "SMPTE_Dissolve",
+      "in_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 12
+      },
+      "out_offset": {
+       "OTIO_SCHEMA": "RationalTime.1",
+       "rate": 24,
+       "value": 12
+      }
+     },
+     {
+      "OTIO_SCHEMA": "Clip.1",
+      "name": "A_station_moon",
+      "source_range": {
+       "OTIO_SCHEMA": "TimeRange.1",
+       "start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 24
+       },
+       "duration": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24,
+        "value": 300
+       }
+      },
+      "media_reference": {
+       "OTIO_SCHEMA": "ExternalReference.1",
+       "target_url": "file://<clips>/A_station_moon.mp4"
+      },
+      "metadata": {
+       "shot": {
+        "act": "VIII THE YEAR",
+        "rung": "medium",
+        "style": "kurosawa",
+        "cut_rule": "in:on_motion out:after_instant"
+       }
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "event": 8,
+ "cut": "A_contrast_pm → A_winter_ne",
+ "A": {
+  "out": 95,
+  "in": 22,
+  "transition": "match_cut",
+  "rule": "in:match out:after_instant"
+ },
+ "B": {
+  "out": 95,
+  "in": 24,
+  "transition": "match_cut",
+  "rule": "handle edges"
+ },
+ "video": "<work>/compare_8.mp4",
+ "sheet": "<work>/compare_8.png",
+ "note": "left/top = A (the editor's choice), right/bottom = B (the plain alternative). Record the pick in editing.json learning."
+}

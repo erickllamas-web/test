@@ -1,0 +1,19 @@
+{
+ "event": 5,
+ "cut": "A_axis_5s → A_autumn_set",
+ "A": {
+  "out": 120,
+  "in": 22,
+  "transition": "dissolve",
+  "rule": "in:on_stillness out:on_stillness"
+ },
+ "B": {
+  "out": 120,
+  "in": 24,
+  "transition": "cut",
+  "rule": "handle edges"
+ },
+ "video": "<work>/compare_5.mp4",
+ "sheet": "<work>/compare_5.png",
+ "note": "left/top = A (the editor's choice), right/bottom = B (the plain alternative). Record the pick in editing.json learning."
+}
