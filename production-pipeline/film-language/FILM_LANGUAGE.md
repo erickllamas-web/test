@@ -244,6 +244,85 @@ The subject withheld, then disclosed by the camera's own move: rise behind a sto
 | 1 | close | held | insert | cut_on_stillness | behind the trilithon, the view blocked |
 | 2 | medium | held | medium | cut_on_motion | the crane up and tilt down: the line to the Heel Stone and the Avenue |
 
+## The edit
+
+The edit as data. Three parts: the transitions the film may use and when each is allowed; how the exact cut frame is chosen inside a shot's handles; and the tests a cut must pass (Murch's rule of six, with his weights, each mapped to a measurable proxy where one exists). The editor reads the shot file and the clips, writes an EDL (the editable artifact), renders it with ffmpeg, and runs check_edit on the result. Speed is never an edit operation: time is data, so a ramp is a re-timed frame list and a render, never interpolated frames.
+
+### Transitions
+
+| transition | duration (s) | when | never |
+|---|---|---|---|
+| **cut** | 0 | the default: same day, same act, the previous shot has settled |  |
+| **match_cut** | 0 | the two shots are a declared pair: same lens, mirrored camera, the subject within 5 percent of frame width of where it was | without the pair being declared in the shot file (cut: match:<id>) |
+| **dissolve** | short 1, long 2 | time has passed: between days, or between acts; long between the day and the year | inside a claim; between two shots of the same instant |
+| **fade_from_black** | film_start 2, part_start 1.5 | the first frame of the film; the first frame after a dip |  |
+| **fade_to_black** | film_end 3, part_end 1.5 | the last frame of the film; the coda | between two shots of one act |
+| **dip_to_black** | black 0.75, fades 1 | between the day and the year, if no dissolve is wanted; the film breathes | more than twice in a film |
+| **j_cut** | — | the voice names what the next shot shows: it starts before the picture | across the key instant |
+| **l_cut** | — | ambience or music carries over a cut so the cut is felt less |  |
+| **hold_frame** | — | never as a freeze in the edit; a held instant is rendered as held lines (the renderer copies identical lines), so it is a shot, not a trick | always |
+| **speed_ramp** | — | never in the edit; re-time the frame list (the time column) and render | always |
+| **wipe_iris_push_zoom_transitions** | — | never | always; the film has no tricks between shots |
+
+### Choosing the cut frame inside the handles
+
+Every rendered shot has 0.5 s handles (12 frames) each side of its screen length. The editor chooses the exact in and out frame inside the handles by rule, so a cut lands where the grammar says, not at the handle's edge.
+
+| rule | what | measured by | default for |
+|---|---|---|---|
+| **on_stillness** | the out frame is the one with the least motion energy in the out handle; the in frame the least in the in handle | mean absolute frame difference over the handle, from the decoded clip | cut, dissolve |
+| **on_motion** | the cut lands mid-move so the momentum carries across it | the frame nearest the move's peak speed in the handle | kurosawa and malick styles; the_approach's second beat |
+| **to_instant** | the in frame is the first frame at or after a named moment (e.g. @sunrise_gleam) | the frame list's time column against moments.js; no pixels needed | the_proof beat 4; the_look beat 2 |
+| **after_instant** | the out frame is N seconds after the moment, so the frame breathes | the time column | the_breath; every climax shot's out point (N = 2) |
+| **match** | in and out chosen so the subject's frame position matches across the cut | body position from the frame list (az, alt against the camera) at the out and in frames | match_cut |
+
+### Murch's rule of six, with proxies
+
+Walter Murch's priorities for a cut, with his own weights (In the Blink of an Eye). The first two cannot be measured and stay with the strategy and Erick's gate; the last four get a proxy and a test.
+
+| priority | weight | proxy | test |
+|---|---|---|---|
+| **emotion** | 51 | none; the strategy's key_instant and the gate | — |
+| **story** | 23 | one claim per shot; a claim followed by its contrast | check_edit.claim_then_contrast |
+| **rhythm** | 10 | the series of shot lengths against the strategy's rhythm pattern; length inside the rung's band | check_edit.rhythm |
+| **eye_trace** | 7 | distance between the subject's position at the out frame and at the in frame | check_edit.eye_trace |
+| **two_d_plane** | 5 | the 180-degree line: adjacent shots on the same side of the axis unless the row says crossing | check_edit.line |
+| **three_d_space** | 4 | the 30-degree rule: adjacent shots of the same subject differ by 30 degrees of bearing or a lens ratio of 1.5; camera height continuity | check_edit.thirty_degrees |
+
+### check_edit
+
+Tests on the assembled cut, run after render. Thresholds are starting values to calibrate on the first three edits; each failure names the cut by shot ids and frame numbers.
+
+| test | fails if |
+|---|---|
+| **motion_at_cut** | motion energy at the out or in frame is above the handle's median, when the rule is on_stillness |
+| **luma_jump_at_cut** | mean luma differs by more than 40 levels (of 255) across a plain cut; dissolves exempt; a warning, not a failure, when the strategy declares the jump (the_jump) |
+| **eye_trace** | the subject moves more than 15 percent of frame width across a cut that is not a declared jump |
+| **line** | adjacent shots sit on opposite sides of the axis without line: crossing on the second row |
+| **thirty_degrees** | adjacent shots of the same subject change bearing by less than 30 degrees and lens by less than a ratio of 1.5 |
+| **no_two_wides** | two consecutive wide shots unless the pattern is the_montage_of_place |
+| **rhythm** | a shot's length is outside its rung's duration band; or the act's length series does not match the strategy's rhythm pattern (breathing: at least one insert for every long hold) |
+| **dissolve_context** | a dissolve inside a claim or inside one day's act |
+| **breath_after_instant** | a shot carrying a key instant ends less than 2 s after it |
+| **voice_silent_at_instant** | a voice line overlaps a key instant by less than 1 s either side |
+| **voice_leads** | a voice line starts less than 0.3 s or more than 1 s before the shot it names |
+| **match_pair** | a match cut's two shots differ in lens or the subject position differs by more than 5 percent of frame width |
+| **runtime** | total runtime differs from the brief by more than 10 percent |
+| **black** | any black frame inside the film that is not a declared dip or fade (a missing clip) |
+
+### The EDL
+
+The cut as a file between the shot file and ffmpeg. One row per event. Editable by hand or by the proposer; re-render is the same command. Exportable to OpenTimelineIO JSON so the cut can be opened in Resolve for a human look without that becoming the pipeline.
+
+- Fields: `n`, `shot_id`, `clip_path`, `in_frame`, `out_frame`, `transition_in`, `transition_s`, `cut_rule`, `sound_events (voice_start, music_cue, l_cut_lag)`
+- Render: ffmpeg: trims by frame, concat for cuts, xfade for dissolves, fade for blacks, adelay/acrossfade for J and L cuts, loudnorm at the end
+- Export: otio (OpenTimelineIO JSON) for Resolve; the EDL stays the source
+
+### Learning the edit
+
+After the table, the weights. The editor proposes two cuts of the same act when a rule is close to its threshold (two cut points, or cut versus dissolve), renders both small, and puts them side by side on one sheet. Erick's pick is recorded with both candidates' measurements. Three things can then move without new code: the thresholds in check_edit, the default cut_point rule per style, and the transition defaults per context. Nothing learns silently: every moved number is written to this file with the picks that moved it.
+- Recorded per pick: film, act, shot pair, candidate A metrics, candidate B metrics, pick, date
+
 ## How the tool uses this
 
 - A take in `cameras.json` or a row in the shot file may carry `"style": "<director>"`; a strategy may carry one for the whole film or per act. The row's values fill every dimension the row does not set itself. Precedence: strategy < style < take < row.

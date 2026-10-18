@@ -64,6 +64,44 @@ for k, p in seqs.items():
     for i, b in enumerate(p["beats"], 1):
         w(f"| {i} | {b['rung']} | {b['time']} | {b['duration']} | {b['cut_in']} | {b['does']} |")
 
+ed = json.loads((H / "editing.json").read_text())
+w("\n## The edit\n")
+w(ed["about"] + "\n")
+w("### Transitions\n")
+w("| transition | duration (s) | when | never |")
+w("|---|---|---|---|")
+for k, t in ed["transitions"].items():
+    d = t.get("duration_s", "—")
+    d = ", ".join(f"{a} {b}" for a, b in d.items()) if isinstance(d, dict) else d
+    w(f"| **{k}** | {d} | {t['when']} | {t['never']} |")
+w("\n### Choosing the cut frame inside the handles\n")
+w(ed["cut_point"]["about"] + "\n")
+w("| rule | what | measured by | default for |")
+w("|---|---|---|---|")
+for k, r in ed["cut_point"]["rules"].items():
+    w(f"| **{k}** | {r['what']} | {r['measured_by']} | {r['default_for']} |")
+w("\n### Murch's rule of six, with proxies\n")
+w(ed["rule_of_six"]["about"] + "\n")
+w("| priority | weight | proxy | test |")
+w("|---|---|---|---|")
+for k, r in ed["rule_of_six"].items():
+    if k == "about": continue
+    w(f"| **{k}** | {r['weight']} | {r['proxy']} | {r['test'] or '—'} |")
+w("\n### check_edit\n")
+w(ed["check_edit"]["about"] + "\n")
+w("| test | fails if |")
+w("|---|---|")
+for k, t in ed["check_edit"]["tests"].items():
+    w(f"| **{k}** | {t['fail_if']} |")
+w("\n### The EDL\n")
+w(ed["edl"]["about"] + "\n")
+w("- Fields: " + ", ".join(f"`{f}`" for f in ed["edl"]["fields"]))
+w("- Render: " + ed["edl"]["render"])
+w("- Export: " + ed["edl"]["export"])
+w("\n### Learning the edit\n")
+w(ed["learning"]["about"])
+w("- Recorded per pick: " + ", ".join(ed["learning"]["record_per_pick"]))
+
 w("\n## How the tool uses this\n")
 w("- A take in `cameras.json` or a row in the shot file may carry `\"style\": \"<director>\"`; a strategy may carry one for the whole film or per act. "
   "The row's values fill every dimension the row does not set itself. Precedence: strategy < style < take < row.")
