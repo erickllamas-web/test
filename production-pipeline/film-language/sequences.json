@@ -1,0 +1,107 @@
+{
+ "about": "Sequence patterns: how to make a sequence, as an ordered list of beats the strategy compiler can expand. Each beat is a slot (rung, time, duration band, cut in, what it does), not a shot; the compiler fills it from cameras.json for the site's own moments. 'from' names the director row the pattern comes from; 'used_in' names where the Stonehenge script already does it.",
+ "patterns": {
+  "the_proof": {
+   "what": "A measured claim shown so it cannot be doubted: establish from above, the same frame on the other days, then on the line, the instant held, release along the line.",
+   "from": ["fricke_reggio", "hitchcock"],
+   "beats": [
+    { "rung": "wide", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "overhead: the shadows lie along the line" },
+    { "rung": "wide", "time": "held", "duration": "insert", "cut_in": "cut_on_stillness", "does": "contrast: the same frame at the same Sun height on the other important days" },
+    { "rung": "medium", "time": "lapse", "duration": "medium", "cut_in": "match", "does": "on the line, long lens: the body enters the frame the stones make" },
+    { "rung": "close", "time": "lapse", "duration": "long", "cut_in": "cut_on_stillness", "does": "the window: the body inside one gap" },
+    { "rung": "hold", "time": "held", "duration": "medium", "cut_in": "cut_on_stillness", "does": "the instant held, the camera moves along the line" }
+   ],
+   "key_instant": "ramp_hold_release", "rhythm": "breathing",
+   "used_in": "script v3.1 act VI (shots 8, 8c, 9, 10, 11) and act VIII (14, 14c, 15, 16)"
+  },
+  "the_approach": {
+   "what": "A thing appears small on the horizon and grows for a long time; the viewer earns the arrival.",
+   "from": ["lean"],
+   "beats": [
+    { "rung": "wide", "time": "real", "duration": "very_long", "cut_in": "from_black", "does": "the walk or dolly in, the subject small at first" },
+    { "rung": "medium", "time": "real", "duration": "medium", "cut_in": "cut_on_motion", "does": "the subject fills the frame; the move continues" }
+   ],
+   "key_instant": "pass_without_comment", "rhythm": "decelerating",
+   "used_in": "6_walk_in; the Heel Stone from down the Avenue (not yet made)"
+  },
+  "the_jump": {
+   "what": "From the extreme wide straight to the extreme close, nothing between; the scale shock.",
+   "from": ["leone"],
+   "beats": [
+    { "rung": "wide", "time": "lapse", "duration": "long", "cut_in": "cut_on_stillness", "does": "the Plain or the overhead" },
+    { "rung": "close", "time": "real", "duration": "insert", "cut_in": "cut_on_stillness", "does": "one edge of one stone, or the Sun's disc alone" }
+   ],
+   "key_instant": "cut_to_it", "rhythm": "accelerating",
+   "used_in": "not yet; a candidate for the first seconds after the dissolve into 'the year'"
+  },
+  "the_pillow": {
+   "what": "A short still shot of place between two acts; nothing happens; the film breathes.",
+   "from": ["ozu"],
+   "beats": [
+    { "rung": "close", "time": "real", "duration": "insert", "cut_in": "cut_on_stillness", "does": "a lintel, the Heel Stone alone, the ditch; locked, no event" }
+   ],
+   "key_instant": "pass_without_comment", "rhythm": "even",
+   "used_in": "not yet; between acts II/III and VII/VIII"
+  },
+  "the_breath": {
+   "what": "After the climax, the frame stays after the event has left it; then the cut.",
+   "from": ["antonioni", "herzog"],
+   "beats": [
+    { "rung": "close", "time": "real", "duration": "medium", "cut_in": "cut_on_stillness", "does": "the same frame as the climax, the body gone, the stones remain" }
+   ],
+   "key_instant": "pass_without_comment", "rhythm": "decelerating",
+   "used_in": "A_spring_rise to black (the coda); the end of V_slot wants it"
+  },
+  "the_match": {
+   "what": "Two moments far apart in time, the same lens and mirrored camera, cut directly; the viewer sees the symmetry without being told.",
+   "from": ["hitchcock", "kubrick"],
+   "beats": [
+    { "rung": "medium", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "on the line from one end, the body in the gap" },
+    { "rung": "medium", "time": "lapse", "duration": "medium", "cut_in": "match", "does": "on the line from the other end, the same lens, the body in the same gap" }
+   ],
+   "key_instant": "ramp_hold_release", "rhythm": "even",
+   "used_in": "A_summer_sw to A_winter_ne; A_axis_5s to A_axis_5s_winter (the compare clip)"
+  },
+  "the_look": {
+   "what": "Show where the eye is, then what it sees: the point of interest of the second shot sits where the first left it.",
+   "from": ["hitchcock"],
+   "beats": [
+    { "rung": "wide", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "the line seen from above, the body at frame centre" },
+    { "rung": "medium", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "along the line at eye height, the body at frame centre" }
+   ],
+   "key_instant": "cut_to_it", "rhythm": "even",
+   "used_in": "A_summer_top to A_summer_sw (the eye-trace rule in the grammar)"
+  },
+  "the_montage_of_place": {
+   "what": "Equal shots of one place through time, music-led, no story but the light; the scale ladder descends across the set.",
+   "from": ["fricke_reggio"],
+   "beats": [
+    { "rung": "wide", "time": "lapse", "duration": "long", "cut_in": "cut_on_stillness", "does": "the Plain" },
+    { "rung": "wide", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "the circle from above" },
+    { "rung": "medium", "time": "lapse", "duration": "medium", "cut_in": "cut_on_stillness", "does": "the stones at eye height" },
+    { "rung": "close", "time": "lapse", "duration": "insert", "cut_in": "cut_on_stillness", "does": "one stone, the light moving on it" }
+   ],
+   "key_instant": "pass_without_comment", "rhythm": "breathing",
+   "used_in": "acts I and II (V_plain, V_carr, V_sundial) in spirit"
+  },
+  "the_long_take": {
+   "what": "One shot that carries a whole act; time itself is the subject; the camera drifts so slowly the move is noticed only at the end.",
+   "from": ["tarkovsky"],
+   "beats": [
+    { "rung": "medium", "time": "real", "duration": "very_long", "cut_in": "cut_on_stillness", "does": "the dawn from first light to the whole disc, one drift along the line" }
+   ],
+   "key_instant": "pass_without_comment", "rhythm": "decelerating",
+   "used_in": "not yet; a candidate to replace shots 9 and 10 with one shot"
+  },
+  "the_reveal": {
+   "what": "The subject withheld, then disclosed by the camera's own move: rise behind a stone and the whole axis appears.",
+   "from": ["villeneuve", "lean"],
+   "beats": [
+    { "rung": "close", "time": "held", "duration": "insert", "cut_in": "cut_on_stillness", "does": "behind the trilithon, the view blocked" },
+    { "rung": "medium", "time": "held", "duration": "medium", "cut_in": "cut_on_motion", "does": "the crane up and tilt down: the line to the Heel Stone and the Avenue" }
+   ],
+   "key_instant": "ramp_hold_release", "rhythm": "decelerating",
+   "used_in": "axis_crane_up in the camera library; 8_alignment in spirit"
+  }
+ }
+}

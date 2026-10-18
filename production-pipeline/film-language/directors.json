@@ -1,0 +1,101 @@
+{
+ "about": "How twelve directors pursue a shot and build a sequence, one value per dimension of dimensions.json. These are their habits as film scholarship commonly describes them, written as starting rows for Erick to edit; none is a measurement. A take or a strategy may say \"style\": \"<id>\" and inherits the row's values as defaults. 'for_us' names the beats of the Stonehenge film where the row fits; 'avoid' where it fights the material.",
+ "directors": {
+  "kubrick": {
+   "name": "Stanley Kubrick",
+   "signature": "One-point perspective: the line of the space dead centre, the frame symmetric, a slow track or zoom along the axis.",
+   "shot": { "frame": "symmetric_centre", "lens": "wide", "height": "eye", "line": "on_axis", "movement": "push", "motion_curve": "constant", "time": "real", "light": { "band": "any", "direction": "front" }, "look": { "exposure": "fixed", "contrast": "hard", "saturation": "rich", "warmth": "neutral", "blacks": "true" }, "duration": "long", "cut_in": "cut_on_stillness", "eye_trace": "centre", "sound": { "voice": "none", "music": "leads", "silence": "at_instant" } },
+   "sequence": { "ladder": "descend", "rhythm": "even", "motif": "axis_both_ways", "act_shape": "bookend", "key_instant": "ramp_hold_release", "colour_arc": "constant", "sound_arc": "music_led" },
+   "for_us": ["the axis push-ins (A_axis_5s and its winter match)", "the slot as a one-point corridor", "the alignment held"],
+   "avoid": ["the overhead shots (no vanishing line)", "anything hand-held or oblique"]
+  },
+  "tarkovsky": {
+   "name": "Andrei Tarkovsky",
+   "signature": "The long take in which time is the subject: the camera drifts in so slowly it is noticed only at the end; water, wind, grass and weather inside the frame.",
+   "shot": { "frame": "thirds", "lens": "normal", "height": "low", "line": "oblique", "movement": "drift", "motion_curve": "hold_move_hold", "time": "real", "light": { "band": "low", "direction": "side" }, "look": { "exposure": "fixed", "contrast": "flat", "saturation": "muted", "warmth": "warm", "blacks": "lifted" }, "duration": "very_long", "cut_in": "cut_on_stillness", "eye_trace": "lower_third", "sound": { "voice": "none", "music": "under", "silence": "whole" } },
+   "sequence": { "ladder": "flat", "rhythm": "decelerating", "motif": "none", "act_shape": "enter_close_exit_wide", "key_instant": "pass_without_comment", "colour_arc": "toward_cold", "sound_arc": "silence_then_music" },
+   "for_us": ["the walk in along the Avenue", "the held dawn after first light", "the carr with wind in the leaves"],
+   "avoid": ["inserts", "anything under 15 seconds"]
+  },
+  "malick": {
+   "name": "Terrence Malick",
+   "signature": "Magic hour only, a wide lens low to the ground, the camera moving through grass toward the light; the Sun left in the frame.",
+   "shot": { "frame": "horizon_low", "lens": "wide", "height": "ground", "line": "oblique", "movement": "walk", "motion_curve": "constant", "time": "real", "light": { "band": "golden", "direction": "back" }, "look": { "exposure": "smooth", "contrast": "neutral", "saturation": "natural", "warmth": "warm", "blacks": "lifted" }, "duration": "medium", "cut_in": "cut_on_motion", "eye_trace": "upper_third", "sound": { "voice": "after", "music": "under", "silence": "at_instant" } },
+   "sequence": { "ladder": "flat", "rhythm": "breathing", "motif": "rule_of_three", "act_shape": "enter_wide_exit_close", "key_instant": "pass_without_comment", "colour_arc": "follow_the_day", "sound_arc": "voice_sparse" },
+   "for_us": ["the Avenue at 3 degrees of Sun", "the carr and the river", "the grass near the camera"],
+   "avoid": ["noon", "the overhead rung", "precise alignments (the lens is too wide to read a degree)"]
+  },
+  "kurosawa": {
+   "name": "Akira Kurosawa",
+   "signature": "Telephoto compression from far back, the camera locked while the world moves; weather is a character; the cut lands on action.",
+   "shot": { "frame": "thirds", "lens": "long", "height": "eye", "line": "oblique", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "low", "direction": "side" }, "look": { "exposure": "fixed", "contrast": "hard", "saturation": "natural", "warmth": "neutral", "blacks": "true" }, "duration": "medium", "cut_in": "cut_on_motion", "eye_trace": "edge", "sound": { "voice": "none", "music": "enters", "silence": "at_instant" } },
+   "sequence": { "ladder": "descend", "rhythm": "accelerating", "motif": "rule_of_three", "act_shape": "enter_wide_exit_close", "key_instant": "cut_to_it", "colour_arc": "constant", "sound_arc": "music_led" },
+   "for_us": ["the Sun crossing the slot, camera locked (sun_track_tele without the track)", "clouds and their shadows crossing the circle", "wind over the Plain"],
+   "avoid": ["slow drifts", "the empty wide"]
+  },
+  "ozu": {
+   "name": "Yasujirō Ozu",
+   "signature": "A low fixed camera; nothing moves but time; 'pillow shots' of place between scenes; the event happens at the edge of the frame.",
+   "shot": { "frame": "planimetric", "lens": "normal", "height": "low", "line": "oblique", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "any", "direction": "front" }, "look": { "exposure": "fixed", "contrast": "neutral", "saturation": "muted", "warmth": "neutral", "blacks": "true" }, "duration": "insert", "cut_in": "cut_on_stillness", "eye_trace": "edge", "sound": { "voice": "none", "music": "under", "silence": "whole" } },
+   "sequence": { "ladder": "flat", "rhythm": "even", "motif": "same_frame_other_day", "act_shape": "bookend", "key_instant": "pass_without_comment", "colour_arc": "constant", "sound_arc": "voice_sparse" },
+   "for_us": ["the inserts between acts (a lintel edge, the Heel Stone alone)", "the empty monument held", "the contrast insert as a pillow shot"],
+   "avoid": ["moves of any kind", "the climax"]
+  },
+  "fricke_reggio": {
+   "name": "Ron Fricke and Godfrey Reggio (Baraka, Koyaanisqatsi)",
+   "signature": "Time-lapse from a locked camera, slow dollies through stillness, the scale ladder from the planet down to one stone; the music is the structure.",
+   "shot": { "frame": "symmetric_centre", "lens": "wide", "height": "high", "line": "on_axis", "movement": "locked", "motion_curve": "hold_move_hold", "time": "lapse", "light": { "band": "golden", "direction": "side" }, "look": { "exposure": "smooth", "contrast": "neutral", "saturation": "rich", "warmth": "neutral", "blacks": "true" }, "duration": "long", "cut_in": "cut_on_stillness", "eye_trace": "centre", "sound": { "voice": "none", "music": "leads", "silence": "at_instant" } },
+   "sequence": { "ladder": "descend", "rhythm": "breathing", "motif": "same_frame_other_day", "act_shape": "enter_wide_exit_close", "key_instant": "ramp_hold_release", "colour_arc": "follow_the_day", "sound_arc": "music_led" },
+   "for_us": ["the spine of the film: it is already the grammar", "the overhead sundial", "the spiral down into dusk"],
+   "avoid": ["voice over the picture (they have none; we have decided on one, so place it in the gaps)"]
+  },
+  "lean": {
+   "name": "David Lean",
+   "signature": "Landscape as epic: the very wide frame with a low horizon, and the long approach in which a figure appears on the horizon and grows for a full minute.",
+   "shot": { "frame": "horizon_low", "lens": "wide", "height": "eye", "line": "on_axis", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "high", "direction": "front" }, "look": { "exposure": "fixed", "contrast": "neutral", "saturation": "rich", "warmth": "warm", "blacks": "true" }, "duration": "very_long", "cut_in": "cut_on_stillness", "eye_trace": "centre", "sound": { "voice": "none", "music": "leads", "silence": "at_instant" } },
+   "sequence": { "ladder": "ascend", "rhythm": "decelerating", "motif": "none", "act_shape": "enter_close_exit_wide", "key_instant": "ramp_hold_release", "colour_arc": "constant", "sound_arc": "music_led" },
+   "for_us": ["the Heel Stone seen from far down the Avenue, growing", "the circle appearing on the Plain in the walk in", "the Sun arriving at the skyline"],
+   "avoid": ["the inside of the circle", "the telephoto rung"]
+  },
+  "villeneuve": {
+   "name": "Denis Villeneuve",
+   "signature": "Scale by a small thing against a vast one; the slow reveal; haze and dust between camera and subject; a muted palette and long, low drones.",
+   "shot": { "frame": "figure_small", "lens": "wide", "height": "high", "line": "oblique", "movement": "drift", "motion_curve": "hold_move_hold", "time": "real", "light": { "band": "low", "direction": "back" }, "look": { "exposure": "fixed", "contrast": "flat", "saturation": "muted", "warmth": "cool", "blacks": "lifted" }, "duration": "long", "cut_in": "cut_on_stillness", "eye_trace": "lower_third", "sound": { "voice": "none", "music": "under", "silence": "at_instant" } },
+   "sequence": { "ladder": "descend", "rhythm": "decelerating", "motif": "none", "act_shape": "enter_wide_exit_close", "key_instant": "ramp_hold_release", "colour_arc": "toward_cold", "sound_arc": "music_led" },
+   "for_us": ["the Plain from above with the circle small in it", "aerial perspective doing the work (AERIAL=1 already)", "the descent to eye height"],
+   "avoid": ["bright noon", "the window shots (they need the Sun, not haze)"]
+  },
+  "herzog": {
+   "name": "Werner Herzog",
+   "signature": "The landscape held past comfort, and a voice that says what the image cannot; the camera does not help the viewer.",
+   "shot": { "frame": "thirds", "lens": "normal", "height": "eye", "line": "oblique", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "any", "direction": "any" }, "look": { "exposure": "fixed", "contrast": "neutral", "saturation": "natural", "warmth": "neutral", "blacks": "true" }, "duration": "very_long", "cut_in": "cut_on_stillness", "eye_trace": "centre", "sound": { "voice": "leads", "music": "under", "silence": "at_instant" } },
+   "sequence": { "ladder": "flat", "rhythm": "decelerating", "motif": "none", "act_shape": "bookend", "key_instant": "pass_without_comment", "colour_arc": "constant", "sound_arc": "voice_sparse" },
+   "for_us": ["every voice line: where it goes and where it stops", "the hold after the Sun has gone", "the equinox shots that say 'the monument does not frame it'"],
+   "avoid": ["music-led passages", "the match cut (he does not play games with time)"]
+  },
+  "leone": {
+   "name": "Sergio Leone",
+   "signature": "The extreme wide against the extreme close with nothing between; waiting as tension; the music is the clock.",
+   "shot": { "frame": "horizon_low", "lens": "very_long", "height": "eye", "line": "on_axis", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "low", "direction": "back" }, "look": { "exposure": "fixed", "contrast": "hard", "saturation": "natural", "warmth": "warm", "blacks": "true" }, "duration": "insert", "cut_in": "cut_on_stillness", "eye_trace": "centre", "sound": { "voice": "none", "music": "leads", "silence": "at_instant" } },
+   "sequence": { "ladder": "jump", "rhythm": "accelerating", "motif": "rule_of_three", "act_shape": "enter_wide_exit_close", "key_instant": "ramp_hold_release", "colour_arc": "constant", "sound_arc": "music_led" },
+   "for_us": ["from the overhead straight to the lintel's edge (the jump)", "the seconds before the Sun touches the slot", "the Sun's disc at 6 degrees, nothing else in frame"],
+   "avoid": ["the medium rung (he skips it)", "drifts"]
+  },
+  "hitchcock": {
+   "name": "Alfred Hitchcock",
+   "signature": "Show the looker, then what is seen; the eye-trace carries the cut; the next shot's point of interest sits where the eye already is.",
+   "shot": { "frame": "thirds", "lens": "normal", "height": "eye", "line": "on_axis", "movement": "push", "motion_curve": "ramp_to_instant", "time": "real", "light": { "band": "any", "direction": "any" }, "look": { "exposure": "fixed", "contrast": "neutral", "saturation": "natural", "warmth": "neutral", "blacks": "true" }, "duration": "medium", "cut_in": "match", "eye_trace": "centre", "sound": { "voice": "leads", "music": "enters", "silence": "at_instant" } },
+   "sequence": { "ladder": "descend", "rhythm": "accelerating", "motif": "axis_both_ways", "act_shape": "enter_wide_exit_close", "key_instant": "cut_to_it", "colour_arc": "constant", "sound_arc": "voice_sparse" },
+   "for_us": ["the hand-off from the overhead to the on-axis shot (the Sun stays where the eye is)", "the summer-winter match cut", "'the builders looked here' then the shot of what they saw"],
+   "avoid": ["long holds", "the montage of equals"]
+  },
+  "antonioni": {
+   "name": "Michelangelo Antonioni",
+   "signature": "Figures inside architecture; the frame stays after the action has left it; the built thing outlasts the event.",
+   "shot": { "frame": "architecture_dominant", "lens": "normal", "height": "eye", "line": "oblique", "movement": "locked", "motion_curve": "none", "time": "real", "light": { "band": "high", "direction": "side" }, "look": { "exposure": "fixed", "contrast": "neutral", "saturation": "muted", "warmth": "cool", "blacks": "true" }, "duration": "long", "cut_in": "cut_on_stillness", "eye_trace": "edge", "sound": { "voice": "none", "music": "none", "silence": "whole" } },
+   "sequence": { "ladder": "flat", "rhythm": "decelerating", "motif": "none", "act_shape": "bookend", "key_instant": "pass_without_comment", "colour_arc": "constant", "sound_arc": "voice_sparse" },
+   "for_us": ["the ends of shots: hold after the Sun is gone", "the coda to black", "the stones at noon with no event"],
+   "avoid": ["the climax", "the approach shots"]
+  }
+ }
+}

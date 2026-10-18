@@ -1,0 +1,128 @@
+{
+ "about": "Every property that makes a shot or a sequence, as a dimension the tool can set. Each dimension names its values and the field of the shot file (or the strategy, or look.json) it lands in. A director in directors.json is one value per dimension; a style on a take or a strategy pulls those values in as defaults. Precedence: strategy < style < take < the row's own fields (the row always wins). Where a dimension has no field yet, 'maps_to' says so; nothing is applied silently.",
+ "shot": {
+  "frame": {
+   "what": "where things sit in the picture",
+   "values": {
+    "symmetric_centre": "the subject and the line dead centre, left-right symmetric",
+    "thirds": "subject on a third, horizon on a third",
+    "horizon_low": "sky takes most of the frame",
+    "horizon_high": "ground takes most of the frame",
+    "figure_small": "the subject small against something vast",
+    "architecture_dominant": "the built thing fills the frame; the event happens inside it",
+    "planimetric": "flat-on, the camera square to the subject's face"
+   },
+   "maps_to": "take.look / take.look_h / take.el; checked by check (horizon row, subject position)"
+  },
+  "lens": {
+   "what": "vertical field of view, degrees",
+   "values": { "wide": "40 to 60", "normal": "25 to 40", "long": "8 to 25", "very_long": "under 8" },
+   "maps_to": "lens (fov)"
+  },
+  "height": {
+   "what": "camera above the ground, metres",
+   "values": { "ground": "under 1", "low": "1 to 1.3", "eye": "1.6 to 1.8", "high": "5 to 30", "overhead": "over 50, looking down" },
+   "maps_to": "camera.h / take.height"
+  },
+  "line": {
+   "what": "the camera's relation to the monument's axis (the 180-degree line)",
+   "values": { "on_axis": "eye on the line, looking along it", "oblique": "off the line, looking across it", "crossing": "the move crosses the line (a statement)" },
+   "maps_to": "take.bearing against site.axis"
+  },
+  "movement": {
+   "what": "how the camera moves",
+   "values": { "locked": "none", "push": "in along the look", "pull": "out along the look", "track": "sideways", "crane": "up or down", "orbit": "round the subject", "drift": "a move so slow it is noticed only at the end", "walk": "at walking pace at eye height" },
+   "maps_to": "take.family (cameras.json)"
+  },
+  "motion_curve": {
+   "what": "how a move starts and ends",
+   "values": { "hold_move_hold": "still one second, eased move, still one second", "constant": "one speed, cut in and out of motion", "ramp_to_instant": "slows into the key instant, holds, releases", "none": "locked" },
+   "maps_to": "camera.hold; strategy.ramp"
+  },
+  "time": {
+   "what": "how time runs inside the shot",
+   "values": { "real": "one second a second", "held": "one instant, the camera moves", "lapse": "minutes or hours in seconds" },
+   "maps_to": "light.held / light.from,to (mode)"
+  },
+  "light": {
+   "what": "the Sun or Moon's height band, and its direction against the camera",
+   "values": {
+    "band": { "night": "below -12", "twilight": "-12 to 0", "golden": "0 to 6", "low": "6 to 15", "high": "over 15" },
+    "direction": { "back": "the body in front of the camera, subject in silhouette", "side": "the body across the camera, relief shows", "front": "the body behind the camera, flat light" }
+   },
+   "maps_to": "light.from / light.to as @moments; check (body in frame)"
+  },
+  "look": {
+   "what": "the display transform applied once per film to the rendered radiance. It changes no number the renderer computed; it is the film stock. Each value is recorded in look.json. Erick's ruling needed before any value but 'neutral' is used.",
+   "values": {
+    "exposure": { "fixed": "one value per shot", "smooth": "a curve from the Sun's altitude", "auto": "per frame (today; pumps at key instants)" },
+    "contrast": { "flat": "lifted blacks, soft curve", "neutral": "the eye's curve", "hard": "deep blacks, steep curve" },
+    "saturation": { "muted": "0.7 to 0.85 of measured", "natural": "as measured", "rich": "1.1 to 1.2" },
+    "warmth": { "cool": "white point toward blue", "neutral": "D65", "warm": "white point toward amber" },
+    "blacks": { "lifted": "nothing below 5 percent", "true": "zero stays zero" }
+   },
+   "maps_to": "look.json (the look step after the renderer; not in the tool yet)"
+  },
+  "duration": {
+   "what": "seconds on screen, by rung",
+   "values": { "insert": "3 to 6", "medium": "8 to 15", "long": "16 to 30", "very_long": "over 30" },
+   "maps_to": "seconds"
+  },
+  "cut_in": {
+   "what": "how the shot begins",
+   "values": { "cut_on_stillness": "the previous shot had settled", "cut_on_motion": "mid-move, momentum carries", "dissolve": "time passed (between days or acts)", "match": "same shape or position as the previous shot", "from_black": "the film breathes" },
+   "maps_to": "cut"
+  },
+  "eye_trace": {
+   "what": "where the point of interest sits so the next cut lands where the eye already is",
+   "values": { "centre": "dead centre", "upper_third": "", "lower_third": "", "edge": "at the frame's edge, about to leave or enter" },
+   "maps_to": "check (body position); strategy.eye_trace"
+  },
+  "sound": {
+   "what": "what is heard over the shot",
+   "values": {
+    "voice": { "none": "", "leads": "starts 0.5 s before the picture it names", "after": "speaks after the instant" },
+    "music": { "none": "", "under": "quiet, continuous", "leads": "the music is the structure", "enters": "a cue begins on the cut" },
+    "silence": { "at_instant": "no voice, music down across the key instant", "whole": "the shot is silent" }
+   },
+   "maps_to": "voice; music (sound.json, not in the tool yet)"
+  }
+ },
+ "sequence": {
+  "ladder": {
+   "what": "the order of rungs inside an act",
+   "values": { "descend": "wide to medium to close", "ascend": "close to wide", "jump": "wide straight to close, nothing between", "flat": "all one rung (a montage of equals)" },
+   "maps_to": "strategy.beats[].rung"
+  },
+  "rhythm": {
+   "what": "the series of shot lengths; the pulse",
+   "values": { "breathing": "long holds against short inserts (40 / 6 / 6 / 24)", "even": "all shots near one length", "accelerating": "shorter toward the climax, then one long", "decelerating": "longer as the act settles" },
+   "maps_to": "strategy.beats[].seconds"
+  },
+  "motif": {
+   "what": "what returns, and how often",
+   "values": { "axis_both_ways": "the same line, summer then winter", "same_frame_other_day": "the contrast insert", "rule_of_three": "a figure shown three times, the third changed", "none": "" },
+   "maps_to": "strategy.motifs"
+  },
+  "act_shape": {
+   "what": "how an act enters and leaves",
+   "values": { "enter_wide_exit_close": "", "enter_close_exit_wide": "", "bookend": "ends on the frame it began with" },
+   "maps_to": "strategy.acts[].shape"
+  },
+  "key_instant": {
+   "what": "how the climax of a claim is handled",
+   "values": { "ramp_hold_release": "slow in, hold at the second, let go", "pass_without_comment": "the instant happens inside a long take", "cut_to_it": "arrive on the instant from another shot" },
+   "maps_to": "strategy.beats[].instant"
+  },
+  "colour_arc": {
+   "what": "how the look moves across the film",
+   "values": { "follow_the_day": "warm at the ends, cool at night, neutral at noon (the physics gives this already)", "constant": "one look throughout", "toward_cold": "warms to cools as the film goes" },
+   "maps_to": "look.json per act (not in the tool yet)"
+  },
+  "sound_arc": {
+   "what": "how voice and music are distributed",
+   "values": { "voice_sparse": "a line per claim, silence between", "voice_dense": "continuous narration", "music_led": "music carries, voice rare", "silence_then_music": "the first act silent, music enters with the first claim" },
+   "maps_to": "sound.json (not in the tool yet)"
+  }
+ }
+}
