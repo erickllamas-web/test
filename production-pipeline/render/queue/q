@@ -1,0 +1,56 @@
+#!/bin/bash
+# q — one directory queue for every render; workers pull from it. Zero dependencies (bash, mv, flock).
+#
+#   q add JOB.sh [--name NAME] [--needs cloudy|clear|any]   queue a job (a shell file; it is copied in). Prints its id.
+#   q worker [WORKER_NAME] [--takes cloudy|clear|any] [--once]  run jobs until the queue is empty (or forever with --wait): claim atomically, run, move to done/failed
+#   q status                                                  what is queued, running, done, failed, with ages
+#   q log ID                                                  a job's log
+#   q retry ID | q drop ID                                    move a failed job back to the queue, or out of it
+#   q stop                                                    ask every worker on this machine to finish its job and exit
+#
+# Layout: $Q/{queue,running,done,failed}/<id>.job (the script), <id>.meta, <id>.log. $Q defaults to ~/.local/share/render-queue.
+# A job is any shell file; the convention from recipes/: it reads its own order, renders one shot (run_film.sh, pipe_render.sh,
+# frame.sh …) and exits 0 when its outputs exist. Resumable jobs re-queue themselves on failure by `q retry`.
+# One queue, one disk floor: a worker refuses to start a job when the disk is under $FLOOR_GB (default 7).
+set -u
+Q="${RENDER_QUEUE:-$HOME/.local/share/render-queue}"; FLOOR_GB="${FLOOR_GB:-7}"
+mkdir -p "$Q"/{queue,running,done,failed}
+now() { date +%s; }; iso() { date -Is; }
+age() { local t=$(( $(now) - $(stat -c %Y "$1") )); printf '%dh%02dm' $((t/3600)) $((t%3600/60)); }
+case "${1:-}" in
+  add)
+    job="${2:?q add JOB.sh}"; shift 2; name=$(basename "$job" .sh); needs=any
+    while [ $# -gt 0 ]; do case "$1" in --name) name=$2; shift 2;; --needs) needs=$2; shift 2;; *) shift;; esac; done
+    id="$(date +%Y%m%d-%H%M%S)-$name"; cp "$job" "$Q/queue/$id.job"; chmod +x "$Q/queue/$id.job"
+    printf 'name=%s\nneeds=%s\nadded=%s\nsrc=%s\n' "$name" "$needs" "$(iso)" "$(realpath "$job")" > "$Q/queue/$id.meta"; echo "$id" ;;
+  worker)
+    me="${2:-$(hostname)}"; [ "${me#--}" != "$me" ] && me=$(hostname); takes=any; once=0; wait=0
+    for a in "$@"; do case "$a" in --once) once=1;; --wait) wait=1;; esac; done
+    for ((i=1;i<=$#;i++)); do [ "${!i}" = "--takes" ] && { j=$((i+1)); takes="${!j}"; }; done
+    rm -f "$Q/stop.$me"; echo "worker $me: takes=$takes queue=$Q floor=${FLOOR_GB}GB"
+    while :; do
+      [ -e "$Q/stop.$me" ] || [ -e "$Q/stop.all" ] && { echo "worker $me: stop asked"; rm -f "$Q/stop.$me"; exit 0; }
+      free=$(df --output=avail -BG "$Q" | tail -1 | tr -dc 0-9); [ "$free" -ge "$FLOOR_GB" ] || { echo "worker $me: disk ${free}G under the floor — waiting"; sleep 60; continue; }
+      picked=""
+      for j in $(ls -1 "$Q/queue"/*.job 2>/dev/null | sort); do id=$(basename "$j" .job); need=$(sed -n 's/^needs=//p' "$Q/queue/$id.meta" 2>/dev/null)
+        [ "$takes" = any ] || [ "$need" = any ] || [ "$need" = "$takes" ] || continue
+        mv "$j" "$Q/running/$id.job" 2>/dev/null && { mv "$Q/queue/$id.meta" "$Q/running/$id.meta" 2>/dev/null; picked=$id; break; }; done   # mv is the atomic claim
+      if [ -z "$picked" ]; then [ $wait = 1 ] && { sleep 30; continue; }; echo "worker $me: queue empty"; exit 0; fi
+      id=$picked; printf 'worker=%s\nstarted=%s\n' "$me" "$(iso)" >> "$Q/running/$id.meta"; echo "worker $me: running $id"
+      t0=$(now); ( cd "$Q/running" && bash "./$id.job" ) >> "$Q/running/$id.log" 2>&1; rc=$?
+      printf 'ended=%s\nseconds=%s\nexit=%s\n' "$(iso)" "$(( $(now) - t0 ))" "$rc" >> "$Q/running/$id.meta"
+      if [ $rc = 0 ]; then mv "$Q/running/$id".{job,meta,log} "$Q/done/"; echo "worker $me: $id done in $(( $(now) - t0 )) s"
+      else mv "$Q/running/$id".{job,meta,log} "$Q/failed/"; echo "worker $me: $id FAILED (exit $rc) — q log $id"; fi
+      [ $once = 1 ] && exit $rc
+    done ;;
+  status)
+    for d in queue running done failed; do n=$(ls -1 "$Q/$d"/*.job 2>/dev/null | wc -l); echo "== $d ($n)"
+      for j in $(ls -1t "$Q/$d"/*.job 2>/dev/null | head -20); do id=$(basename "$j" .job); m="$Q/$d/$id.meta"
+        printf '  %-44s %s %s %s\n' "$id" "$(sed -n 's/^needs=//p' "$m" 2>/dev/null)" "$(sed -n 's/^worker=//p' "$m" 2>/dev/null)" "$( [ $d = done ] || [ $d = failed ] && sed -n 's/^seconds=/took /p;s/^exit=/exit /p' "$m" | tr '\n' ' ' || age "$j")"; done; done
+    ls "$Q"/stop.* >/dev/null 2>&1 && echo "stop requested: $(ls "$Q"/stop.* | xargs -n1 basename)"; true ;;
+  log) id="${2:?q log ID}"; for d in running done failed; do [ -f "$Q/$d/$id.log" ] && { tail -n "${3:-40}" "$Q/$d/$id.log"; exit 0; }; done; echo "no log for $id" ;;
+  retry) id="${2:?q retry ID}"; [ -f "$Q/failed/$id.job" ] && { mv "$Q/failed/$id".{job,meta} "$Q/queue/"; rm -f "$Q/failed/$id.log"; echo "requeued $id"; } || echo "no failed job $id" ;;
+  drop) id="${2:?q drop ID}"; for d in queue failed; do [ -f "$Q/$d/$id.job" ] && { rm -f "$Q/$d/$id".{job,meta,log}; echo "dropped $id"; exit 0; }; done; echo "no queued/failed job $id (running jobs are stopped by their own PID, never from here)" ;;
+  stop) touch "$Q/stop.${2:-all}"; echo "stop asked (${2:-all}); workers finish their job and exit" ;;
+  *) sed -n '2,16p' "$0" ;;
+esac

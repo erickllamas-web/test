@@ -1,0 +1,33 @@
+{
+ "id": "the_proof",
+ "about": "A measured claim shown so it cannot be doubted (film-language/sequences.json the_proof). One act per claim; each act: overhead (the shadows on the line) → the contrast insert (the same frame on the other days at the same Sun height) → on the line, long lens (the body enters the frame the stones make) → the window held → release along the line. Days, moments, bearings and scenes come from the site; the compiler fills the beats with takes from cameras.json. Script v3.1's dawn act (shots 8, 8c, 9, 9b, 10, 11) is this strategy by hand.",
+ "defaults": { "style": "fricke_reggio", "handles": true },
+ "claims": {
+  "about": "each claim is one act; 'day' names a day in the site's days table; 'moment' the key instant (moments.json); 'bearing' the line's bearing name (site.json bearings) and which way the camera looks along it; 'contrast_days' the other days for the insert",
+  "fields": "overhead_span_min / push_span_min: minutes from the moment for those beats (after it for a rising body, before it for a setting one); window_camera: the window beat's overrides of locked_tele_window; ids: the shot ids to emit (so a compiled film can be diffed against script v3.1); voice: per slot, else the strategy's template; bearing_window: the claim's measured bearing window for check",
+  "list": [
+   { "id": "summer_sunrise", "act": "VI DAWN", "day": "summer_solstice", "moment": "sunrise_half", "window": ["@sunrise_gleam-3m", "@sunrise_whole+3m"], "line": { "eye_bearing": "axis_sw", "look_az": 49.8 },
+     "overhead_span_min": [4, 34], "push_span_min": [-1, 4], "window_camera": { "lens": 8 },
+     "contrast_days": ["autumn_equinox", "winter_solstice", "spring_equinox"], "contrast_when": "morning",
+     "ids": { "overhead": "A_summer_top", "contrast": "A_contrast_am", "on_the_line": "A_summer_sw", "push": "A_axis_5s", "window": "V_window", "release": "8_alignment" },
+     "proves": "the first light of the solstice rises up the axis, inside the Great Trilithon's slot",
+     "voice": { "overhead": "Seen from above, at sunrise on the longest day, every stone throws its shadow the same way — south-west, straight down the monument's axis.", "contrast": "On any other morning, the shadows point elsewhere.", "on_the_line": "Stand on that line and look back north-east. The first light of the solstice appears inside the slot of the Great Trilithon.", "window": "From the centre, the Sun clears the horizon at a bearing of 49 degrees, beside the Heel Stone — and for a few minutes it sits framed inside one window of the sarsen circle." } },
+   { "id": "winter_sunset", "act": "VIII THE YEAR", "day": "winter_solstice", "moment": "sunset_half", "window": ["@sunset_sits-5m", "@sunset_gone+2m"], "line": { "eye_bearing": "axis_ne", "look_az": 229.55 },
+     "overhead_span_min": [-50, -20], "push_span_min": [-3, 2], "window_camera": { "camera": { "bearing": "axis_ne", "dist": 70, "az": 229.5, "el": 0.5 }, "lens": 6 }, "bearing_window": [227.07, 232.23],
+     "contrast_days": ["summer_solstice", "autumn_equinox", "spring_equinox"], "contrast_when": "evening", "match_of": "summer_sunrise",
+     "ids": { "overhead": "A_winter_top", "contrast": "A_contrast_pm", "on_the_line": "A_winter_ne", "push": "A_axis_5s_winter", "window": "V_slot", "release": "A_winter_release" },
+     "proves": "the same axis takes the midwinter sunset from the other side",
+     "voice": { "overhead": "Six months on, the shadows turn round. In the low winter afternoon they run north-east, up the same axis.", "on_the_line": "The axis works both ways. From the other side, the midwinter Sun goes down through the same slot.", "window": "At the solstice the setting Sun sits within a tenth of a degree of the centre of the Great Trilithon's window." } }
+  ]
+ },
+ "beats": [
+  { "slot": "overhead", "rung": "wide", "take": "overhead_rise", "seconds": 10, "light": "lapse_around_moment", "span_min": [5, 35], "style": "fricke_reggio", "voice": "proves" },
+  { "slot": "contrast", "rung": "insert", "take": "locked_overhead", "seconds": 4, "camera": "contrast", "sun_alt": 3, "each": 1, "style": "ozu" },
+  { "slot": "on_the_line", "rung": "medium", "take": "locked_tele_on_axis", "seconds": 12, "light": "window", "style": "kubrick", "claim_in_frame": true, "voice": "line" },
+  { "slot": "push", "rung": "insert", "take": "axis_push_in", "seconds": 5, "handles": false, "light": "around_moment", "span_min": [-1, 4], "style": "kubrick", "claim_in_frame": true },
+  { "slot": "window", "rung": "close", "take": "locked_tele_window", "seconds": 20, "light": "window", "style": "kurosawa", "claim_in_frame": true },
+  { "slot": "release", "rung": "hold", "take": "axis_pull_out", "seconds": 12, "light": "held_moment", "style": "antonioni" }
+ ],
+ "transitions": { "between_acts": "dissolve", "match_beats": ["on_the_line"] },
+ "voice": { "line": "Stand on that line and look along it. {proves}.", "after_instant_silence_s": 1 }
+}

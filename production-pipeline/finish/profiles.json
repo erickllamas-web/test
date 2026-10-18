@@ -1,0 +1,12 @@
+{
+ "about": "Delivery profiles for finish.js master. Each is an ffmpeg video/audio encode. The master keeps the full quality; the youtube copies are what is uploaded; preview is for the phone. A profile that needs an encoder the local ffmpeg lacks falls back to the profile named in 'fallback'. Sizes: 'source' keeps the render's size (render at the size you deliver; never upscale a render), or WxH to downscale.",
+ "profiles": {
+  "mezzanine": { "what": "the archival master: ProRes 422 HQ, 10-bit, PCM audio", "container": "mov", "size": "source", "video": ["-c:v", "prores_ks", "-profile:v", "3", "-pix_fmt", "yuv422p10le", "-vendor", "apl0"], "audio": ["-c:a", "pcm_s24le"], "needs": "prores_ks", "fallback": "mezzanine_ffv1" },
+  "mezzanine_ffv1": { "what": "lossless master when ProRes is missing: FFV1 10-bit", "container": "mkv", "size": "source", "video": ["-c:v", "ffv1", "-level", "3", "-pix_fmt", "yuv422p10le"], "audio": ["-c:a", "flac"], "needs": "ffv1", "fallback": "mezzanine_x264" },
+  "mezzanine_x264": { "what": "last resort master: H.264 10-bit near-lossless", "container": "mp4", "size": "source", "video": ["-c:v", "libx264", "-preset", "slow", "-crf", "10", "-pix_fmt", "yuv420p10le"], "audio": ["-c:a", "aac", "-b:a", "320k"], "needs": "libx264" },
+  "youtube": { "what": "the upload: HEVC Main10 at the render's size, 10-bit so twilight skies do not band", "container": "mp4", "size": "source", "video": ["-c:v", "libx265", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p10le", "-tag:v", "hvc1", "-x265-params", "keyint=48:min-keyint=48"], "audio": ["-c:a", "aac", "-b:a", "256k", "-ar", "48000"], "needs": "libx265", "fallback": "youtube_h264" },
+  "youtube_h264": { "what": "the upload when HEVC is missing: H.264 High, high bitrate, 8-bit (dithered)", "container": "mp4", "size": "source", "video": ["-c:v", "libx264", "-preset", "slow", "-crf", "16", "-pix_fmt", "yuv420p", "-g", "48"], "audio": ["-c:a", "aac", "-b:a", "256k", "-ar", "48000"], "needs": "libx264" },
+  "preview": { "what": "for the phone and the Drive: 720p, fast", "container": "mp4", "size": "1280x720", "video": ["-c:v", "libx264", "-preset", "fast", "-crf", "22", "-pix_fmt", "yuv420p"], "audio": ["-c:a", "aac", "-b:a", "128k"], "needs": "libx264" }
+ },
+ "loudness": { "integrated_lufs": -14, "true_peak_dbtp": -1, "lra": 11, "note": "YouTube's reference; two-pass loudnorm" }
+}

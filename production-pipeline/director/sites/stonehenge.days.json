@@ -1,0 +1,15 @@
+{
+ "about": "The site's days and scenes for the strategy compiler (the place-bound part a strategy must not contain). Days from the daemon's solar ingress (PROVENANCE S8j); the Station Stones night from jobs/station/STATION_STONES_TEST.md. Scenes: the shot-file 'scene' each day renders with (uploads_i per shot family) and the season list its column 16 comes from.",
+ "site": "stonehenge",
+ "days": {
+  "summer_solstice": { "day": [-2499, 7, 14], "scene": "uploads_i/7_sunrise.json", "season_from": null, "world": { "season": "summer" } },
+  "autumn_equinox": { "day": [-2499, 10, 12], "scene": "uploads_i/10_autumn_sunrise.json", "season_from": "10_autumn_sunrise", "world": { "season": "autumn" } },
+  "winter_solstice": { "day": [-2498, 1, 9], "scene": "uploads_i/13_winter_sunset.json", "season_from": "13_winter_sunset", "world": { "season": "winter" } },
+  "spring_equinox": { "day": [-2498, 4, 11], "scene": "uploads_i/14_spring_sunrise.json", "season_from": "14_spring_sunrise", "world": { "season": "spring" } },
+  "station_moon_night": { "day": [-2498, 3, 21], "scene": "uploads_i/7_sunrise.json", "season_from": "14_spring_sunrise", "world": { "season": "spring" } }
+ },
+ "lines": {
+  "axis_sw": { "about": "on the axis south-west of the centre, looking north-east up it", "eye_bearing": "axis_sw", "look_az": 49.8 },
+  "axis_ne": { "about": "on the axis north-east of the centre, looking south-west down it", "eye_bearing": "axis_ne", "look_az": 229.55 }
+ }
+}

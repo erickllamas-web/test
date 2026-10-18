@@ -1,0 +1,17 @@
+{
+ "id": "one_day",
+ "about": "Noon to noon on one day: light to dark to light (film-language/sequences.json the_montage_of_place, with the_proof at dawn). Script v2/v3.1 acts I–VII are this strategy by hand. Acts: noon from above → afternoon shadows → sunset among the stones → dusk → night sky turning → the walk in at civil dawn → the proof of the sunrise → the morning rise back to noon.",
+ "defaults": { "style": "fricke_reggio", "handles": true },
+ "day": "summer_solstice",
+ "beats": [
+  { "slot": "the_plain", "act": "I NOON", "rung": "wide", "take": "flyover_high", "seconds": 16, "light": { "from": "@solar_noon-1h", "to": "@solar_noon+1h" }, "world": { "sky": "cumulus_1989" }, "style": "villeneuve", "voice": "The Plain, at noon on the longest day." },
+  { "slot": "the_carr", "act": "I NOON", "rung": "medium", "take": "locked_eye_level_wide", "seconds": 14, "light": { "from": "@golden_evening_start-30m", "to": "@golden_evening_start" }, "style": "malick" },
+  { "slot": "sundial", "act": "II AFTERNOON", "rung": "wide", "take": "locked_overhead", "seconds": 20, "light": { "from": "@solar_noon", "to": "@golden_evening_start" }, "world": { "sky": "cumulus_1989" }, "style": "fricke_reggio", "voice": "Through the afternoon the stones keep time." },
+  { "slot": "sunset", "act": "III SUNSET", "rung": "medium", "take": "truck_across_axis", "seconds": 24, "light": { "from": "@sunset_sits-20m", "to": "@sunset_gone" }, "world": { "sky": "cumulus_1989" }, "style": "kurosawa", "cut": "dissolve" },
+  { "slot": "dusk", "act": "IV DUSK", "rung": "wide", "take": "orbit_full_slow", "seconds": 20, "light": { "held": "@civil_dusk" }, "style": "tarkovsky", "cut": "dissolve" },
+  { "slot": "night", "act": "V NIGHT", "rung": "medium", "take": "inside_look_up", "seconds": 24, "light": { "from": "@nautical_dusk", "to": "@nautical_dusk+3h" }, "style": "antonioni", "cut": "dissolve", "voice": "The sky turns about a pole no star marks." },
+  { "slot": "walk_in", "act": "VI DAWN", "rung": "medium", "take": "walk_avenue", "seconds": 20, "light": { "from": "@civil_dawn", "to": "@sunrise_gleam-2m" }, "style": "tarkovsky", "cut": "dissolve" },
+  { "slot": "proof", "act": "VI DAWN", "strategy": "the_proof", "claim": "summer_sunrise" },
+  { "slot": "return", "act": "VII MORNING", "rung": "wide", "take": "overhead_rise", "seconds": 20, "light": { "from": "@sunrise_whole", "to": "@solar_noon" }, "world": { "sky": "cumulus_1989" }, "style": "fricke_reggio", "cut": "dissolve" }
+ ]
+}

@@ -1,0 +1,511 @@
+{
+ "about": "The camera library (Erick 2026-10-17: 'a proper list of camera positions and movements, like a library … metadata that tells us what is the best used content for such take, redundancy is welcomed so we can choose … just choose the take and the length'). A shot row says {\"take\": \"<id>\", ...overrides} and its seconds; everything here is a default the row may change. Values given as [a, b] move from a to b over the shot (eased, with 'hold' seconds still at each end); single values stay. Points and bearings come from the film's site file (sites/<site>/site.json). Positions: eye = target + (bearing, dist) on the ground, 'height' above the ground there; bearing is FROM the target TO the eye, degrees from true north. Look: 'target' (at look_h above the target's ground), 'dir' (az, el), 'sun' (the frame's own Sun or Moon, el offset), 'down' (straight down on the target). Lens = vertical field of view in degrees.",
+ "takes": {
+  "locked_tele_on_axis": {
+   "family": "locked",
+   "rung": "close",
+   "time": "lapse",
+   "secs": [
+    6,
+    30
+   ],
+   "best_for": "the alignment itself: a body (Sun/Moon) framed by stones on a line; time-lapse of the body crossing the frame",
+   "avoid": "establishing a place; anything that needs the viewer to know where we are first",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": 60,
+   "height": 1.7,
+   "look": "dir",
+   "az": 49.8,
+   "el": 0.6,
+   "lens": 12,
+   "hold": 0
+  },
+  "locked_tele_window": {
+   "family": "locked",
+   "rung": "close",
+   "time": "lapse",
+   "secs": [
+    10,
+    30
+   ],
+   "best_for": "the Sun inside one gap seen from the centre (the window shot); the climax still",
+   "avoid": "showing that it is an axis — pair it with an axis or overhead take before",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": 0,
+   "height": 1.7,
+   "look": "dir",
+   "az": 50,
+   "el": 0.55,
+   "lens": 8
+  },
+  "locked_eye_level_wide": {
+   "family": "locked",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    8,
+    30
+   ],
+   "best_for": "the monument in its land at human height; sky and clouds changing over the stones",
+   "avoid": "precise alignments (too wide to read a degree)",
+   "target": "centre",
+   "bearing": 180,
+   "dist": 60,
+   "height": 1.7,
+   "look": "target",
+   "look_h": 4,
+   "lens": 50
+  },
+  "locked_overhead": {
+   "family": "overhead",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    6,
+    24
+   ],
+   "best_for": "shadows as a clock and a compass; the sundial; contrast between days at the same Sun height",
+   "avoid": "sky, Sun disc, anything vertical",
+   "target": "centre",
+   "bearing": 0,
+   "dist": 0,
+   "height": 110,
+   "look": "down",
+   "lens": 50
+  },
+  "overhead_rise": {
+   "family": "overhead",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    8,
+    14
+   ],
+   "best_for": "opening out from the circle to the earthwork while shadows lengthen",
+   "avoid": "close detail",
+   "target": "centre",
+   "dist": 0,
+   "height": [
+    100,
+    125
+   ],
+   "look": "down",
+   "lens": 50,
+   "hold": 1
+  },
+  "overhead_fall": {
+   "family": "overhead",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    8,
+    14
+   ],
+   "best_for": "closing in on the circle, ending on the stones (a wide that hands over to a medium)",
+   "avoid": "openings",
+   "target": "centre",
+   "dist": 0,
+   "height": [
+    125,
+    100
+   ],
+   "look": "down",
+   "lens": 50,
+   "hold": 1
+  },
+  "overhead_turn": {
+   "family": "overhead",
+   "rung": "wide",
+   "time": "held",
+   "secs": [
+    6,
+    12
+   ],
+   "best_for": "a held instant seen from above, the frame turning until the axis is vertical in picture",
+   "avoid": "time-lapse (two motions at once)",
+   "target": "centre",
+   "dist": 0.5,
+   "bearing": [
+    180,
+    229
+   ],
+   "height": 110,
+   "look": "down",
+   "lens": 50,
+   "hold": 1
+  },
+  "axis_push_in": {
+   "family": "axis",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    4,
+    10
+   ],
+   "best_for": "making an alignment evident by parallax: the gaps line up as the camera closes in on the line",
+   "avoid": "off-axis subjects",
+   "mirror": "axis_push_in_reverse",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": [
+    80,
+    55
+   ],
+   "height": 1.7,
+   "look": "dir",
+   "az": 49.8,
+   "el": 0.6,
+   "lens": 12,
+   "hold": 1
+  },
+  "axis_push_in_reverse": {
+   "family": "axis",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    4,
+    10
+   ],
+   "best_for": "the same push from the other end of the axis (the winter sunset); the MATCH of axis_push_in",
+   "avoid": "using it without its pair",
+   "mirror": "axis_push_in",
+   "target": "centre",
+   "bearing": "axis_ne",
+   "dist": [
+    80,
+    55
+   ],
+   "height": 1.7,
+   "look": "dir",
+   "az": 229.55,
+   "el": 0.6,
+   "lens": 12,
+   "hold": 1
+  },
+  "axis_pull_out": {
+   "family": "axis",
+   "rung": "medium",
+   "time": "held",
+   "secs": [
+    6,
+    15
+   ],
+   "best_for": "after the climax: leaving the held instant along the line, the land opening behind",
+   "avoid": "openings",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": [
+    20,
+    90
+   ],
+   "height": 1.7,
+   "look": "dir",
+   "az": 49.8,
+   "el": 0.6,
+   "lens": 25,
+   "hold": 1
+  },
+  "axis_crane_up": {
+   "family": "axis",
+   "rung": "medium",
+   "time": "held",
+   "secs": [
+    6,
+    12
+   ],
+   "best_for": "revealing the whole axis from the circle to the Heel Stone and the Avenue: rise behind the trilithon, tilt down along the line",
+   "avoid": "Sun-disc detail (the lens is wide)",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": 25,
+   "height": [
+    1.7,
+    30
+   ],
+   "look": "target",
+   "look_h": 0,
+   "aim": "heel_stone",
+   "lens": 35,
+   "hold": 1
+  },
+  "axis_crane_down": {
+   "family": "axis",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    6,
+    12
+   ],
+   "best_for": "settling from above onto the line at eye height just as the body appears (a wide→medium bridge)",
+   "avoid": "",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": 40,
+   "height": [
+    30,
+    1.7
+   ],
+   "look": "dir",
+   "az": 49.8,
+   "el": [
+    -25,
+    0.6
+   ],
+   "lens": 25,
+   "hold": 1
+  },
+  "truck_across_axis": {
+   "family": "parallax",
+   "rung": "medium",
+   "time": "held",
+   "secs": [
+    5,
+    10
+   ],
+   "best_for": "showing a line by sliding across it: the gaps open, align for an instant, and close (the eye feels the line)",
+   "avoid": "time-lapse",
+   "target": "centre",
+   "bearing": [
+    210,
+    248
+   ],
+   "dist": 70,
+   "height": 1.7,
+   "look": "dir",
+   "az": 49.8,
+   "el": 0.6,
+   "lens": 15,
+   "hold": 1
+  },
+  "line_tele_station": {
+   "family": "line",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    8,
+    15
+   ],
+   "best_for": "a line drawn by two markers (Station Stones): stand behind one, look past the other at the body",
+   "avoid": "",
+   "target": "station_92",
+   "bearing": "station_long_se",
+   "dist": 12,
+   "height": 1.7,
+   "look": "dir",
+   "az": 319.82,
+   "el": 0.3,
+   "lens": 10,
+   "light": "moon"
+  },
+  "sun_track_tele": {
+   "family": "track",
+   "rung": "close",
+   "time": "lapse",
+   "secs": [
+    6,
+    20
+   ],
+   "best_for": "the body itself moving behind the stones; the camera keeps the disc in frame",
+   "avoid": "proving a fixed line (the frame moves with the body)",
+   "target": "centre",
+   "bearing": "axis_sw",
+   "dist": 30,
+   "height": 1.7,
+   "look": "sun",
+   "el_off": 0,
+   "lens": 15
+  },
+  "orbit_quarter_low": {
+   "family": "orbit",
+   "rung": "medium",
+   "time": "held",
+   "secs": [
+    8,
+    15
+   ],
+   "best_for": "showing the stones as a structure: the camera walks a quarter circle round them at eye height",
+   "avoid": "alignments (the line keeps changing)",
+   "target": "centre",
+   "bearing": [
+    140,
+    230
+   ],
+   "dist": 45,
+   "height": 1.7,
+   "look": "target",
+   "look_h": 3,
+   "lens": 40,
+   "hold": 1
+  },
+  "orbit_half_high": {
+   "family": "orbit",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    10,
+    20
+   ],
+   "best_for": "the circle and its earthwork from 60 m up, the Sun's light moving across them",
+   "avoid": "",
+   "target": "centre",
+   "bearing": [
+    180,
+    360
+   ],
+   "dist": 120,
+   "height": 60,
+   "look": "target",
+   "look_h": 0,
+   "lens": 45,
+   "hold": 1
+  },
+  "orbit_full_slow": {
+   "family": "orbit",
+   "rung": "wide",
+   "time": "held",
+   "secs": [
+    15,
+    30
+   ],
+   "best_for": "a held instant all round (time stopped), e.g. the alignment moment from every side",
+   "avoid": "short slots",
+   "target": "centre",
+   "bearing": [
+    229,
+    589
+   ],
+   "dist": 90,
+   "height": 25,
+   "look": "target",
+   "look_h": 2,
+   "lens": 40,
+   "hold": 0
+  },
+  "flyover_high": {
+   "family": "aerial",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    8,
+    20
+   ],
+   "best_for": "establishing: the Plain and the monument small in it (frame top stays under the data edge)",
+   "avoid": "horizons (from height the LiDAR edge shows)",
+   "target": "centre",
+   "bearing": [
+    200,
+    250
+   ],
+   "dist": [
+    500,
+    300
+   ],
+   "height": [
+    500,
+    260
+   ],
+   "look": "target",
+   "look_h": 0,
+   "lens": 50,
+   "hold": 1
+  },
+  "descend_to_eye": {
+   "family": "aerial",
+   "rung": "wide",
+   "time": "lapse",
+   "secs": [
+    10,
+    20
+   ],
+   "best_for": "a wide→medium bridge: from above the circle down to eye height on the axis",
+   "avoid": "",
+   "target": "centre",
+   "bearing": [
+    229,
+    229
+   ],
+   "dist": [
+    150,
+    60
+   ],
+   "height": [
+    120,
+    1.7
+   ],
+   "look": "target",
+   "look_h": [
+    0,
+    4
+   ],
+   "lens": 40,
+   "hold": 1
+  },
+  "walk_avenue": {
+   "family": "walk",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    10,
+    25
+   ],
+   "best_for": "arriving as people did: along the Avenue toward the circle at eye height",
+   "avoid": "",
+   "target": "centre",
+   "bearing": "axis_ne",
+   "dist": [
+    150,
+    20
+   ],
+   "height": 1.7,
+   "look": "dir",
+   "az": 229,
+   "el": 1,
+   "lens": 45,
+   "hold": 1
+  },
+  "walk_out_to_sun": {
+   "family": "walk",
+   "rung": "medium",
+   "time": "lapse",
+   "secs": [
+    10,
+    25
+   ],
+   "best_for": "leaving the circle along the axis toward the rising body",
+   "avoid": "",
+   "target": "centre",
+   "bearing": "axis_ne",
+   "dist": [
+    0,
+    60
+   ],
+   "height": 1.7,
+   "look": "dir",
+   "az": 49.8,
+   "el": 0.6,
+   "lens": 35,
+   "hold": 1
+  },
+  "inside_look_up": {
+   "family": "locked",
+   "rung": "close",
+   "time": "lapse",
+   "secs": [
+    8,
+    30
+   ],
+   "best_for": "the sky over the trilithons: stars turning, clouds passing, the lintels as a frame",
+   "avoid": "ground-level detail",
+   "target": "centre",
+   "bearing": 180,
+   "dist": 5,
+   "height": 1.7,
+   "look": "dir",
+   "az": 0,
+   "el": 30,
+   "lens": 50
+  }
+ }
+}

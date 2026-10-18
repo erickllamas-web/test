@@ -1,0 +1,15 @@
+{
+ "about": "The look: the display transform applied once per film to the rendered frames (film-language/dimensions.json 'look'). It changes no number the renderer computed. 'neutral' is a byte-identical copy. Any other look needs Erick's ruling and is recorded here with his words. Exposure policy is separate: it is written into the frame list (column 16, EXPOSURE=) before the render by look.js exposure, so the renderer itself exposes consistently; the mapping from the policy to the renderer's EXPOSURE scale is to be calibrated on one shot first (calibration row below).",
+ "looks": {
+  "neutral": { "what": "no transform; bytes unchanged", "ruling": "default" },
+  "film_stock_muted": { "what": "saturation 0.85, blacks lifted 2 %, contrast soft", "filters": "eq=saturation=0.85,curves=all='0/0.02 0.5/0.5 1/1'", "ruling": "NOT RULED — example only" },
+  "film_stock_rich": { "what": "saturation 1.1, true blacks, slightly steeper curve", "filters": "eq=saturation=1.1,curves=all='0/0 0.25/0.22 0.75/0.78 1/1'", "ruling": "NOT RULED — example only" },
+  "warm_1_8": { "what": "white point toward amber (colortemperature 5200 K from 6500)", "filters": "colortemperature=temperature=5200", "ruling": "NOT RULED — example only" }
+ },
+ "exposure": {
+  "about": "policies for the EXPOSURE value written per frame line. 'auto' = today's per-frame EXPOSE=auto (column untouched). 'fixed' = one value for the shot. 'smooth' = a value from the Sun's true altitude (column 5) by the table below, linearly interpolated, so the exposure follows the light continuously instead of per frame.",
+  "calibration": "NOT DONE: render one shot (A_axis_5s) with EXPOSURE fixed at three values and compare mean luma to EXPOSE=auto's; then fill the table so 'smooth' reproduces auto's average level without its per-frame jumps.",
+  "smooth_table": [[-12, 20], [-6, 60], [0, 120], [3, 160], [6, 190], [15, 210], [30, 220], [60, 230]],
+  "note": "the second number is the renderer's EXPOSURE scale (default 200 per the study); placeholders until calibrated"
+ }
+}

@@ -1,0 +1,749 @@
+{
+ "title": "STONEHENGE_FULL",
+ "site": "stonehenge",
+ "work": "/home/erick/agents/a-production/films/STONEHENGE_FULL",
+ "film": {
+  "filmdir": "film_one_day",
+  "out": "one_day_1080",
+  "uploads": "uploads_one_day"
+ },
+ "note": "compiled by strategy.js from one_day + the_year for stonehenge on 2026-10-18; light as @moments (shots.js lists solves them); takes from cameras.json; styles from directors.json",
+ "strategies": [
+  "one_day",
+  "the_year"
+ ],
+ "shots": [
+  {
+   "id": "one_day_the_plain",
+   "act": "I NOON",
+   "rung": "wide",
+   "seconds": 16,
+   "handles": true,
+   "style": "villeneuve",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "flyover_high"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@solar_noon-1h",
+    "to": "@solar_noon+1h"
+   },
+   "world": {
+    "season": "summer",
+    "sky": "cumulus_1989"
+   },
+   "voice": "The Plain, at noon on the longest day."
+  },
+  {
+   "id": "one_day_the_carr",
+   "act": "I NOON",
+   "rung": "medium",
+   "seconds": 14,
+   "handles": true,
+   "style": "malick",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "locked_eye_level_wide"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@golden_evening_start-30m",
+    "to": "@golden_evening_start"
+   },
+   "world": {
+    "season": "summer"
+   }
+  },
+  {
+   "id": "one_day_sundial",
+   "act": "II AFTERNOON",
+   "rung": "wide",
+   "seconds": 20,
+   "handles": true,
+   "style": "fricke_reggio",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "locked_overhead"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@solar_noon",
+    "to": "@golden_evening_start"
+   },
+   "world": {
+    "season": "summer",
+    "sky": "cumulus_1989"
+   },
+   "voice": "Through the afternoon the stones keep time.",
+   "cut": "dissolve"
+  },
+  {
+   "id": "one_day_sunset",
+   "act": "III SUNSET",
+   "rung": "medium",
+   "seconds": 24,
+   "handles": true,
+   "style": "kurosawa",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "truck_across_axis"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunset_sits-20m",
+    "to": "@sunset_gone"
+   },
+   "world": {
+    "season": "summer",
+    "sky": "cumulus_1989"
+   },
+   "cut": "dissolve"
+  },
+  {
+   "id": "one_day_dusk",
+   "act": "IV DUSK",
+   "rung": "wide",
+   "seconds": 20,
+   "handles": true,
+   "style": "tarkovsky",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "orbit_full_slow"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "held": "@civil_dusk"
+   },
+   "world": {
+    "season": "summer"
+   },
+   "cut": "dissolve"
+  },
+  {
+   "id": "one_day_night",
+   "act": "V NIGHT",
+   "rung": "medium",
+   "seconds": 24,
+   "handles": true,
+   "style": "antonioni",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "inside_look_up"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@nautical_dusk",
+    "to": "@nautical_dusk+3h"
+   },
+   "world": {
+    "season": "summer"
+   },
+   "cut": "dissolve",
+   "voice": "The sky turns about a pole no star marks."
+  },
+  {
+   "id": "one_day_walk_in",
+   "act": "VI DAWN",
+   "rung": "medium",
+   "seconds": 20,
+   "handles": true,
+   "style": "tarkovsky",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "walk_avenue"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@civil_dawn",
+    "to": "@sunrise_gleam-2m"
+   },
+   "world": {
+    "season": "summer"
+   },
+   "cut": "dissolve"
+  },
+  {
+   "id": "A_summer_top",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "fricke_reggio",
+   "handles": true,
+   "rung": "wide",
+   "seconds": 10,
+   "camera": {
+    "kind": "take",
+    "take": "overhead_rise"
+   },
+   "lens": 50,
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunrise_half+4m",
+    "to": "@sunrise_half+34m"
+   },
+   "proves": "the first light of the solstice rises up the axis, inside the Great Trilithon's slot",
+   "voice": "Seen from above, at sunrise on the longest day, every stone throws its shadow the same way — south-west, straight down the monument's axis."
+  },
+  {
+   "id": "A_contrast_am",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "ozu",
+   "handles": true,
+   "rung": "insert",
+   "seconds": 4,
+   "contrast_of": "A_summer_top",
+   "lens": 50,
+   "camera": {
+    "kind": "contrast",
+    "h": 110,
+    "sun_alt": 3,
+    "when": "morning",
+    "each": 1,
+    "days": [
+     {
+      "day": [
+       -2499,
+       7,
+       14
+      ],
+      "season_from": null
+     },
+     {
+      "day": [
+       -2499,
+       10,
+       12
+      ],
+      "season_from": "10_autumn_sunrise"
+     },
+     {
+      "day": [
+       -2498,
+       1,
+       9
+      ],
+      "season_from": "13_winter_sunset"
+     },
+     {
+      "day": [
+       -2498,
+       4,
+       11
+      ],
+      "season_from": "14_spring_sunrise"
+     }
+    ]
+   },
+   "proves": "only this day's morning lies on the axis (same Sun height 3°)",
+   "voice": "On any other morning, the shadows point elsewhere."
+  },
+  {
+   "id": "A_summer_sw",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "kubrick",
+   "handles": true,
+   "rung": "medium",
+   "seconds": 12,
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_on_axis",
+    "bearing": "axis_sw",
+    "dist": 60,
+    "height": 1.7,
+    "look": "dir",
+    "az": 49.8,
+    "el": 0.6
+   },
+   "lens": 12,
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunrise_gleam-3m",
+    "to": "@sunrise_whole+3m"
+   },
+   "claim": {
+    "in_frame": true
+   },
+   "proves": "the first light of the solstice rises up the axis, inside the Great Trilithon's slot",
+   "voice": "Stand on that line and look back north-east. The first light of the solstice appears inside the slot of the Great Trilithon."
+  },
+  {
+   "id": "A_axis_5s",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "kubrick",
+   "handles": false,
+   "rung": "insert",
+   "seconds": 5,
+   "frames": 120,
+   "camera": {
+    "kind": "take",
+    "take": "axis_push_in",
+    "bearing": "axis_sw",
+    "dist": [
+     80,
+     55
+    ],
+    "height": 1.7,
+    "look": "dir",
+    "az": 49.8,
+    "el": 0.6,
+    "hold": 0
+   },
+   "lens": 12,
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunrise_half-1m",
+    "to": "@sunrise_half+4m"
+   },
+   "claim": {
+    "in_frame": true
+   }
+  },
+  {
+   "id": "V_window",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "kurosawa",
+   "handles": true,
+   "rung": "close",
+   "seconds": 20,
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_window"
+   },
+   "lens": 8,
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunrise_gleam-3m",
+    "to": "@sunrise_whole+3m"
+   },
+   "claim": {
+    "in_frame": true
+   },
+   "proves": "the first light of the solstice rises up the axis, inside the Great Trilithon's slot",
+   "voice": "From the centre, the Sun clears the horizon at a bearing of 49 degrees, beside the Heel Stone — and for a few minutes it sits framed inside one window of the sarsen circle."
+  },
+  {
+   "id": "8_alignment",
+   "act": "VI DAWN",
+   "scene": "uploads_i/7_sunrise.json",
+   "style": "antonioni",
+   "handles": true,
+   "rung": "hold",
+   "seconds": 12,
+   "camera": {
+    "kind": "take",
+    "take": "axis_pull_out",
+    "bearing": "axis_sw"
+   },
+   "lens": 25,
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "held": "@sunrise_half"
+   }
+  },
+  {
+   "id": "one_day_return",
+   "act": "VII MORNING",
+   "rung": "wide",
+   "seconds": 20,
+   "handles": true,
+   "style": "fricke_reggio",
+   "scene": "uploads_i/7_sunrise.json",
+   "camera": {
+    "kind": "take",
+    "take": "overhead_rise"
+   },
+   "light": {
+    "day": [
+     -2499,
+     7,
+     14
+    ],
+    "from": "@sunrise_whole",
+    "to": "@solar_noon"
+   },
+   "world": {
+    "season": "summer",
+    "sky": "cumulus_1989"
+   },
+   "cut": "dissolve"
+  },
+  {
+   "id": "the_year_autumn",
+   "act": "VIII THE YEAR",
+   "rung": "medium",
+   "seconds": 8,
+   "handles": true,
+   "style": "herzog",
+   "scene": "uploads_i/10_autumn_sunrise.json",
+   "season_from": "10_autumn_sunrise",
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_on_axis",
+    "bearing": "axis_sw",
+    "dist": 0,
+    "az": 269.5,
+    "el": 1
+   },
+   "lens": 30,
+   "light": {
+    "day": [
+     -2499,
+     10,
+     12
+    ],
+    "from": "@sunset_sits-6m",
+    "to": "@sunset_gone+2m"
+   },
+   "world": {
+    "season": "autumn"
+   },
+   "cut": "dissolve",
+   "voice": "Not every day is marked. At the equinox the Sun sets due west, at the edge of a gap, not inside one.",
+   "claim": {
+    "in_frame": true
+   }
+  },
+  {
+   "id": "A_winter_top",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "fricke_reggio",
+   "handles": true,
+   "rung": "wide",
+   "seconds": 10,
+   "camera": {
+    "kind": "take",
+    "take": "overhead_rise"
+   },
+   "lens": 50,
+   "light": {
+    "day": [
+     -2498,
+     1,
+     9
+    ],
+    "from": "@sunset_half-50m",
+    "to": "@sunset_half-20m"
+   },
+   "proves": "the same axis takes the midwinter sunset from the other side",
+   "voice": "Six months on, the shadows turn round. In the low winter afternoon they run north-east, up the same axis."
+  },
+  {
+   "id": "A_contrast_pm",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "ozu",
+   "handles": true,
+   "rung": "insert",
+   "seconds": 4,
+   "contrast_of": "A_winter_top",
+   "lens": 50,
+   "camera": {
+    "kind": "contrast",
+    "h": 110,
+    "sun_alt": 3,
+    "when": "evening",
+    "each": 1,
+    "days": [
+     {
+      "day": [
+       -2498,
+       1,
+       9
+      ],
+      "season_from": "13_winter_sunset"
+     },
+     {
+      "day": [
+       -2499,
+       7,
+       14
+      ],
+      "season_from": null
+     },
+     {
+      "day": [
+       -2499,
+       10,
+       12
+      ],
+      "season_from": "10_autumn_sunrise"
+     },
+     {
+      "day": [
+       -2498,
+       4,
+       11
+      ],
+      "season_from": "14_spring_sunrise"
+     }
+    ]
+   },
+   "proves": "only this day's evening lies on the axis (same Sun height 3°)"
+  },
+  {
+   "id": "A_winter_ne",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "kubrick",
+   "handles": true,
+   "rung": "medium",
+   "seconds": 12,
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_on_axis",
+    "bearing": "axis_ne",
+    "dist": 60,
+    "height": 1.7,
+    "look": "dir",
+    "az": 229.55,
+    "el": 0.6
+   },
+   "lens": 12,
+   "light": {
+    "day": [
+     -2498,
+     1,
+     9
+    ],
+    "from": "@sunset_sits-5m",
+    "to": "@sunset_gone+2m"
+   },
+   "claim": {
+    "in_frame": true,
+    "bearing": [
+     227.07,
+     232.23
+    ]
+   },
+   "proves": "the same axis takes the midwinter sunset from the other side",
+   "voice": "The axis works both ways. From the other side, the midwinter Sun goes down through the same slot.",
+   "cut": "match:A_summer_sw"
+  },
+  {
+   "id": "A_axis_5s_winter",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "kubrick",
+   "handles": false,
+   "rung": "insert",
+   "seconds": 5,
+   "frames": 120,
+   "camera": {
+    "kind": "take",
+    "take": "axis_push_in",
+    "bearing": "axis_ne",
+    "dist": [
+     80,
+     55
+    ],
+    "height": 1.7,
+    "look": "dir",
+    "az": 229.55,
+    "el": 0.6,
+    "hold": 1
+   },
+   "lens": 12,
+   "light": {
+    "day": [
+     -2498,
+     1,
+     9
+    ],
+    "from": "@sunset_half-3m",
+    "to": "@sunset_half+2m"
+   },
+   "claim": {
+    "in_frame": true,
+    "bearing": [
+     227.07,
+     232.23
+    ]
+   }
+  },
+  {
+   "id": "V_slot",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "kurosawa",
+   "handles": true,
+   "rung": "close",
+   "seconds": 20,
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_window",
+    "bearing": "axis_ne",
+    "dist": 70,
+    "az": 229.5,
+    "el": 0.5
+   },
+   "lens": 6,
+   "light": {
+    "day": [
+     -2498,
+     1,
+     9
+    ],
+    "from": "@sunset_sits-5m",
+    "to": "@sunset_gone+2m"
+   },
+   "claim": {
+    "in_frame": true
+   },
+   "proves": "the same axis takes the midwinter sunset from the other side",
+   "voice": "At the solstice the setting Sun sits within a tenth of a degree of the centre of the Great Trilithon's window."
+  },
+  {
+   "id": "A_winter_release",
+   "act": "VIII THE YEAR",
+   "scene": "uploads_i/13_winter_sunset.json",
+   "season_from": "13_winter_sunset",
+   "style": "antonioni",
+   "handles": true,
+   "rung": "hold",
+   "seconds": 12,
+   "camera": {
+    "kind": "take",
+    "take": "axis_pull_out",
+    "bearing": "axis_ne"
+   },
+   "lens": 25,
+   "light": {
+    "day": [
+     -2498,
+     1,
+     9
+    ],
+    "held": "@sunset_half"
+   }
+  },
+  {
+   "id": "the_year_station_moon",
+   "act": "VIII THE YEAR",
+   "rung": "medium",
+   "seconds": 12,
+   "handles": true,
+   "style": "kurosawa",
+   "scene": "uploads_i/7_sunrise.json",
+   "season_from": "14_spring_sunrise",
+   "camera": {
+    "kind": "take",
+    "take": "line_tele_station"
+   },
+   "light": {
+    "day": [
+     -2498,
+     3,
+     21
+    ],
+    "from": "@moonset_upper-25m",
+    "to": "@moonset_upper+1m",
+    "kind": "moon"
+   },
+   "world": {
+    "season": "spring"
+   },
+   "voice": "Four smaller stones mark a rectangle. Its long side points to where the Moon sets at its northernmost, once in 18.6 years.",
+   "claim": {
+    "in_frame": true
+   }
+  },
+  {
+   "id": "the_year_spring",
+   "act": "CODA",
+   "rung": "medium",
+   "seconds": 8,
+   "handles": true,
+   "style": "antonioni",
+   "scene": "uploads_i/14_spring_sunrise.json",
+   "season_from": "14_spring_sunrise",
+   "camera": {
+    "kind": "take",
+    "take": "locked_tele_on_axis",
+    "bearing": "axis_sw",
+    "dist": 0,
+    "az": 90.5,
+    "el": 1.5
+   },
+   "lens": 30,
+   "light": {
+    "day": [
+     -2498,
+     4,
+     11
+    ],
+    "from": "@sunrise_gleam-5m",
+    "to": "@sunrise_whole+15m"
+   },
+   "world": {
+    "season": "spring"
+   },
+   "cut": "dissolve",
+   "voice": "At the spring equinox the Sun rises due east, behind the stones. The builders aligned their monument to the turning points of the year."
+  }
+ ]
+}

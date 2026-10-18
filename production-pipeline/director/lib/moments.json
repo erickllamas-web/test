@@ -1,0 +1,21 @@
+{
+  "about": "The moments library (Erick 2026-10-17). Each moment is solved for the shot's own day by moments.js, from the daemon (CELESTIAL_RENDER_SKY) and the measured 2500 BC skyline seen from the circle centre (w6/hz360_dtm_stage2.tsv, eye 1.6 m). A shot's light may say \"from\": \"@sunrise_gleam-2m\", \"to\": \"@sunrise_whole+3m\", \"held\": \"@sunset_half\". 'best_takes' points into cameras.json.",
+  "moments": {
+    "sunrise_gleam":   { "body": "sun", "dir": "rising", "limb": "upper", "ref": "skyline", "window": [0, 12], "what": "first light: the Sun's upper limb clears the real skyline", "best_takes": ["locked_tele_window", "locked_tele_on_axis", "axis_push_in"], "lasts": "an instant; the disc takes ~2.7 min to clear in summer" },
+    "sunrise_half":    { "body": "sun", "dir": "rising", "limb": "centre", "ref": "skyline", "window": [0, 12], "what": "half the disc above the skyline (the bearing quoted for alignments)", "best_takes": ["locked_tele_window", "axis_push_in"] },
+    "sunrise_whole":   { "body": "sun", "dir": "rising", "limb": "lower", "ref": "skyline", "window": [0, 12], "what": "the whole disc clear of the skyline", "best_takes": ["locked_tele_on_axis", "walk_out_to_sun"] },
+    "sunset_sits":     { "body": "sun", "dir": "setting", "limb": "lower", "ref": "skyline", "window": [12, 23.99], "what": "the lower limb touches the skyline", "best_takes": ["axis_push_in_reverse", "locked_tele_on_axis"] },
+    "sunset_half":     { "body": "sun", "dir": "setting", "limb": "centre", "ref": "skyline", "window": [12, 23.99], "what": "half-set: the disc centre on the skyline (the bearing quoted for alignments)", "best_takes": ["axis_push_in_reverse"] },
+    "sunset_gone":     { "body": "sun", "dir": "setting", "limb": "upper", "ref": "skyline", "window": [12, 23.99], "what": "last gleam: the upper limb drops below the skyline", "best_takes": ["locked_tele_on_axis"] },
+    "golden_morning_end": { "body": "sun", "dir": "rising", "limb": "centre", "ref": "alt", "alt": 6, "window": [0, 12], "what": "the Sun reaches 6° (end of the low warm light)", "best_takes": ["overhead_rise", "orbit_half_high", "locked_overhead"] },
+    "golden_evening_start": { "body": "sun", "dir": "setting", "limb": "centre", "ref": "alt", "alt": 6, "window": [12, 23.99], "what": "the Sun drops to 6° (long shadows, warm light)", "best_takes": ["orbit_quarter_low", "truck_across_axis", "locked_eye_level_wide"] },
+    "low_sun_3_morning": { "body": "sun", "dir": "rising", "limb": "centre", "ref": "alt", "alt": 3, "window": [0, 12], "what": "the Sun at 3° in the morning — the contrast height (same shadows length on every day)", "best_takes": ["locked_overhead"] },
+    "low_sun_3_evening": { "body": "sun", "dir": "setting", "limb": "centre", "ref": "alt", "alt": 3, "window": [12, 23.99], "what": "the Sun at 3° in the evening — the contrast height", "best_takes": ["locked_overhead"] },
+    "civil_dawn":      { "body": "sun", "dir": "rising", "limb": "centre", "ref": "alt", "alt": -6, "window": [0, 12], "what": "civil dawn (Sun −6°): the sky glows, stones in silhouette", "best_takes": ["walk_avenue", "locked_eye_level_wide"] },
+    "civil_dusk":      { "body": "sun", "dir": "setting", "limb": "centre", "ref": "alt", "alt": -6, "window": [12, 23.99], "what": "civil dusk (Sun −6°): afterglow, first bright stars", "best_takes": ["orbit_full_slow", "inside_look_up"] },
+    "nautical_dusk":   { "body": "sun", "dir": "setting", "limb": "centre", "ref": "alt", "alt": -12, "window": [12, 23.99], "what": "nautical dusk (Sun −12°): the sky dark enough for the constellations", "best_takes": ["inside_look_up"] },
+    "solar_noon":      { "body": "sun", "kind": "transit", "window": [9, 15], "what": "the Sun at its highest (shortest shadows, the meridian)", "best_takes": ["locked_overhead", "orbit_half_high"] },
+    "moonrise_upper":  { "body": "moon", "dir": "rising", "limb": "upper", "ref": "skyline", "window": [0, 23.99], "what": "the Moon's upper limb clears the skyline", "best_takes": ["line_tele_station", "sun_track_tele"] },
+    "moonset_upper":   { "body": "moon", "dir": "setting", "limb": "upper", "ref": "skyline", "window": [0, 23.99], "what": "the Moon's last gleam over the skyline", "best_takes": ["line_tele_station"] }
+  }
+}

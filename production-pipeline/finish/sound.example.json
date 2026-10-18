@@ -1,0 +1,23 @@
+{
+ "about": "The film's sound, as data (copy to <work>/sound.json and fill in). Voice: one audio file per shot id in 'voice_dir' (<id>.wav or .mp3), made by whatever engine you choose; or 'tts_cmd', a command finish.js runs per line with {text} and {out} substituted; with neither, the voice track is silent and the SRT is the record. Music: cues by act, each a file with a level under the voice and fades; a cue with no file is skipped with a note. Levels are dB relative to full scale before the final loudness pass (−14 LUFS integrated, −1 dBTP).",
+ "voice_dir": "voice",
+ "tts_cmd": "",
+ "tts_note": "examples: a local engine such as piper (piper -m voice.onnx -f {out} < {text_file}); or a service's CLI; the command must write a 48 kHz WAV at {out}",
+ "voice_level_db": -3,
+ "music": {
+  "level_db": -18,
+  "duck_db": -8,
+  "fade_in_s": 3,
+  "fade_out_s": 4,
+  "cues": [
+   { "act": "VI DAWN", "file": "music/dawn.wav", "start_offset_s": 0, "note": "enters with the first claim" },
+   { "act": "VIII THE YEAR", "file": "music/year.wav", "start_offset_s": 0 }
+  ]
+ },
+ "ambience": { "file": "", "level_db": -30, "note": "optional: wind, grass; continuous under everything" },
+ "titles": {
+  "open": { "title": "STONEHENGE 2500 BC", "subtitle": "the alignments of the four days", "seconds": 4 },
+  "end": { "lines": ["Every number from the record.", "Light from the celestial daemon.", "Nothing invented."], "seconds": 6 },
+  "font": ""
+ }
+}

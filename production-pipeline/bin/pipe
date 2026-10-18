@@ -1,0 +1,46 @@
+#!/bin/bash
+# pipe — one command for every stage. `pipe stages` lists them in order; `pipe <stage> --help` shows the stage's own usage.
+# Stages that drive the renderer, the daemon or the Drive run on the laptop (they say so); the rest run anywhere with node + ffmpeg.
+H=$(cd "$(dirname "$0")/.." && pwd); s=${1:-stages}; shift || true
+case "$s" in
+  stages) cat <<'EOF'
+ order  stage       runs      what
+   1    language    anywhere  pipe language            regenerate film-language/FILM_LANGUAGE.md from the JSON tables
+   2    strategies  anywhere  pipe strategies          the strategies on file
+   3    compile     anywhere  pipe compile the_proof --site stonehenge      strategy + site days -> a shot file (@moments, takes, styles)
+   4    propose     anywhere  pipe propose FILM.json SHOT_ID               a brief: this shot three ways (styles) -> you or the agent answers
+   5    lists       laptop    node shots.js FILM.json lists|scene|check|stills   the desk's own tool (a-production/film/shotfile) solves @moments and makes lists, scenes, checks, storyboard
+   6    critic      anywhere  pipe critic FILM.json --stills DIR           a brief per storyboard still: the grammar as questions
+   7    exposure    anywhere  pipe exposure smooth FRAMES.tsv              write the exposure policy into column 16 (control: auto = unchanged)
+   8    hash        anywhere  pipe hash FRAMES.tsv --settings GO.sh --bin BIN --scene S.json --size WxH --fov F   frame identities
+   9    bundle      laptop    pipe bundle FRAMES.tsv ... --n 48            queue jobs for a shot (cache-aware); then pipe q add …; pipe q worker
+  10    q           laptop    pipe q add|worker|status|log|retry|drop|stop  the one render queue
+  11    manifest    laptop    pipe manifest clip CLIP.mp4 --frames … --png-dir …   the clip's proof; pipe verify MANIFEST
+  12    look        anywhere  pipe look apply neutral IN OUT               the look step (neutral = byte copy; others need a ruling)
+  13    edit        anywhere  pipe edit FILM.json metrics|edl|render|check|compare N|otio|chapters|qc|dailies --clips DIR
+  14    learn       anywhere  pipe learn record compare_N.json --pick A|B; pipe learn summary|suggest
+  15    finish      anywhere  pipe finish FILM.json master --edl E --cut C [--sound sound.json] [--profiles youtube,preview]
+  16    archive     laptop    pipe archive FILM.json WORK OUT [--drive "Working files/A-PRODUCTION/Archive"]
+EOF
+  ;;
+  language)   (cd "$H/film-language" && python3 -I make_doc.py) ;;
+  strategies) node "$H/director/strategy.js" strategies "$@" ;;
+  compile)    node "$H/director/strategy.js" compile "$@" ;;
+  doc)        node "$H/director/strategy.js" doc "$@" ;;
+  propose)    node "$H/director/propose.js" shot "$@" ;;
+  critic)     node "$H/director/propose.js" critic "$@" ;;
+  answer)     node "$H/director/propose.js" record "$@" ;;
+  exposure)   node "$H/look/look.js" exposure "$@" ;;
+  look)       node "$H/look/look.js" "$@" ;;
+  hash)       node "$H/render/manifest.js" hash "$@" ;;
+  manifest)   node "$H/render/manifest.js" "$@" ;;
+  verify)     node "$H/render/manifest.js" verify "$@" ;;
+  cache)      node "$H/render/manifest.js" cache "$@" ;;
+  bundle)     node "$H/render/queue/bundle.js" "$@" ;;
+  q)          bash "$H/render/queue/q" "$@" ;;
+  edit)       node "$H/editor/edit.js" "$@" ;;
+  learn)      node "$H/editor/learn.js" "$@" ;;
+  finish)     node "$H/finish/finish.js" "$@" ;;
+  archive)    bash "$H/archive/archive.sh" "$@" ;;
+  *) echo "no stage '$s' — pipe stages"; exit 2 ;;
+esac

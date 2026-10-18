@@ -1,64 +1,230 @@
 {
  "about": "The edit as data. Three parts: the transitions the film may use and when each is allowed; how the exact cut frame is chosen inside a shot's handles; and the tests a cut must pass (Murch's rule of six, with his weights, each mapped to a measurable proxy where one exists). The editor reads the shot file and the clips, writes an EDL (the editable artifact), renders it with ffmpeg, and runs check_edit on the result. Speed is never an edit operation: time is data, so a ramp is a re-timed frame list and a render, never interpolated frames.",
  "transitions": {
-  "cut": { "duration_s": 0, "when": "the default: same day, same act, the previous shot has settled", "never": "" },
-  "match_cut": { "duration_s": 0, "when": "the two shots are a declared pair: same lens, mirrored camera, the subject within 5 percent of frame width of where it was", "never": "without the pair being declared in the shot file (cut: match:<id>)", "verified_by": "check_edit.match_pair" },
-  "dissolve": { "duration_s": { "short": 1, "long": 2 }, "when": "time has passed: between days, or between acts; long between the day and the year", "never": "inside a claim; between two shots of the same instant" },
-  "fade_from_black": { "duration_s": { "film_start": 2, "part_start": 1.5 }, "when": "the first frame of the film; the first frame after a dip", "never": "" },
-  "fade_to_black": { "duration_s": { "film_end": 3, "part_end": 1.5 }, "when": "the last frame of the film; the coda", "never": "between two shots of one act" },
-  "dip_to_black": { "duration_s": { "black": 0.75, "fades": 1 }, "when": "between the day and the year, if no dissolve is wanted; the film breathes", "never": "more than twice in a film" },
-  "j_cut": { "lead_s": 0.5, "when": "the voice names what the next shot shows: it starts before the picture", "never": "across the key instant" },
-  "l_cut": { "lag_s": 1, "when": "ambience or music carries over a cut so the cut is felt less", "never": "" },
-  "hold_frame": { "when": "never as a freeze in the edit; a held instant is rendered as held lines (the renderer copies identical lines), so it is a shot, not a trick", "never": "always" },
-  "speed_ramp": { "when": "never in the edit; re-time the frame list (the time column) and render", "never": "always" },
-  "wipe_iris_push_zoom_transitions": { "when": "never", "never": "always; the film has no tricks between shots" }
+  "cut": {
+   "duration_s": 0,
+   "when": "the default: same day, same act, the previous shot has settled",
+   "never": ""
+  },
+  "match_cut": {
+   "duration_s": 0,
+   "when": "the two shots are a declared pair: same lens, mirrored camera, the subject within 5 percent of frame width of where it was",
+   "never": "without the pair being declared in the shot file (cut: match:<id>)",
+   "verified_by": "check_edit.match_pair"
+  },
+  "dissolve": {
+   "duration_s": {
+    "short": 1,
+    "long": 2
+   },
+   "when": "time has passed: between days, or between acts; long between the day and the year",
+   "never": "inside a claim; between two shots of the same instant"
+  },
+  "fade_from_black": {
+   "duration_s": {
+    "film_start": 2,
+    "part_start": 1.5
+   },
+   "when": "the first frame of the film; the first frame after a dip",
+   "never": ""
+  },
+  "fade_to_black": {
+   "duration_s": {
+    "film_end": 3,
+    "part_end": 1.5
+   },
+   "when": "the last frame of the film; the coda",
+   "never": "between two shots of one act"
+  },
+  "dip_to_black": {
+   "duration_s": {
+    "black": 0.75,
+    "fades": 1
+   },
+   "when": "between the day and the year, if no dissolve is wanted; the film breathes",
+   "never": "more than twice in a film"
+  },
+  "j_cut": {
+   "lead_s": 0.5,
+   "when": "the voice names what the next shot shows: it starts before the picture",
+   "never": "across the key instant"
+  },
+  "l_cut": {
+   "lag_s": 1,
+   "when": "ambience or music carries over a cut so the cut is felt less",
+   "never": ""
+  },
+  "hold_frame": {
+   "when": "never as a freeze in the edit; a held instant is rendered as held lines (the renderer copies identical lines), so it is a shot, not a trick",
+   "never": "always"
+  },
+  "speed_ramp": {
+   "when": "never in the edit; re-time the frame list (the time column) and render",
+   "never": "always"
+  },
+  "wipe_iris_push_zoom_transitions": {
+   "when": "never",
+   "never": "always; the film has no tricks between shots"
+  }
  },
  "cut_point": {
   "about": "Every rendered shot has 0.5 s handles (12 frames) each side of its screen length. The editor chooses the exact in and out frame inside the handles by rule, so a cut lands where the grammar says, not at the handle's edge.",
   "rules": {
-   "on_stillness": { "what": "the out frame is the one with the least motion energy in the out handle; the in frame the least in the in handle", "measured_by": "mean absolute frame difference over the handle, from the decoded clip", "default_for": "cut, dissolve" },
-   "on_motion": { "what": "the cut lands mid-move so the momentum carries across it", "measured_by": "the frame nearest the move's peak speed in the handle", "default_for": "kurosawa and malick styles; the_approach's second beat" },
-   "to_instant": { "what": "the in frame is the first frame at or after a named moment (e.g. @sunrise_gleam)", "measured_by": "the frame list's time column against moments.js; no pixels needed", "default_for": "the_proof beat 4; the_look beat 2" },
-   "after_instant": { "what": "the out frame is N seconds after the moment, so the frame breathes", "measured_by": "the time column", "default_for": "the_breath; every climax shot's out point (N = 2)" },
-   "match": { "what": "in and out chosen so the subject's frame position matches across the cut", "measured_by": "body position from the frame list (az, alt against the camera) at the out and in frames", "default_for": "match_cut" }
+   "on_stillness": {
+    "what": "the out frame is the one with the least motion energy in the out handle; the in frame the least in the in handle",
+    "measured_by": "mean absolute frame difference over the handle, from the decoded clip",
+    "default_for": "cut, dissolve"
+   },
+   "on_motion": {
+    "what": "the cut lands mid-move so the momentum carries across it",
+    "measured_by": "the frame nearest the move's peak speed in the handle",
+    "default_for": "kurosawa and malick styles; the_approach's second beat"
+   },
+   "to_instant": {
+    "what": "the in frame is the first frame at or after a named moment (e.g. @sunrise_gleam)",
+    "measured_by": "the frame list's time column against moments.js; no pixels needed",
+    "default_for": "the_proof beat 4; the_look beat 2"
+   },
+   "after_instant": {
+    "what": "the out frame is N seconds after the moment, so the frame breathes",
+    "measured_by": "the time column",
+    "default_for": "the_breath; every climax shot's out point (N = 2)"
+   },
+   "match": {
+    "what": "in and out chosen so the subject's frame position matches across the cut",
+    "measured_by": "body position from the frame list (az, alt against the camera) at the out and in frames",
+    "default_for": "match_cut"
+   }
   }
  },
  "rule_of_six": {
   "about": "Walter Murch's priorities for a cut, with his own weights (In the Blink of an Eye). The first two cannot be measured and stay with the strategy and Erick's gate; the last four get a proxy and a test.",
-  "emotion": { "weight": 51, "proxy": "none; the strategy's key_instant and the gate", "test": "" },
-  "story": { "weight": 23, "proxy": "one claim per shot; a claim followed by its contrast", "test": "check_edit.claim_then_contrast" },
-  "rhythm": { "weight": 10, "proxy": "the series of shot lengths against the strategy's rhythm pattern; length inside the rung's band", "test": "check_edit.rhythm" },
-  "eye_trace": { "weight": 7, "proxy": "distance between the subject's position at the out frame and at the in frame", "test": "check_edit.eye_trace" },
-  "two_d_plane": { "weight": 5, "proxy": "the 180-degree line: adjacent shots on the same side of the axis unless the row says crossing", "test": "check_edit.line" },
-  "three_d_space": { "weight": 4, "proxy": "the 30-degree rule: adjacent shots of the same subject differ by 30 degrees of bearing or a lens ratio of 1.5; camera height continuity", "test": "check_edit.thirty_degrees" }
+  "emotion": {
+   "weight": 51,
+   "proxy": "none; the strategy's key_instant and the gate",
+   "test": ""
+  },
+  "story": {
+   "weight": 23,
+   "proxy": "one claim per shot; a claim followed by its contrast",
+   "test": "check_edit.claim_then_contrast"
+  },
+  "rhythm": {
+   "weight": 10,
+   "proxy": "the series of shot lengths against the strategy's rhythm pattern; length inside the rung's band",
+   "test": "check_edit.rhythm"
+  },
+  "eye_trace": {
+   "weight": 7,
+   "proxy": "distance between the subject's position at the out frame and at the in frame",
+   "test": "check_edit.eye_trace"
+  },
+  "two_d_plane": {
+   "weight": 5,
+   "proxy": "the 180-degree line: adjacent shots on the same side of the axis unless the row says crossing",
+   "test": "check_edit.line"
+  },
+  "three_d_space": {
+   "weight": 4,
+   "proxy": "the 30-degree rule: adjacent shots of the same subject differ by 30 degrees of bearing or a lens ratio of 1.5; camera height continuity",
+   "test": "check_edit.thirty_degrees"
+  }
  },
  "check_edit": {
   "about": "Tests on the assembled cut, run after render. Thresholds are starting values to calibrate on the first three edits; each failure names the cut by shot ids and frame numbers.",
   "tests": {
-   "motion_at_cut": { "fail_if": "motion energy at the out or in frame is above the handle's median, when the rule is on_stillness" },
-   "luma_jump_at_cut": { "fail_if": "mean luma differs by more than 40 levels (of 255) across a plain cut; dissolves exempt; a warning, not a failure, when the strategy declares the jump (the_jump)" },
-   "eye_trace": { "fail_if": "the subject moves more than 15 percent of frame width across a cut that is not a declared jump" },
-   "line": { "fail_if": "adjacent shots sit on opposite sides of the axis without line: crossing on the second row" },
-   "thirty_degrees": { "fail_if": "adjacent shots of the same subject change bearing by less than 30 degrees and lens by less than a ratio of 1.5" },
-   "no_two_wides": { "fail_if": "two consecutive wide shots unless the pattern is the_montage_of_place" },
-   "rhythm": { "fail_if": "a shot's length is outside its rung's duration band; or the act's length series does not match the strategy's rhythm pattern (breathing: at least one insert for every long hold)" },
-   "dissolve_context": { "fail_if": "a dissolve inside a claim or inside one day's act" },
-   "breath_after_instant": { "fail_if": "a shot carrying a key instant ends less than 2 s after it" },
-   "voice_silent_at_instant": { "fail_if": "a voice line overlaps a key instant by less than 1 s either side" },
-   "voice_leads": { "fail_if": "a voice line starts less than 0.3 s or more than 1 s before the shot it names" },
-   "match_pair": { "fail_if": "a match cut's two shots differ in lens or the subject position differs by more than 5 percent of frame width" },
-   "runtime": { "fail_if": "total runtime differs from the brief by more than 10 percent" },
-   "black": { "fail_if": "any black frame inside the film that is not a declared dip or fade (a missing clip)" }
+   "motion_at_cut": {
+    "fail_if": "motion energy at the out or in frame is above the handle's median, when the rule is on_stillness"
+   },
+   "luma_jump_at_cut": {
+    "fail_if": "mean luma differs by more than 40 levels (of 255) across a plain cut; dissolves exempt; a warning, not a failure, when the strategy declares the jump (the_jump)"
+   },
+   "eye_trace": {
+    "fail_if": "the subject moves more than 15 percent of frame width across a cut that is not a declared jump"
+   },
+   "line": {
+    "fail_if": "adjacent shots sit on opposite sides of the axis without line: crossing on the second row"
+   },
+   "thirty_degrees": {
+    "fail_if": "adjacent shots of the same subject change bearing by less than 30 degrees and lens by less than a ratio of 1.5"
+   },
+   "no_two_wides": {
+    "fail_if": "two consecutive wide shots unless the pattern is the_montage_of_place"
+   },
+   "rhythm": {
+    "fail_if": "a shot's length is outside its rung's duration band; or the act's length series does not match the strategy's rhythm pattern (breathing: at least one insert for every long hold)"
+   },
+   "dissolve_context": {
+    "fail_if": "a dissolve inside a claim or inside one day's act"
+   },
+   "breath_after_instant": {
+    "fail_if": "a shot carrying a key instant ends less than 2 s after it"
+   },
+   "voice_silent_at_instant": {
+    "fail_if": "a voice line overlaps a key instant by less than 1 s either side"
+   },
+   "voice_leads": {
+    "fail_if": "a voice line starts less than 0.3 s or more than 1 s before the shot it names"
+   },
+   "match_pair": {
+    "fail_if": "a match cut's two shots differ in lens or the subject position differs by more than 5 percent of frame width"
+   },
+   "runtime": {
+    "fail_if": "total runtime differs from the brief by more than 10 percent"
+   },
+   "black": {
+    "fail_if": "any black frame inside the film that is not a declared dip or fade (a missing clip)"
+   }
   }
  },
  "edl": {
   "about": "The cut as a file between the shot file and ffmpeg. One row per event. Editable by hand or by the proposer; re-render is the same command. Exportable to OpenTimelineIO JSON so the cut can be opened in Resolve for a human look without that becoming the pipeline.",
-  "fields": ["n", "shot_id", "clip_path", "in_frame", "out_frame", "transition_in", "transition_s", "cut_rule", "sound_events (voice_start, music_cue, l_cut_lag)"],
+  "fields": [
+   "n",
+   "shot_id",
+   "clip_path",
+   "in_frame",
+   "out_frame",
+   "transition_in",
+   "transition_s",
+   "cut_rule",
+   "sound_events (voice_start, music_cue, l_cut_lag)"
+  ],
   "render": "ffmpeg: trims by frame, concat for cuts, xfade for dissolves, fade for blacks, adelay/acrossfade for J and L cuts, loudnorm at the end",
   "export": "otio (OpenTimelineIO JSON) for Resolve; the EDL stays the source"
  },
  "learning": {
   "about": "After the table, the weights. The editor proposes two cuts of the same act when a rule is close to its threshold (two cut points, or cut versus dissolve), renders both small, and puts them side by side on one sheet. Erick's pick is recorded with both candidates' measurements. Three things can then move without new code: the thresholds in check_edit, the default cut_point rule per style, and the transition defaults per context. Nothing learns silently: every moved number is written to this file with the picks that moved it.",
-  "record_per_pick": ["film", "act", "shot pair", "candidate A metrics", "candidate B metrics", "pick", "date"]
+  "record_per_pick": [
+   "film",
+   "act",
+   "shot pair",
+   "candidate A metrics",
+   "candidate B metrics",
+   "pick",
+   "date"
+  ],
+  "picks": [
+   {
+    "film": "DAWN_AND_YEAR_test",
+    "event": 5,
+    "cut": "A_axis_5s → A_autumn_set",
+    "A": {
+     "out": 120,
+     "in": 22,
+     "transition": "dissolve",
+     "rule": "in:on_stillness out:on_stillness"
+    },
+    "B": {
+     "out": 120,
+     "in": 24,
+     "transition": "cut",
+     "rule": "handle edges"
+    },
+    "pick": "A",
+    "note": "the dissolve into the year reads as time passing",
+    "date": "2026-10-18T03:33:59.220Z"
+   }
+  ]
  }
 }

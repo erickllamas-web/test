@@ -1,0 +1,11 @@
+{
+ "id": "the_year",
+ "about": "The four days (film-language the_match + the_proof + the_breath): autumn equinox sunset at a gap's edge → the proof of the midwinter sunset, its on-the-line beat a MATCH of the summer one → the Station Stones' Moon → the spring equinox sunrise hidden behind the stones, to black. Script v3.1 act VIII and the coda by hand.",
+ "defaults": { "style": "fricke_reggio", "handles": true },
+ "beats": [
+  { "slot": "autumn", "act": "VIII THE YEAR", "rung": "medium", "take": "locked_tele_on_axis", "camera": { "bearing": "axis_sw", "dist": 0, "az": 269.5, "el": 1.0 }, "lens": 30, "seconds": 8, "day": "autumn_equinox", "light": { "from": "@sunset_sits-6m", "to": "@sunset_gone+2m" }, "style": "herzog", "cut": "dissolve", "claim_in_frame": true, "voice": "Not every day is marked. At the equinox the Sun sets due west, at the edge of a gap, not inside one." },
+  { "slot": "proof", "act": "VIII THE YEAR", "strategy": "the_proof", "claim": "winter_sunset" },
+  { "slot": "station_moon", "act": "VIII THE YEAR", "rung": "medium", "take": "line_tele_station", "seconds": 12, "day": "station_moon_night", "light": { "from": "@moonset_upper-25m", "to": "@moonset_upper+1m", "kind": "moon" }, "style": "kurosawa", "claim_in_frame": true, "voice": "Four smaller stones mark a rectangle. Its long side points to where the Moon sets at its northernmost, once in 18.6 years." },
+  { "slot": "spring", "act": "CODA", "rung": "medium", "take": "locked_tele_on_axis", "camera": { "bearing": "axis_sw", "dist": 0, "az": 90.5, "el": 1.5 }, "lens": 30, "seconds": 8, "day": "spring_equinox", "light": { "from": "@sunrise_gleam-5m", "to": "@sunrise_whole+15m" }, "style": "antonioni", "cut": "dissolve", "voice": "At the spring equinox the Sun rises due east, behind the stones. The builders aligned their monument to the turning points of the year." }
+ ]
+}
