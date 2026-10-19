@@ -1,0 +1,17 @@
+== (1) frames the same sky sample is held, by track density (film animation act / night pass)
+    720 samples ( 2.09 min apart): film max hold 7 frames, frozen transitions 711/1199 (59%) | night max hold 3, frozen 1080/1799 (60%)
+   1439 samples ( 1.05 min apart): film max hold 4 frames, frozen transitions 379/1199 (32%) | night max hold 2, frozen 362/1799 (20%)
+   2158 samples ( 0.70 min apart): film max hold 3 frames, frozen transitions 216/1199 (18%) | night max hold 1, frozen 0/1799 (0%)
+   4315 samples ( 0.35 min apart): film max hold 2 frames, frozen transitions 2/1199 (0%) | night max hold 1, frozen 0/1799 (0%)
+
+== (2) LST advances 376.748° over the track; 360° is reached at sample 687 (residual -0.020° = 0.2 px at 4K centre); the track's last sample is 16.75° = 182 px past it
+   at the loop the Moon would jump 14.3° (it moves ~13°/day against the stars); today it jumps 1.2° and the stars jump 16.7°
+
+== (3) night sweep candidates (pan, alt_base, alt_amp, cycles), scored as the grid was
+  shipped: 6.5 cyc, whole track      | freelook worst  22.3° median  5.8° | 169: framed 3285 below 0s+0c over2x 9 | 916: framed 3285 below 0s+0c over2x 29 | 43: framed 3285 below 0s+0c over2x 9 | 34: framed 3285 below 0s+0c over2x 8
+  6.5 cyc, sidereal day              | freelook worst  22.3° median  5.8° | 169: framed 3285 below 0s+0c over2x 16 | 916: framed 3285 below 1s+0c over2x 37 | 43: framed 3285 below 0s+0c over2x 12 | 34: framed 3285 below 0s+0c over2x 12
+  6.0 cyc, sidereal day              | freelook worst  50.6° median 11.8° | 169: framed 3285 below 0s+0c over2x 16 | 916: framed 3285 below 0s+0c over2x 78 | 43: framed 3285 below 0s+0c over2x 14 | 34: framed 3285 below 0s+0c over2x 16
+  7.0 cyc, sidereal day              | freelook worst  23.0° median  5.5° | 169: framed 3285 below 0s+0c over2x 8 | 916: framed 3285 below 1s+0c over2x 21 | 43: framed 3285 below 0s+0c over2x 7 | 34: framed 3285 below 0s+0c over2x 11
+  6.0 cyc amp 75, sidereal day       | freelook worst  51.5° median 11.3° | 169: framed 3285 below 0s+0c over2x 13 | 916: framed 3285 below 0s+0c over2x 83 | 43: framed 3285 below 0s+0c over2x 13 | 34: framed 3285 below 0s+0c over2x 12
+  7.0 cyc amp 75, sidereal day       | freelook worst  23.3° median  5.4° | 169: framed 3285 below 0s+0c over2x 9 | 916: framed 3285 below 2s+0c over2x 17 | 43: framed 3285 below 0s+0c over2x 5 | 34: framed 3285 below 0s+0c over2x 11
+  7.0 cyc amp 65, sidereal day       | freelook worst  24.5° median  5.7° | 169: framed 3285 below 0s+0c over2x 8 | 916: framed 3285 below 0s+0c over2x 19 | 43: framed 3285 below 0s+0c over2x 9 | 34: framed 3285 below 0s+0c over2x 10

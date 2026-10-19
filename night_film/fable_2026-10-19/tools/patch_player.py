@@ -1,0 +1,329 @@
+"""Apply the seam patch to the player. Every anchor must match exactly once, or the patch refuses."""
+import sys, re
+src_path, dst_path = sys.argv[1], sys.argv[2]
+s = open(src_path, encoding='utf-8').read()
+def rep(old, new, count=1):
+    global s
+    n = s.count(old)
+    if n != count: raise SystemExit(f"anchor matched {n}× (want {count}):\n{old[:160]}")
+    s = s.replace(old, new)
+
+# ── CSS: the veil, and the hidden incoming video ─────────────────────────────
+rep("""  #overlay { position:absolute; inset:0; width:100%; height:100%; z-index:2;
+    pointer-events:none; }""",
+"""  #overlay { position:absolute; inset:0; width:100%; height:100%; z-index:2;
+    pointer-events:none; }
+  /* ── the veil ──────────────────────────────────────────────────────────────
+     One black sheet over the whole stage, under the chrome. It is what the
+     film comes up out of at the start and dips through at the loop point, and
+     its alpha is driven from the video's own clock in tick(), never from a
+     CSS animation — so it stays in step with a frame that arrives late, and
+     lifts the moment the first frame has actually been painted. */
+  #veil { position:fixed; inset:0; background:#000; z-index:4;
+    pointer-events:none; opacity:1; }
+  /* The cut fading IN during a Sun switch sits above the one it replaces.
+     A class, not a DOM move: re-inserting a <video> makes it reload. */
+  video.top { z-index:1; }""")
+
+# ── markup: the veil ─────────────────────────────────────────────────────────
+rep("""  <div id="toast"></div>""",
+"""  <div id="veil"></div>
+  <div id="toast"></div>""")
+
+# ── the two video handles become rebindable: a shape swap replaces the element ─
+rep("""const vFilm = $('vFilm'), vNight = $('vNight'), ov = $('overlay'), octx = ov.getContext('2d');
+const stage = $('stage'), frame = $('frame');""",
+"""// `let`, not `const`: a shape swap brings the new cut in on a NEW element and
+// retires the old one, so these two names are rebound (see applyShape).
+let vFilm = $('vFilm'), vNight = $('vNight');
+const ov = $('overlay'), octx = ov.getContext('2d');
+const stage = $('stage'), frame = $('frame');""")
+
+# ── state: switching + pending shape ─────────────────────────────────────────
+rep("""  shape: null,    // which screen shape of a square master is on screen
+  crop: 1,        // that shape's height over the master's""",
+"""  shape: null,    // which screen shape of a square master is on screen
+  crop: 1,        // that shape's height over the master's
+  switching: 0,   // >0 while the Sun switch waits for its destination frame
+  pending: null,  // a shape swap in flight: {k, token}
+  staging: { film: null, night: null },   // a cut being brought in for a new shape""")
+
+# ── seek discipline ──────────────────────────────────────────────────────────
+rep("""// ── frame lookup ─────────────────────────────────────────────────────────────""",
+"""// ── seeking, one at a time ──────────────────────────────────────────────────
+// A <video> honours the LAST currentTime it was given and throws the seeks in
+// between away — so a fly-to that writes a new time every animation frame, or
+// a drag that writes one per pointer move, asks a 4K decoder for sixty seeks a
+// second and gets a handful of frames, each after a stall. Issuing the next
+// seek only when the previous one has LANDED bounds the queue to one: every
+// frame the decoder finishes is a frame on screen, and the move reads as
+// motion instead of a stutter. The target is always the latest one asked for.
+function seekTo(v, t){
+  if (v.seeking){ v._pend = t; return; }
+  v._pend = null;
+  v.currentTime = t;
+}
+function armSeeks(v){
+  v.addEventListener('seeked', () => {
+    if (v._pend != null){ const t = v._pend; v._pend = null; v.currentTime = t; }
+  });
+}
+// Resolves once `v` has landed on `t` with a decodable frame, or after `ms`.
+function seekAndWait(v, t, ms){
+  return new Promise(res => {
+    let done = false;
+    const fin = () => { if (done) return; done = true; clearTimeout(h);
+      v.removeEventListener('seeked', onS); res(); };
+    const onS = () => { if (v.readyState >= 2) fin(); else v.addEventListener('canplay', fin, { once:true }); };
+    const h = setTimeout(fin, ms);
+    v.addEventListener('seeked', onS);
+    v._pend = null;
+    v.currentTime = t;
+  });
+}
+
+// ── frame lookup ─────────────────────────────────────────────────────────────""")
+
+# ── the Sun switch: seek first, then fade the destination in OVER the source ──
+rep("""function setSun(off, keepTime){
+  if (off === S.sunOff) return;
+  const from = side(), fromV = vid(), sample = from.sample[frameIdx(from, fromV.currentTime)];
+  S.sunOff = off;
+  const to = side(), toV = vid();
+  toV.currentTime = keepTime != null ? keepTime : timeForSample(to, sample);
+  const playing = !fromV.paused;
+  fromV.pause(); fromV.classList.add('off');
+  toV.classList.remove('off');
+  if (playing) toV.play().catch(()=>{});""",
+"""function setSun(off, keepTime){
+  if (off === S.sunOff) return;
+  const from = side(), fromV = vid(), sample = from.sample[frameIdx(from, fromV.currentTime)];
+  S.sunOff = off;
+  const to = side(), toV = vid();
+  const target = keepTime != null ? keepTime : timeForSample(to, sample);
+  const playing = !fromV.paused;
+  // The picture that is up stays up, frozen on its last frame, until the other
+  // cut has actually decoded the frame it was asked for. Only then does the
+  // destination fade in ON TOP of it. Two things this buys over fading both at
+  // once: the switch never shows the frame the other cut happened to be parked
+  // on (seeking a 4K file takes real time, and the old code started its
+  // dissolve before the seek had landed), and the screen never darkens in the
+  // middle — two half-transparent layers over black add up to three quarters
+  // of the light, which read as a blink on every switch.
+  fromV.pause();
+  const token = ++S.switching;
+  // If the destination cut is still being brought in for a new shape, wait
+  // for that first: the element to seek is the one that will be on screen.
+  const staged = S.staging[off ? 'night' : 'film'] || Promise.resolve();
+  staged.then(() => { const toV = vid(); return seekAndWait(toV, target, 2500).then(() => toV); }).then(toV => {
+    if (token !== S.switching) return;            // a newer switch superseded this one
+    const fromV = off ? vFilm : vNight;             // re-read: a swap may have replaced it
+    fromV.classList.remove('top'); toV.classList.add('top');   // paint the newcomer on top
+    toV.classList.remove('off');
+    if (playing && toV === vid()) toV.play().catch(()=>{});
+    const retire = () => { S.switching = 0; if (toV === vid()) fromV.classList.add('off'); syncScrub(); };
+    toV.addEventListener('transitionend', retire, { once:true });
+    setTimeout(retire, 600);                        // in case the transition never fires
+  });""")
+
+# ── fly-to and free look use the seek discipline ─────────────────────────────
+rep("""    v.currentTime = from + d * e;
+    draw();
+    if (u < 1) flyTo._h = requestAnimationFrame(step);""",
+"""    seekTo(v, from + d * e);
+    draw();
+    if (u < 1) flyTo._h = requestAnimationFrame(step);""")
+rep("""  if (Math.abs(v.currentTime - t) > 0.5/S.night.fps) v.currentTime = t;
+  draw();
+}""",
+"""  if (Math.abs(v.currentTime - t) > 0.5/S.night.fps) seekTo(v, t);
+  draw();
+}""")
+
+# ── the overlay holds still while a switch is in flight ─────────────────────
+rep("""  octx.clearRect(0, 0, S.Wn, S.Hn);
+  if (!S.sky){ lockStage(null); return; }
+""",
+"""  octx.clearRect(0, 0, S.Wn, S.Hn);
+  if (!S.sky){ lockStage(null); return; }
+  // Mid-switch the screen still shows the OLD cut's frame; drawing the new
+  // cut's compass and reticle over it would put marks on the wrong sky.
+  if (S.switching) return;
+""")
+
+# ── shape swap: double-buffered ──────────────────────────────────────────────
+rep("""async function applyShape(k){
+  const sh = S.film.shapes[k];
+  const tf = vFilm.currentTime, tn = vNight.currentTime, playing = !vid().paused;
+  S.shape = k; S.crop = sh.scale; S.Wn = sh.w; S.Hn = sh.h;
+  // Each cut resumes at ITS OWN moment: the two films run different clocks.
+  for (const [v, base, t] of [[vFilm, 'film', tf], [vNight, 'night', tn]]){
+    const src = S.codec ? `${base}_${k}.${S.codec}.mp4` : `${base}_${k}.mp4`;
+    if (v.getAttribute('src') === src) continue;
+    v.setAttribute('src', src);
+    v.addEventListener('loadedmetadata', () => { v.currentTime = t; }, { once: true });
+  }
+  vFilm.poster = `poster_${k}.png`;
+  if (playing) vid().play().catch(()=>{});
+  S.seek = await load(`seek_${k}.json`);
+}""",
+"""// The name of one cut's file for one shape.
+function cutName(base, k){ return S.codec ? `${base}_${k}.${S.codec}.mp4` : `${base}_${k}.mp4`; }
+
+// A fresh <video> for one cut, loaded and parked on `t` before anyone sees it.
+// Resolves with the element once it has a decodable frame at `t` (or after
+// `ms`, so a slow network can delay a swap but never wedge it).
+function stageCut(base, k, t, ms){
+  const v = document.createElement('video');
+  v.id = base === 'film' ? 'vFilm' : 'vNight';
+  v.playsInline = true; v.loop = true; v.muted = true; v.preload = 'auto';
+  v.setAttribute('playsinline', ''); v.setAttribute('loop', ''); v.setAttribute('muted', '');
+  v.className = 'off';
+  v.style.transition = 'none';                 // it is swapped in, not faded in
+  v.setAttribute('src', cutName(base, k));
+  if (base === 'film') v.poster = `poster_${k}.png`;
+  armSeeks(v);
+  frame.insertBefore(v, frame.firstChild);     // under the live videos
+  return new Promise(res => {
+    let done = false;
+    const fin = () => { if (done) return; done = true; clearTimeout(h); res(v); };
+    const h = setTimeout(fin, ms);
+    v.addEventListener('loadedmetadata', () => { seekAndWait(v, t, ms).then(fin); }, { once:true });
+    v.addEventListener('error', fin, { once:true });
+  });
+}
+
+// The shape swap, double-buffered. The old code pointed both <video>s at the
+// new files and let the screen go black until the metadata arrived and the
+// seek landed — on a phone turning in the hand, a black hole of several
+// hundred milliseconds to a few seconds at 4K. Now the cut that is ON SCREEN
+// is loaded on a second element behind it, parked on the same film-second,
+// and only swapped in once that frame is decodable; the hidden cut follows the
+// same way afterwards. Nothing the viewer is looking at changes until its
+// replacement is ready, and the moment of sky is the same on both sides of
+// the swap because both cuts share one clock.
+async function applyShape(k){
+  if (S.pending && S.pending.k === k) return;
+  const token = { k };
+  S.pending = token;
+  const sh = S.film.shapes[k];
+  const seekIdx = load(`seek_${k}.json`);
+  const first = S.sunOff ? 'night' : 'film';
+  const bring = async (base) => {
+    const old = base === 'film' ? vFilm : vNight;
+    if (old.getAttribute('src') === cutName(base, k)) return;
+    const live = old === vid();
+    const nv = await stageCut(base, k, old.currentTime, 8000);
+    if (S.pending !== token){ nv.remove(); return; }  // the phone turned again
+    const playing = !old.paused;
+    // The geometry and the element change in the same frame.
+    if (live){
+      S.shape = k; S.crop = sh.scale; S.Wn = sh.w; S.Hn = sh.h;
+      S.seek = await seekIdx;
+      if (S.pending !== token){ nv.remove(); return; }
+    }
+    if (base === 'film') vFilm = nv; else vNight = nv;
+    if (old.classList.contains('top')) nv.classList.add('top');
+    if (live){ nv.classList.remove('off'); }
+    old.remove();
+    old.removeAttribute('src'); old.load();        // release the old decoder
+    if (live){ fit(); if (playing) nv.play().catch(()=>{}); }
+    requestAnimationFrame(() => { nv.style.transition = ''; });
+  };
+  // The cut on screen first, and the caller waits for it. The hidden cut
+  // follows on its own; a Sun switch meanwhile waits on `S.staging`.
+  const second = first === 'film' ? 'night' : 'film';
+  S.staging[first] = bring(first);
+  await S.staging[first];
+  S.staging[first] = null;
+  if (S.pending !== token) return;
+  S.staging[second] = bring(second).then(() => { S.staging[second] = null; });
+  // A plain swap of the hidden cut, or no swap at all: the geometry still
+  // follows the shape (first boot lands here).
+  if (S.shape !== k){ S.shape = k; S.crop = sh.scale; S.Wn = sh.w; S.Hn = sh.h; S.seek = await seekIdx; fit(); }
+  S.staging[second].then(() => { if (S.pending === token) S.pending = null; });
+}""")
+
+# ── offline save-cuts: after the film has buffered, not during the first play ─
+rep("""function installOffline(){
+  if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+  navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then(reg => {""",
+"""function installOffline(){
+  if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+  // Register now, but store the cuts only once the film that is playing has
+  // buffered through (or after 20 s, whichever is first). Fetching 200 MB of
+  // whole files WHILE the same film streams its first seconds made the two
+  // compete for the line, and the opening stalled on slow connections.
+  const buffered = new Promise(res => {
+    const v = vid();
+    if (v.readyState >= 4) return res();
+    v.addEventListener('canplaythrough', () => res(), { once:true });
+    setTimeout(res, 20000);
+  });
+  navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready)
+    .then(reg => buffered.then(() => reg)).then(reg => {""")
+
+# ── the veil in tick() ───────────────────────────────────────────────────────
+rep("""function tick(){
+  syncScrub(); draw();
+  const t = vid().currentTime;
+  $('cap').classList.toggle('hide', S.sunOff || t > 11);
+  requestAnimationFrame(tick);
+}""",
+"""// ── the veil ─────────────────────────────────────────────────────────────────
+// Where the black sheet wants to be, read off the video's own clock:
+//   · 1 until the first frame of the film has been PAINTED (not merely loaded),
+//     so the viewer never sees the poster give way to frame 0, or a black
+//     element while a 4K first frame decodes;
+//   · a dip through black across the loop point of a cut whose last frame does
+//     not continue into its first. The cinematic cut ends at the next morning
+//     and restarts at the birth hour — a cut, not a loop — so it closes its
+//     eyes for 0.6 s each side. A pass whose sidecar says `loop_closed` (the
+//     planetarium pass over one sidereal day) needs no dip and
+//     gets none;
+//   · 0 whenever the film is paused or being flown, so parking near the end
+//     never leaves the screen dark.
+// The alpha approaches its target at a bounded rate rather than snapping, so a
+// pause inside the dip fades the veil away instead of blinking it off.
+const VEIL = { a: 1, painted: false, D: 0.6 };
+function veilTarget(){
+  if (!VEIL.painted) return 1;
+  if (S.switching) return VEIL.a;
+  const v = vid(), f = side();
+  if (!v || !f || v.paused || v.seeking) return 0;
+  if (f.loop_closed) return 0;
+  const L = f.loop_secs || v.duration || 0, t = v.currentTime, D = VEIL.D;
+  // Fully dark 0.1 s before the wrap: the last frame and the cut itself are
+  // never seen, whatever frame the decoder stops on.
+  if (L && t > L - D - 0.1) return Math.min(1, (t - (L - D - 0.1)) / D);
+  if (t < D) return Math.min(1, 1 - t / D);
+  return 0;
+}
+function paintedOnce(v){
+  const mark = () => { VEIL.painted = true; };
+  if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(mark);
+  else v.addEventListener('playing', mark, { once:true });
+  v.addEventListener('error', mark, { once:true });   // never hold a black screen for a broken file
+  setTimeout(mark, 12000);
+}
+
+function tick(){
+  syncScrub(); draw();
+  const t = vid().currentTime;
+  $('cap').classList.toggle('hide', S.sunOff || t > 11);
+  const want = veilTarget(), step = 0.08;
+  VEIL.a += Math.max(-step, Math.min(step, want - VEIL.a));
+  $('veil').style.opacity = VEIL.a < 0.002 ? 0 : VEIL.a.toFixed(3);
+  requestAnimationFrame(tick);
+}""")
+
+# ── boot: arm the seek discipline and the veil ──────────────────────────────
+rep("""  fit(); tick();
+  vFilm.play().catch(()=>{});""",
+"""  armSeeks(vFilm); armSeeks(vNight);
+  paintedOnce(vFilm);
+  fit(); tick();
+  vFilm.play().catch(()=>{});""")
+
+open(dst_path, 'w', encoding='utf-8').write(s)
+print("patched →", dst_path)

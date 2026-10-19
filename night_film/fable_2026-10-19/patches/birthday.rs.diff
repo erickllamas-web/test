@@ -1,0 +1,132 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/src/birthday.rs	2026-10-18 16:20:37.000000000 +0000
++++ src/birthday.rs	2026-10-19 00:15:00.449104560 +0000
+@@ -128,8 +128,27 @@
+ ///
+ /// Played over 60 s rather than 40 the scores are identical and the camera pans
+ /// 24°/s instead of 36°/s — the calmer film is worth the extra frames.
++///
++/// RE-SEARCHED 2026-10-19 for the LOOP. 6.5 cycles ends the altitude sine on
++/// a down-stroke and restarts it on an up-stroke: the camera reverses its
++/// vertical direction at the wrap (−1.59°/frame → +1.59°/frame, read off the
++/// shipped night.json). A whole number of cycles is continuous in position and
++/// in velocity. Scored over the sidereal-day span (see `night_last`), all four
++/// shapes, with the same measures as above (the sidecar-only scorer ported to
++/// `test_tools/predict.py` reproduces the shipped sweep exactly: 55 entries
++/// over 2× across the shapes, 0 sent below the horizon):
++///
++///   cyc 6.5 amp 70 (shipped)  → over-2× 9/29/9/8,   0 below,  free-look worst 22.3°
++///   cyc 6.0 amp 70            → over-2× 16/78/14/16, 0 below, free-look worst 50.6°
++///   cyc 7.0 amp 70            → over-2× 8/21/7/11,   1 star below in 9:16
++///   cyc 7.0 amp 65            → over-2× 8/19/9/10,   0 below,  free-look worst 24.5°  ← this
++///   cyc 8.0 (any amp)         → free-look worst ≥ 49°
++///
++/// 7 cycles at 65° keeps every object up and framed in every shape, centres
++/// them a little better than the shipped sweep (46 over-2× against 55), and
++/// gives up 2° of free-look worst gap for a camera that does not bounce.
+ pub const NIGHT_SWEEP: SweepPath = SweepPath {
+-    pan_deg: 1440.0, alt_base: 0.0, alt_amp: 70.0, alt_cycles: 6.5,
++    pan_deg: 1440.0, alt_base: 0.0, alt_amp: 65.0, alt_cycles: 7.0,
+ };
+ 
+ #[cfg(not(target_arch = "wasm32"))]
+@@ -161,6 +180,24 @@
+ #[cfg(target_arch = "wasm32")]
+ fn night_seek_weights() -> (f64, f64, f64) { NIGHT_SEEK_WEIGHTS }
+ 
++/// The index of the sample at which local sidereal time has advanced one full
++/// turn from the first sample — the last frame of a star-closed loop. The LST
++/// column wraps at 360°, so the advance is accumulated step by step. A track
++/// shorter than a sidereal day returns its last index.
++pub fn sidereal_last(lst: &[f64]) -> usize {
++    let n = lst.len();
++    if n < 2 { return n.saturating_sub(1); }
++    let (mut adv, mut best, mut best_d) = (0.0f64, n - 1, f64::MAX);
++    for i in 1..n {
++        adv += (lst[i] - lst[i - 1]).rem_euclid(360.0);
++        let d = (adv - 360.0).abs();
++        if d < best_d { best_d = d; best = i; }
++        if adv > 360.0 + 180.0 { break; }
++    }
++    if adv < 360.0 - 1.0 && best_d > 1.0 { return n - 1; }   // never got round
++    best
++}
++
+ // ── keyframe + blend helpers (moved verbatim from the wasm shell) ────────────
+ 
+ /// A smoothstep-interpolated keyframe track (t, value). Used for camera moves
+@@ -414,6 +451,22 @@
+     /// the landscape frame — and the phone-portrait and tablet frames as other
+     /// centred crops of the same pixels. One camera path, one bake, every screen.
+     pub frame_widen: f64,
++    /// THE LOOP OF THE PLANETARIUM PASS. Index of the last sample that pass
++    /// runs to. The track is one LUNAR day (25.05 h at Pai), chosen so the
++    /// Moon comes back to where it rose; but the stars come back after one
++    /// SIDEREAL day (23.93 h), and a pass that runs the whole track wraps with
++    /// its star field 16.7° further on than it started — a visible jump at
++    /// every loop, 182 px at the 4K centre. Running it to the sample at which
++    /// local sidereal time has advanced exactly 360° closes the loop on the
++    /// stars (residual −0.02° = 0.2 px on the Pai track). The Moon, which has
++    /// moved on ~13° against the stars in that time, still jumps at the wrap
++    /// (14.3° here); that is the one seam left, and it is the honest one.
++    /// The hour of sky given up (10:00–11:03 the next morning) repeats the
++    /// start of the track in everything but the Moon, so the search loses
++    /// nothing: every shape still frames 3,285 objects with none sent below
++    /// the horizon. Falls back to the whole track if it is shorter than a
++    /// sidereal day.
++    night_last: usize,
+     /// Paint the Milky Way band, dust rift and deep-sky glows — in the NIGHT
+     /// VIEW only. The film renders a twilight frame twice, sunlit and as the
+     /// night view, and cross-dissolves them; painted into the sunlit render the
+@@ -465,6 +518,7 @@
+         // sunset/sunrise fractions — the samples ARE the sky.
+         let sun_alt: Vec<f64> = (0..n).map(|i| frames[i * cols + COL_SUN_ALT]).collect();
+         let warp = Warp::from_sun_alts(&sun_alt);
++        let night_last = sidereal_last(&(0..n).map(|i| frames[i * cols + COL_LST]).collect::<Vec<_>>());
+ 
+         Ok(FilmTrack {
+             base: SkyScene {
+@@ -492,6 +546,7 @@
+             hero_secs: meta_num(meta_json, "hero_secs"),
+             anim_secs: meta_num(meta_json, "anim_secs"),
+             warp,
++            night_last,
+             night_only: false,
+             frame_widen: 1.0,
+             milky_way: false,
+@@ -532,6 +587,26 @@
+         self.intro_cache = None;    // the intro act no longer exists
+     }
+ 
++    /// How far local sidereal time at this cut's last frame is from its first,
++    /// modulo a full turn — the star-field jump at the loop, in degrees.
++    pub fn loop_lst_residual_deg(&self) -> f64 {
++        let last = if self.night_only { self.night_last } else { self.n.saturating_sub(1) };
++        let d = (self.lst(last) - self.lst(0)).rem_euclid(360.0);
++        if d > 180.0 { d - 360.0 } else { d }
++    }
++    /// Does this cut's last frame run on into its first? True for the
++    /// planetarium pass when the track holds a sidereal day and the camera
++    /// path closes (a whole number of altitude cycles, a whole number of
++    /// azimuth turns). Never for the cinematic cut: it ends the next morning
++    /// and restarts at the birth hour.
++    pub fn loop_closed(&self) -> bool {
++        if !self.night_only { return false; }
++        let sw = night_sweep();
++        self.loop_lst_residual_deg().abs() < 0.3
++            && (sw.alt_cycles - sw.alt_cycles.round()).abs() < 1e-9
++            && (sw.pan_deg.rem_euclid(360.0)).min(360.0 - sw.pan_deg.rem_euclid(360.0)) < 1e-9
++    }
++
+     /// Sun altitude of one sample, straight from the track row.
+     pub fn sun_alt(&self, si: usize) -> f64 { self.frames[si * self.cols + COL_SUN_ALT] }
+     /// Local sidereal time of one sample — what places the compiled star catalogue.
+@@ -623,7 +698,8 @@
+             // circle at a constant rate with it, which is what gives every right
+             // ascension an equal share of the screen.
+             let a = (t / self.anim_secs.max(1e-9)).clamp(0.0, 1.0);
+-            let si = ((a * last as f64).round() as usize).min(last);
++            // Over ONE SIDEREAL DAY of the track, not all of it — see `night_last`.
++            let si = ((a * self.night_last as f64).round() as usize).min(last);
+             let sw = night_sweep();
+             return Shot {
+                 phase: Phase::Anim, sample: si,

@@ -1,0 +1,24 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/order_birthday_film.sh	2026-10-18 16:20:37.000000000 +0000
++++ order_birthday_film.sh	2026-10-19 00:15:00.449240152 +0000
+@@ -72,7 +72,20 @@
+ [ -x target/release/examples/sky_track_bake ] || cargo build --release -q -p morpheus --example sky_track_bake || exit 1
+ 
+ # ── the track, the two cuts, the tables, the bundle ─────────────────────────
+-target/release/examples/sky_track_bake "$out/track.json" "$date" "$lat" "$lon" "$offh" 720 5.5 "$hour" 40 \
++# 4320 samples, not 720. A frame shows one real sample and never an
++# interpolation (birthday.rs, HONESTY CONTRACT), so the sky can only move when
++# the track has a new sample to show. At 720 samples (one per 2.09 min) the
++# clock dwells on twilight so long that the same sample was held for 6 frames
++# at a stretch (measured off the shipped film.json: 59% of the animation's
++# frame-to-frame transitions showed no sky motion at all, and the planetarium
++# pass held each sample 2–3 frames). The sky stepped 0.52° — 5.7 px at the 4K
++# centre, one full Sun diameter at sunset — every fifth or sixth frame inside
++# a camera move that was smooth. 4320 samples (one per 21 s) give the film one
++# sample per frame everywhere but two transitions, and the night pass a fresh
++# sample every frame. Predicted with the director ported to test_tools/predict.py,
++# which reproduces the shipped sidecars frame for frame. The sidecars do not
++# grow (they are per frame); the track file does, ~6×.
++target/release/examples/sky_track_bake "$out/track.json" "$date" "$lat" "$lon" "$offh" 4320 5.5 "$hour" 40 \
+   || { echo "track bake failed" >&2; exit 1; }
+ export BIRTHDAY_MASTER=square BIRTHDAY_CODEC="${BIRTHDAY_CODEC:-hevc10,h264}"
+ nice -n 19 bash "$here/bake_all.sh" "$out/track.json" "$out/film" "$size" 30 0 || exit 1

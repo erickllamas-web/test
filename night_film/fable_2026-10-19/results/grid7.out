@@ -1,0 +1,23 @@
+== (1) frames the same sky sample is held, by track density (film animation act / night pass)
+    720 samples ( 2.09 min apart): film max hold 7 frames, frozen transitions 711/1199 (59%) | night max hold 3, frozen 1080/1799 (60%)
+   1439 samples ( 1.05 min apart): film max hold 4 frames, frozen transitions 379/1199 (32%) | night max hold 2, frozen 362/1799 (20%)
+   2158 samples ( 0.70 min apart): film max hold 3 frames, frozen transitions 216/1199 (18%) | night max hold 1, frozen 0/1799 (0%)
+   4315 samples ( 0.35 min apart): film max hold 2 frames, frozen transitions 2/1199 (0%) | night max hold 1, frozen 0/1799 (0%)
+
+== (2) LST advances 376.748° over the track; 360° is reached at sample 687 (residual -0.020° = 0.2 px at 4K centre); the track's last sample is 16.75° = 182 px past it
+   at the loop the Moon would jump 14.3° (it moves ~13°/day against the stars); today it jumps 1.2° and the stars jump 16.7°
+== wider grid, sidereal-day span, integer cycles (camera velocity continuous at the loop)
+  pan1440 base0 amp60 cyc7.0         | freelook worst  29.5° median  6.0° | 169: framed 3285 below 0s+0c over2x 7 | 916: framed 3285 below 0s+0c over2x 16 | 43: framed 3285 below 0s+0c over2x 7 | 34: framed 3285 below 0s+0c over2x 9
+  pan1440 base10 amp60 cyc7.0        | freelook worst  39.4° median  6.1° | 169: framed 3285 below 0s+0c over2x 10 | 916: framed 3285 below 0s+0c over2x 11 | 43: framed 3285 below 0s+0c over2x 6 | 34: framed 3285 below 0s+0c over2x 7
+  pan1440 base0 amp65 cyc7.0         | freelook worst  24.5° median  5.7° | 169: framed 3285 below 0s+0c over2x 8 | 916: framed 3285 below 0s+0c over2x 19 | 43: framed 3285 below 0s+0c over2x 9 | 34: framed 3285 below 0s+0c over2x 10
+  pan1440 base10 amp65 cyc7.0        | freelook worst  34.4° median  5.8° | 169: framed 3285 below 0s+0c over2x 9 | 916: framed 3285 below 0s+0c over2x 8 | 43: framed 3285 below 0s+0c over2x 6 | 34: framed 3285 below 0s+0c over2x 9
+  pan1440 base0 amp70 cyc7.0         | freelook worst  23.0° median  5.5° | 169: framed 3285 below 0s+0c over2x 8 | 916: framed 3285 below 1s+0c over2x 21 | 43: framed 3285 below 0s+0c over2x 7 | 34: framed 3285 below 0s+0c over2x 11
+  pan1440 base10 amp70 cyc7.0        | freelook worst  29.4° median  5.7° | 169: framed 3285 below 0s+0c over2x 10 | 916: framed 3285 below 0s+0c over2x 10 | 43: framed 3285 below 0s+0c over2x 7 | 34: framed 3285 below 0s+0c over2x 9
+  pan1440 base0 amp60 cyc8.0         | freelook worst  50.0° median 19.0° | 169: framed 3285 below 0s+0c over2x 9 | 916: framed 3285 below 0s+0c over2x 30 | 43: framed 3285 below 0s+0c over2x 4 | 34: framed 3285 below 0s+0c over2x 8
+  pan1440 base10 amp60 cyc8.0        | freelook worst  54.5° median 19.1° | 169: framed 3285 below 0s+0c over2x 4 | 916: framed 3285 below 0s+0c over2x 48 | 43: framed 3285 below 0s+0c over2x 3 | 34: framed 3285 below 0s+0c over2x 18
+  pan1440 base0 amp65 cyc8.0         | freelook worst  49.4° median 18.2° | 169: framed 3285 below 0s+0c over2x 5 | 916: framed 3285 below 0s+0c over2x 34 | 43: framed 3285 below 0s+0c over2x 3 | 34: framed 3285 below 0s+0c over2x 10
+  pan1440 base10 amp65 cyc8.0        | freelook worst  53.5° median 18.4° | 169: framed 3285 below 0s+0c over2x 4 | 916: framed 3285 below 0s+0c over2x 48 | 43: framed 3285 below 0s+0c over2x 3 | 34: framed 3285 below 0s+0c over2x 25
+  pan1440 base0 amp70 cyc8.0         | freelook worst  48.9° median 17.4° | 169: framed 3285 below 0s+0c over2x 5 | 916: framed 3285 below 0s+0c over2x 38 | 43: framed 3285 below 0s+0c over2x 3 | 34: framed 3285 below 0s+0c over2x 11
+  pan1440 base10 amp70 cyc8.0        | freelook worst  52.6° median 17.8° | 169: framed 3285 below 0s+0c over2x 4 | 916: framed 3285 below 0s+0c over2x 50 | 43: framed 3285 below 0s+0c over2x 3 | 34: framed 3285 below 0s+0c over2x 27
+  pan1080 base0 amp65 cyc7.0         | freelook worst  24.5° median  6.0° | 169: framed 3285 below 2s+0c over2x 14 | 916: framed 3285 below 2s+0c over2x 26 | 43: framed 3285 below 2s+0c over2x 12 | 34: framed 3285 below 2s+0c over2x 14
+  pan1800 base0 amp65 cyc7.0         | freelook worst  24.4° median  5.4° | 169: framed 3285 below 0s+0c over2x 20 | 916: framed 3285 below 0s+0c over2x 53 | 43: framed 3285 below 0s+0c over2x 7 | 34: framed 3285 below 0s+0c over2x 22

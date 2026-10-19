@@ -1,0 +1,35 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/examples/bake_birthday.rs	2026-10-18 16:20:38.000000000 +0000
++++ examples/bake_birthday.rs	2026-10-19 00:15:00.448415758 +0000
+@@ -70,9 +70,17 @@
+     // SKY_NO_COMPASS=1: the E/W horizon marks are drawn by the player as
+     // lines instead, so they stay sharp at every screen size and zoom — burned
+     // into the frame they are a few pixels of video that any enlargement blurs.
++    // SKY_DITHER=1: the sky gradient leaves the renderer through an 8-bit
++    // quantiser, and undithered it steps. Measured on the Pai 4K sunset frame
++    // (f608, 960² crop at 1:1): 43 blue levels in a 960 px column, bands a
++    // median 11 px and up to 79 px wide — a staircase the 10-bit encode then
++    // preserves faithfully. The renderer's own TPDF dither (sky.rs, default
++    // OFF so every still product stays byte-identical) trades that staircase
++    // for sub-LSB noise. Cost is unmeasured here: read it off the shard log's
++    // render ms on the next bake.
+     for (k, v) in [("SKY_MAG_HEADROOM", "60"), ("SKY_LUM_NORM", "1"),
+                    ("SKY_HALO_NEBULA", "1.8"), ("SKY_PLANET_GLOBES", "0"),
+-                   ("SKY_NO_COMPASS", "1")] {
++                   ("SKY_NO_COMPASS", "1"), ("SKY_DITHER", "1")] {
+         if std::env::var_os(k).is_none() {
+             // SAFETY: single-threaded, first thing in main, before any render
+             // call and therefore before any reader thread exists.
+@@ -353,6 +361,13 @@
+          \"night_share\":{night:.4},\"twilight_share\":{twi:.4},\"day_share\":{:.4},\n",
+         film.loop_secs(), film.intro_secs, film.hero_secs, film.anim_secs,
+         film.lat(), film.lon(), film.n, film.warp.share(Light::Day)));
++    // Whether this cut's last frame runs on into its first. The planetarium
++    // pass over one sidereal day does (`FilmTrack::night_last`); the cinematic
++    // cut, which ends the next morning and restarts at the birth hour, never
++    // does. The player reads this: a cut that is not closed is taken through
++    // a short dip to black at the loop point, a closed one is left alone.
++    s.push_str(&format!("\"loop_closed\":{},\"loop_lst_residual_deg\":{:.3},\n",
++                        film.loop_closed(), film.loop_lst_residual_deg()));
+ 
+     // The screen shapes cut from a square master. `scale` is crop height over
+     // master height: a centred crop is the SAME camera with its vertical
