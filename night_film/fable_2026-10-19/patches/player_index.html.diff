@@ -1,5 +1,5 @@
 --- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/player/index.orig.html	2026-10-19 00:08:10.736983745 +0000
-+++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/player/index.html	2026-10-19 00:16:29.918305377 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/player/index.html	2026-10-19 00:18:58.762066417 +0000
 @@ -66,6 +66,17 @@
    video.off { opacity:0; pointer-events:none; }
    #overlay { position:absolute; inset:0; width:100%; height:100%; z-index:2;
@@ -316,12 +316,23 @@
    requestAnimationFrame(tick);
  }
  
-@@ -1176,6 +1361,8 @@
+@@ -1154,7 +1339,6 @@
+   // The tables are optional: a film baked without them simply has no day card.
+   S.facts = await load('facts.json').catch(() => null);
+   if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }
+-  installOffline();
+   // A square master: pick this screen's shape, which also loads its search
+   // index and its two cuts. A plain bake: the one index and the plain files.
+   const k0 = pickShape();
+@@ -1176,6 +1360,11 @@
    // English constellation names, so "the hunting dogs" can find Canes Venatici.
    for (const e of seek) if (e.kind === 'con' && e.english) CON_EN[e.con] = e.english;
  
 +  armSeeks(vFilm); armSeeks(vNight);
 +  paintedOnce(vFilm);
++  // After the cuts are chosen, so the offline store waits on the film that
++  // is actually playing (see installOffline).
++  installOffline();
    fit(); tick();
    vFilm.play().catch(()=>{});
    const nfig = Object.keys(S.fig).length,

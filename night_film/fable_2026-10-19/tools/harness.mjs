@@ -9,7 +9,7 @@ const [VW, VH] = vp.split('x').map(Number);
 fs.rmSync(out, { recursive: true, force: true }); fs.mkdirSync(out, { recursive: true });
 // serve a copy of the site with the chosen index
 const srv = fs.mkdtempSync('/tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/srv-');
-for (const f of fs.readdirSync(site)) fs.copyFileSync(path.join(site, f), path.join(srv, f));
+for (const f of fs.readdirSync(site)) fs.symlinkSync(path.join(site, f), path.join(srv, f));
 fs.copyFileSync(indexFile, path.join(srv, 'index.html'));
 const port = 8100 + Math.floor(Math.random() * 800);
 const server = spawn('/opt/node22/bin/http-server', [srv, '-p', String(port), '-s', '-c-1'], { stdio: 'ignore' });

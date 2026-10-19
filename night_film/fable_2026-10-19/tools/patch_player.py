@@ -317,11 +317,18 @@ function tick(){
   requestAnimationFrame(tick);
 }""")
 
+rep("""  if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }
+  installOffline();""",
+"""  if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }""")
+
 # ── boot: arm the seek discipline and the veil ──────────────────────────────
 rep("""  fit(); tick();
   vFilm.play().catch(()=>{});""",
 """  armSeeks(vFilm); armSeeks(vNight);
   paintedOnce(vFilm);
+  // After the cuts are chosen, so the offline store waits on the film that
+  // is actually playing (see installOffline).
+  installOffline();
   fit(); tick();
   vFilm.play().catch(()=>{});""")
 

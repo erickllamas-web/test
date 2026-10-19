@@ -1339,7 +1339,6 @@ function tick(){
   // The tables are optional: a film baked without them simply has no day card.
   S.facts = await load('facts.json').catch(() => null);
   if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }
-  installOffline();
   // A square master: pick this screen's shape, which also loads its search
   // index and its two cuts. A plain bake: the one index and the plain files.
   const k0 = pickShape();
@@ -1363,6 +1362,9 @@ function tick(){
 
   armSeeks(vFilm); armSeeks(vNight);
   paintedOnce(vFilm);
+  // After the cuts are chosen, so the offline store waits on the film that
+  // is actually playing (see installOffline).
+  installOffline();
   fit(); tick();
   vFilm.play().catch(()=>{});
   const nfig = Object.keys(S.fig).length,
