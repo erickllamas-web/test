@@ -1,0 +1,49 @@
+
+### start: 17 samples over 3370 ms | lum min 0.0 median 0.0 max 50.4 | black samples 14 | biggest visual jump 33.9 at 2544 ms
+     50 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    186 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    248 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    324 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    362 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    483 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    543 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    602 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    726 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    782 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    842 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    906 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    961 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+   1021 ms  lum   0.0  shape None  veil 1  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+   1092 ms  lum   4.1  shape 169  veil 0.93  [  0.05s film_169. op0.0590225 rs4]  [  0.00s  op0 rs0]
+   2544 ms  lum  38.0  shape 169  veil 0.55  [  1.21s film_169. op1 rs3]  [  0.00s  op0 rs0]
+   3370 ms  lum  50.4  shape 169  veil 0  [  1.82s film_169. op1 rs3]  [  0.00s  op0 rs0]
+
+### sun: 4 samples over 1302 ms | lum min 49.8 median 49.8 max 49.8 | black samples 0 | biggest visual jump 0.0 at None ms
+      2 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs2]  [ 21.43s night_169 op0 rs1]
+    411 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs1]
+    696 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs1]
+   1302 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs1]
+
+### sunback: 6 samples over 1362 ms | lum min 49.8 median 49.8 max 49.8 | black samples 0 | biggest visual jump 0.0 at None ms
+     17 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs1]  [ 21.43s night_169 op0 rs3]
+    286 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs1]  [ 21.43s night_169 op0 rs4]
+    525 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs4]
+    886 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs4]
+   1084 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs4]
+   1362 ms  lum  49.8  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs4]
+
+### fly: 10 samples over 1849 ms | lum min 31.1 median 31.6 max 31.7 | black samples 0 | biggest visual jump 17.7 at 287 ms
+      3 ms  lum  31.4  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0 rs4]
+    287 ms  lum  31.1  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0.505881 rs1]
+    487 ms  lum  31.1  shape 169  veil 0  [ 22.03s film_169. op1 rs4]  [ 21.43s night_169 op0.957151 rs1]
+    762 ms  lum  31.7  shape 169  veil 0  [ 22.03s film_169. op0.571552 rs4]  [ 21.43s night_169 op1 rs1]
+    924 ms  lum  31.7  shape 169  veil 0  [ 22.03s film_169. op0.0751806 rs4]  [ 21.43s night_169 op1 rs1]
+   1176 ms  lum  31.7  shape 169  veil 0  [ 22.03s film_169. op0 rs4]  [ 21.43s night_169 op1 rs1]
+   1326 ms  lum  31.7  shape 169  veil 0  [ 22.03s film_169. op0 rs4]  [ 21.43s night_169 op1 rs1]
+   1486 ms  lum  31.5  shape 169  veil 0  [ 22.03s film_169. op0 rs4]  [ 21.43s night_169 op1 rs1]
+   1683 ms  lum  31.6  shape 169  veil 0  [ 22.03s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+   1849 ms  lum  31.6  shape 169  veil 0  [ 22.03s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+
+## {"tag": "sun-summary", "before": 21.814, "afterNight": 21.433, "sunOff": true}
+
+## {"tag": "fly-summary", "target": {"t": 37.254, "name": "Vega"}, "arrivedT": 37.254, "counters": {"film": {"seeking": 0, "seeked": 0, "frames": 0, "stalled": 0, "waiting": 0}, "night": {"seeking": 6, "seeked": 4, "frames": 2, "stalled": 0, "waiting": 0}}}

@@ -147,7 +147,22 @@ in the next section):
 
 ### 4K, under load
 
-(filled in below from `results/4k_*.txt`)
+Same harness, 667×375 landscape viewport, 4K stand-in cuts (3840×2160, VP9 at 46 Mbit/s
+with a moving marker and noise, decoded in software on 4 cores, so decode is slower than
+a phone's hardware HEVC) behind a network shaped to 2.6× the file bitrate, the ratio of a
+9 Mbit/s master on a 25 Mbit/s line. Screenshots at 4K are slow, so the timelines are
+coarse (one sample per 300–600 ms); the counters are exact. `results/4k_before.txt`,
+`results/4k_after2.txt`.
+
+| seam | before | after |
+|---|---|---|
+| start | black → poster flashes at 0.49 s → **black again** (the element goes dark once it has metadata and no frame) → frame 0 appears as a jump at 2.1 s | black held by the veil until the first frame is painted (0.67 s here), then a 0.6 s rise to full; no poster, no jump |
+| Sun switch | **a black sample right after the click** (luminance 2.9) while the destination still had no frame, then the dissolve | luminance flat at 49.8 through the whole switch; the old picture holds until the new cut has painted its frame, then fades in on top |
+| fly-to to Vega | **124 seeks issued, 4 landed, 2 frames presented** in 1.9 s | 6 seeks issued, 4 landed, 4 frames presented; arrives at the same 37.254 s |
+
+The drag scenario did not register in headless Chromium at 4K in either run (no pointer
+capture under load), so there is no 4K number for it; the tiny-cut run shows it going
+through the same one-seek-at-a-time path as fly-to.
 
 ## Costs, summarised
 

@@ -1,0 +1,44 @@
+
+### start: 10 samples over 3906 ms | lum min 0.9 median 49.8 max 50.5 | black samples 4 | biggest visual jump 49.4 at 2088 ms
+     52 ms  lum   0.9  shape None  veil None  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    192 ms  lum   0.9  shape None  veil None  [  0.00s  op1 rs0]  [  0.00s  op0 rs0]
+    362 ms  lum   0.9  shape 169  veil None  [  0.00s film_169. op1 rs0]  [  0.00s night_169 op0 rs0]
+    485 ms  lum  49.1  shape 169  veil None  [  0.00s film_169. op1 rs0]  [  0.00s night_169 op0 rs0]
+    609 ms  lum   1.0  shape 169  veil None  [  0.00s film_169. op1 rs1]  [  0.00s night_169 op0 rs1]
+   2088 ms  lum  50.4  shape 169  veil None  [  0.19s film_169. op1 rs2]  [  0.00s night_169 op0 rs3]
+   3066 ms  lum  50.5  shape 169  veil None  [  0.77s film_169. op1 rs3]  [  0.00s night_169 op0 rs4]
+   3365 ms  lum  50.5  shape 169  veil None  [  1.03s film_169. op1 rs2]  [  0.00s night_169 op0 rs4]
+   3662 ms  lum  50.4  shape 169  veil None  [  1.10s film_169. op1 rs3]  [  0.00s night_169 op0 rs4]
+   3906 ms  lum  50.4  shape 169  veil None  [  1.34s film_169. op1 rs3]  [  0.00s night_169 op0 rs4]
+
+### sun: 4 samples over 1072 ms | lum min 2.9 median 48.8 max 49.3 | black samples 1 | biggest visual jump 45.4 at 448 ms
+      3 ms  lum   2.9  shape 169  veil None  [ 21.95s film_169. op1 rs4]  [ 21.33s night_169 op0 rs1]
+    448 ms  lum  48.3  shape 169  veil None  [ 21.95s film_169. op0.119807 rs4]  [ 21.33s night_169 op0.880193 rs1]
+    682 ms  lum  49.3  shape 169  veil None  [ 21.95s film_169. op0 rs4]  [ 21.33s night_169 op1 rs1]
+   1072 ms  lum  49.3  shape 169  veil None  [ 21.95s film_169. op0 rs4]  [ 21.33s night_169 op1 rs1]
+
+### sunback: 5 samples over 1405 ms | lum min 41.2 median 49.8 max 49.9 | black samples 0 | biggest visual jump 41.7 at 362 ms
+     17 ms  lum  41.2  shape 169  veil None  [ 22.23s film_169. op0 rs1]  [ 21.53s night_169 op1 rs4]
+    362 ms  lum  47.6  shape 169  veil None  [ 22.23s film_169. op0.957108 rs1]  [ 21.53s night_169 op0.0428924 rs4]
+    647 ms  lum  49.8  shape 169  veil None  [ 22.29s film_169. op1 rs4]  [ 21.53s night_169 op0 rs4]
+   1004 ms  lum  49.8  shape 169  veil None  [ 22.41s film_169. op1 rs2]  [ 21.53s night_169 op0 rs4]
+   1405 ms  lum  49.9  shape 169  veil None  [ 22.58s film_169. op1 rs4]  [ 21.53s night_169 op0 rs4]
+
+### fly: 11 samples over 1891 ms | lum min 31.4 median 31.7 max 32.4 | black samples 0 | biggest visual jump 2.1 at 450 ms
+      5 ms  lum  32.4  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [  5.00s night_169 op1 rs4]
+    212 ms  lum  31.4  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [  5.53s night_169 op1 rs1]
+    324 ms  lum  32.1  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [  7.88s night_169 op1 rs1]
+    450 ms  lum  31.6  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 13.43s night_169 op1 rs1]
+    604 ms  lum  31.5  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 23.34s night_169 op1 rs1]
+    811 ms  lum  31.6  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 34.45s night_169 op1 rs1]
+   1004 ms  lum  31.9  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 37.13s night_169 op1 rs1]
+   1162 ms  lum  31.7  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+   1404 ms  lum  31.7  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+   1642 ms  lum  31.7  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+   1891 ms  lum  31.7  shape 169  veil None  [ 23.17s film_169. op0 rs4]  [ 37.25s night_169 op1 rs1]
+
+## {"tag": "sun-summary", "before": 21.837, "afterNight": 21.485, "sunOff": true}
+
+## {"tag": "fly-summary", "target": {"t": 37.254, "name": "Vega"}, "arrivedT": 37.254, "counters": {"film": {"seeking": 0, "seeked": 0, "frames": 0, "stalled": 0, "waiting": 0}, "night": {"seeking": 124, "seeked": 4, "frames": 2, "stalled": 0, "waiting": 0}}}
+
+## {"tag": "drag-summary", "dragMs": 1535, "counters": {"film": {"seeking": 0, "seeked": 0, "frames": 0, "stalled": 0, "waiting": 0}, "night": {"seeking": 0, "seeked": 0, "frames": 0, "stalled": 0, "waiting": 0}}, "nightT": 10, "look": false}

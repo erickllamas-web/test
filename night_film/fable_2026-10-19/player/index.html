@@ -362,13 +362,20 @@ function armSeeks(v){
     if (v._pend != null){ const t = v._pend; v._pend = null; v.currentTime = t; }
   });
 }
-// Resolves once `v` has landed on `t` with a decodable frame, or after `ms`.
+// Resolves once `v` has landed on `t` and PAINTED that frame (a decoded frame
+// is not yet a composited one under 4K load — the seam harness caught the
+// destination at partial opacity with a stale picture behind it), or after `ms`.
 function seekAndWait(v, t, ms){
   return new Promise(res => {
     let done = false;
     const fin = () => { if (done) return; done = true; clearTimeout(h);
       v.removeEventListener('seeked', onS); res(); };
-    const onS = () => { if (v.readyState >= 2) fin(); else v.addEventListener('canplay', fin, { once:true }); };
+    const painted = () => {
+      if (!v.requestVideoFrameCallback) return fin();
+      const g = setTimeout(fin, 400);              // a frame that never comes must not hold the switch
+      v.requestVideoFrameCallback(() => { clearTimeout(g); fin(); });
+    };
+    const onS = () => { if (v.readyState >= 2) painted(); else v.addEventListener('canplay', painted, { once:true }); };
     const h = setTimeout(fin, ms);
     v.addEventListener('seeked', onS);
     v._pend = null;

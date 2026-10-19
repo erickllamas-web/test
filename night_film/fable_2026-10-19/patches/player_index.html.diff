@@ -1,5 +1,5 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/player/index.orig.html	2026-10-19 00:08:10.736983745 +0000
-+++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/player/index.html	2026-10-19 00:18:58.762066417 +0000
+--- player/index.orig.html	2026-10-19 00:08:10.736983745 +0000
++++ player/index.html	2026-10-19 00:23:36.144624351 +0000
 @@ -66,6 +66,17 @@
    video.off { opacity:0; pointer-events:none; }
    #overlay { position:absolute; inset:0; width:100%; height:100%; z-index:2;
@@ -48,7 +48,7 @@
    // Video-pixel geometry, recomputed on resize. Wn×Hn is the RENDER size read
    // from the sidecar, never hardcoded; s is the cover scale.
    Wn: 1280, Hn: 720, s: 1,
-@@ -326,6 +344,38 @@
+@@ -326,6 +344,45 @@
    return [az, alt*R2D];
  }
  
@@ -70,13 +70,20 @@
 +    if (v._pend != null){ const t = v._pend; v._pend = null; v.currentTime = t; }
 +  });
 +}
-+// Resolves once `v` has landed on `t` with a decodable frame, or after `ms`.
++// Resolves once `v` has landed on `t` and PAINTED that frame (a decoded frame
++// is not yet a composited one under 4K load — the seam harness caught the
++// destination at partial opacity with a stale picture behind it), or after `ms`.
 +function seekAndWait(v, t, ms){
 +  return new Promise(res => {
 +    let done = false;
 +    const fin = () => { if (done) return; done = true; clearTimeout(h);
 +      v.removeEventListener('seeked', onS); res(); };
-+    const onS = () => { if (v.readyState >= 2) fin(); else v.addEventListener('canplay', fin, { once:true }); };
++    const painted = () => {
++      if (!v.requestVideoFrameCallback) return fin();
++      const g = setTimeout(fin, 400);              // a frame that never comes must not hold the switch
++      v.requestVideoFrameCallback(() => { clearTimeout(g); fin(); });
++    };
++    const onS = () => { if (v.readyState >= 2) painted(); else v.addEventListener('canplay', painted, { once:true }); };
 +    const h = setTimeout(fin, ms);
 +    v.addEventListener('seeked', onS);
 +    v._pend = null;
@@ -87,7 +94,7 @@
  // ── frame lookup ─────────────────────────────────────────────────────────────
  function frameIdx(f, t){ return Math.max(0, Math.min(f.frames-1, Math.round(t*f.fps))); }
  
-@@ -354,11 +404,31 @@
+@@ -354,11 +411,31 @@
    const from = side(), fromV = vid(), sample = from.sample[frameIdx(from, fromV.currentTime)];
    S.sunOff = off;
    const to = side(), toV = vid();
@@ -123,7 +130,7 @@
    // Sun on, the glyph is a lit sun; sun off, it is the moon. The picture behind
    // it explains the rest better than a caption ever did.
    const sw = $('sun');
-@@ -455,7 +525,7 @@
+@@ -455,7 +532,7 @@
    (function step(now){
      const u = Math.min(1, (now - t0) / ms);
      const e = u < 0.5 ? 4*u*u*u : 1 - Math.pow(-2*u + 2, 3)/2;   // ease in-out
@@ -132,7 +139,7 @@
      draw();
      if (u < 1) flyTo._h = requestAnimationFrame(step);
      else { if (wasPlaying) v.play().catch(()=>{}); done && done(); }
-@@ -570,7 +640,7 @@
+@@ -570,7 +647,7 @@
    const v = vid();
    if (!v.paused) park();
    const t = k / S.night.fps;
@@ -141,7 +148,7 @@
    draw();
  }
  
-@@ -776,6 +846,9 @@
+@@ -776,6 +853,9 @@
    octx.setTransform(k, 0, 0, k, 0, 0);
    octx.clearRect(0, 0, S.Wn, S.Hn);
    if (!S.sky){ lockStage(null); return; }
@@ -151,7 +158,7 @@
  
    const c = camNow(), cb = cameraBasis(c.az, c.alt, c.fov);
    const at = (ra, dec, loose) => {
-@@ -1069,20 +1142,81 @@
+@@ -1069,20 +1149,81 @@
    return list.includes('h264') ? 'h264' : list[0];
  }
  
@@ -245,7 +252,7 @@
  }
  
  // The installed app: register the worker, then have it store — whole, once — the
-@@ -1091,7 +1225,18 @@
+@@ -1091,7 +1232,18 @@
  // else is downloaded; a phone never stores the tablet cuts.
  function installOffline(){
    if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
@@ -265,7 +272,7 @@
      const sh = S.film && S.film.shapes;
      let files;
      if (sh){
-@@ -1134,10 +1279,50 @@
+@@ -1134,10 +1286,50 @@
    if (ev.key.toLowerCase() === 'f') document.documentElement.requestFullscreen?.();
  });
  
@@ -316,7 +323,7 @@
    requestAnimationFrame(tick);
  }
  
-@@ -1154,7 +1339,6 @@
+@@ -1154,7 +1346,6 @@
    // The tables are optional: a film baked without them simply has no day card.
    S.facts = await load('facts.json').catch(() => null);
    if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }
@@ -324,7 +331,7 @@
    // A square master: pick this screen's shape, which also loads its search
    // index and its two cuts. A plain bake: the one index and the plain files.
    const k0 = pickShape();
-@@ -1176,6 +1360,11 @@
+@@ -1176,6 +1367,11 @@
    // English constellation names, so "the hunting dogs" can find Canes Venatici.
    for (const e of seek) if (e.kind === 'con' && e.english) CON_EN[e.con] = e.english;
  
