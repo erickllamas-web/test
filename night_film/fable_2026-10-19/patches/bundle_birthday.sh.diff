@@ -1,0 +1,52 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/bundle_birthday.sh	2026-10-18 16:20:37.000000000 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/bundle_birthday.sh	2026-10-19 00:52:36.422605139 +0000
+@@ -52,6 +52,9 @@
+ when="${5:?need the date line, e.g. \"4 SEPTEMBER 2026 · 10:00\"}"
+ lat="${6:?need the latitude the film was rendered for}"
+ lon="${7:?need the longitude the film was rendered for}"
++# Optional: a dedication, set into the caption under the place and date
++# ("For Jane, who was born under this sky"). Empty means no third line.
++dedication="${8:-}"
+ title="$place — $when"
+ 
+ [ -r "$player" ] || { echo "no player at $player" >&2; exit 1; }
+@@ -270,6 +273,7 @@
+ sed -e "s|<title>[^<]*</title>|<title>$title</title>|" \
+     -e "s|\(id=\"capPlace\"[^>]*>\)[^<]*|\1$place|" \
+     -e "s|\(id=\"capDate\"[^>]*>\)[^<]*|\1$when|" \
++    -e "s|\(id=\"capDed\"[^>]*>\)[^<]*|\1$dedication|" \
+     "$player" > "$out/site/index.html"
+ 
+ # Both halves of the caption must have landed in their own node...
+@@ -277,13 +281,15 @@
+   echo "caption stamp failed — '$place' did not land in #capPlace" >&2; exit 1; }
+ grep -q -F "id=\"capDate\">$when<" "$out/site/index.html" || {
+   echo "caption stamp failed — '$when' did not land in #capDate" >&2; exit 1; }
++[ -z "$dedication" ] || grep -q -F "id=\"capDed\">$dedication<" "$out/site/index.html" || {
++  echo "caption stamp failed — the dedication did not land in #capDed" >&2; exit 1; }
+ 
+ # ...and NOWHERE ELSE in the body. This is the check that would have caught the
+ # stamp bleeding into the info card. The title legitimately carries both strings
+ # (it is built from them), so it is excluded by matching on the div markup: the
+ # place and date may appear inside a <div ...> exactly once each, in their own
+ # caption node and in no other element.
+-for pat in "$place" "$when"; do
++for pat in "$place" "$when" ${dedication:+"$dedication"}; do
+   n=$(grep -o "<div[^>]*>[^<]*" "$out/site/index.html" | grep -c -F "$pat")
+   [ "$n" = 1 ] || {
+     echo "caption stamp hit $n <div> nodes with '$pat', expected exactly 1" >&2
+@@ -363,6 +369,14 @@
+   cp "$film/facts.json" "$out/site/facts.json"
+ fi
+ cp "$film/figures.json" "$out/site/figures.json"
++# The track's bodies and clock (bake_birthday.rs write_bodies). Optional: an
++# older bake without it loses the tap on the Moon and planets, the local
++# clock and the card's birth-instant line, and nothing else.
++if [ -r "$film/bodies.json" ]; then
++  node -e 'JSON.parse(require("fs").readFileSync(process.argv[1]))' "$film/bodies.json" 2>/dev/null \
++    || { echo "bodies.json is not valid JSON" >&2; exit 1; }
++  cp "$film/bodies.json" "$out/site/bodies.json"
++fi
+ cp "$night/film.json"   "$out/site/night.json"
+ if [ -n "$keys" ]; then
+   # One cut of each film per screen shape, one search index per shape (from the

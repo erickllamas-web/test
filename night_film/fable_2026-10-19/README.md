@@ -177,6 +177,56 @@ The drag scenario did not register in headless Chromium at 4K in either run (no 
 capture under load), so there is no 4K number for it; the tiny-cut run shows it going
 through the same one-seek-at-a-time path as fly-to.
 
+## The usability pass (second round, same day)
+
+Eight things, all in the player plus one new sidecar. Checked by `tools/ux_check.mjs`
+in headless Chromium on a 375×667 phone with the real Pai sidecars; what each card
+said is in `results/ux/ux.json`, screenshots next to it.
+
+1. **Tapping names the Moon, the Sun and the planets**, not only stars. Needs
+   `bodies.json`, written by the baker (`write_bodies` in `bake_birthday.rs`): per-sample
+   Sun, Moon and planet positions straight from the track, plus the track's clock. 187 KB
+   at 720 samples. `tools/make_bodies.py` builds the same file from a track for testing.
+   A tap on Jupiter now says "Jupiter · Planet", on the Moon "43% lit and waning at this
+   moment".
+2. **The card speaks first, numbers after.** Sirius now reads: "The brightest star of
+   the night sky. A white star, hotter than the Sun. It shines with the light of 23
+   Suns. · 8.6 light-years away: the light you see tonight left it in 2017. · That day it
+   rose at 02:43 in the east-south-east, stood highest at 08:20, 54° up, set at 13:57 in
+   the west-south-west." Each sentence reads one held field and is omitted when the
+   field is absent. The only new arithmetic: rank by catalogue magnitude, the year the
+   light left (date minus distance), the rising and setting compass point from
+   declination and latitude (acos(sin δ / cos φ)), and spectral class to a colour word.
+   No size, mass or age is ever stated. Altitude, azimuth, magnitude and the HIP number
+   live under "Details".
+3. **The birth instant**, in gold on every card: "At 10:00, the hour this sky is made
+   for, Sirius stood 46° up in the south-west, hidden in daylight." Projected from the
+   catalogue position at sample 0, the same way a tap is resolved. The wording "the hour
+   this sky is made for" is a placeholder for your copy (§6 of the brief).
+4. **A real clock.** The transport shows the sky's local time ("20:58") and under it
+   how the sky is lit and the date ("night · 4 September", "daylight · 5 September"),
+   from the sample on screen and the track's clock in `bodies.json`. Film seconds are
+   gone.
+5. **"Show Canis Major, the Great Dog"** on every star card draws the Rey figure
+   without a trip to the search box.
+6. **A names layer** (the tag icon): the Moon and planets in gold, stars brighter than
+   magnitude 1.6 that the frame paints in white, colliding labels dropped, the choice
+   remembered on the device.
+7. **A first-open hint**, "Tap a star to name it · type a name to fly there · drag to
+   look around", shown once per device, gone at the first tap, drag or keystroke.
+8. **The dedication**: a third caption line, italic gold, stamped by the bundler from
+   an optional eighth argument and absent when empty. The bundler's uniqueness check
+   covers it like the place and date.
+
+Also: the day is one line on the panel at all times ("This day · sunrise 06:12 · sunset
+18:39 · Moon 52% ›"), opening the full table, which now carries the date and any active
+meteor showers. On a phone held upright the panel is a sheet at the bottom and the
+caption moves to the top.
+
+Checks: all eight pass (`results/ux/ux.json`, no page errors); the seam harness still
+passes on the combined player (`results/after.txt`); the bundler's strip, parse and leak
+checks pass (54.9 KB stripped). The sidecar itself is unbuilt Rust, like the rest.
+
 ## Costs, summarised
 
 | patch | render | encode | other |
@@ -184,7 +234,8 @@ through the same one-seek-at-a-time path as fly-to.
 | track density | 0 | 0 | track bake 6× samples; +1.4 MB on disk, nothing shipped grows |
 | dither | unmeasured, expected small; read off the next shard log | 0 | none |
 | night loop | 0 (the pass is re-rendered regardless) | 0 | none |
-| player | 0 | 0 | +10 KB of page before strip (+0.4 KB after); two decoders for the length of a rotate, three briefly if the Sun is switched mid-rotate |
+| player | 0 | 0 | +25 KB of page before strip (+15 KB after); two decoders for the length of a rotate, three briefly if the Sun is switched mid-rotate |
+| bodies.json | 0 | 0 | 187 KB shipped at 720 samples, ~1.1 MB at 4320 (read once at boot; could be thinned to every 4th sample if that matters) |
 
 ## Open decisions (Erick's, not picked)
 
@@ -207,7 +258,7 @@ through the same one-seek-at-a-time path as fly-to.
 ## Files
 
 - `patches/` unified diffs: `birthday.rs.diff`, `bake_birthday.rs.diff`,
-  `order_birthday_film.sh.diff`, `player_index.html.diff`
+  `order_birthday_film.sh.diff`, `bundle_birthday.sh.diff`, `player_index.html.diff`
 - `player/index.html` the patched player, whole
 - `tools/director.py` the director port; `predict.py`, `grid7.py` the predictions;
   `harness.mjs` + `analyse.py` the seam measurement; `patch_player.py` applies the player

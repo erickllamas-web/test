@@ -1,5 +1,5 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/examples/bake_birthday.rs	2026-10-18 16:20:38.000000000 +0000
-+++ examples/bake_birthday.rs	2026-10-19 00:15:00.448415758 +0000
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/examples/bake_birthday.rs	2026-10-18 16:20:38.000000000 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/examples/bake_birthday.rs	2026-10-19 00:53:34.640119660 +0000
 @@ -70,9 +70,17 @@
      // SKY_NO_COMPASS=1: the E/W horizon marks are drawn by the player as
      // lines instead, so they stay sharp at every screen size and zoom — burned
@@ -33,3 +33,86 @@
  
      // The screen shapes cut from a square master. `scale` is crop height over
      // master height: a centred crop is the SAME camera with its vertical
+@@ -436,6 +451,7 @@
+ 
+     write_sky_table(outdir);
+     write_figures(outdir);
++    write_bodies(film, outdir);
+ 
+     // A one-line honest description of what this bake IS.
+     let acts = [(Phase::Intro, film.intro_secs), (Phase::Hero, film.hero_secs),
+@@ -446,6 +462,74 @@
+               night * 100.0, twi * 100.0);
+ }
+ 
++/// The Sun, the Moon and the planets at every sample of the track, plus the
++/// track's clock — `bodies.json`. Three things in the player read it:
++///
++///   · the tap, so the Moon and the planets can be named under a finger (they
++///     are not catalogue stars and were untappable before);
++///   · the clock, which shows the sky's local time instead of film seconds;
++///   · the card's line about where a thing stood at the birth instant.
++///
++/// HONESTY CONTRACT: every position is the daemon's own sample, copied, not
++/// computed. Columnar like `sky.json`. About 190 KB at 720 samples, ~1.1 MB at
++/// 4320; it is read once at boot.
++fn write_bodies(film: &FilmTrack, outdir: &str) {
++    let n = film.n;
++    let mut s = String::with_capacity(256 * 1024);
++    s.push_str(&format!(
++        "{{\"n\":{n},\"date\":\"{}\",\"utc_off_h\":{},\"t0_h\":{},\"span_h\":{:.6},\
++         \"lat\":{:.6},\"lon\":{:.6},\n",
++        esc(&film.date), film.utc_off_h, film.birth_local_h, film.cycle_h, film.lat(), film.lon()));
++    s.push_str("\"names\":[");
++    for (i, nm) in film.names.iter().enumerate() {
++        if i > 0 { s.push(','); }
++        s.push_str(&format!("\"{}\"", esc(nm)));
++    }
++    s.push_str("],\n");
++    // one column per field, over the samples (the scene is rebuilt per field;
++    // at 4320 samples that is a few tens of milliseconds, once per bake)
++    let scenes: Vec<_> = (0..n).map(|si| film.scene_at(si)).collect();
++    let col = |name: &str, f: &dyn Fn(usize) -> String| {
++        let mut c = format!("\"{name}\":[");
++        for si in 0..n {
++            if si > 0 { c.push(','); }
++            c.push_str(&f(si));
++        }
++        c.push_str("],\n");
++        c
++    };
++    s.push_str(&col("lst",        &|i| format!("{:.3}", scenes[i].lst_deg)));
++    s.push_str(&col("sun_az",     &|i| format!("{:.3}", scenes[i].sun.az)));
++    s.push_str(&col("sun_alt",    &|i| format!("{:.3}", scenes[i].sun.alt)));
++    s.push_str(&col("moon_az",    &|i| format!("{:.3}", scenes[i].moon.az)));
++    s.push_str(&col("moon_alt",   &|i| format!("{:.3}", scenes[i].moon.alt)));
++    s.push_str(&col("moon_ang",   &|i| format!("{:.4}", scenes[i].moon.ang_size_deg)));
++    s.push_str(&col("moon_illum", &|i| format!("{:.4}", scenes[i].moon.illum_fraction)));
++    s.push_str(&col("moon_wax",   &|i| if scenes[i].moon.waxing { "1".into() } else { "0".into() }));
++    for (key, pick) in [("pl_az", 0), ("pl_alt", 1), ("pl_mag", 2), ("pl_ang", 3)] {
++        s.push_str(&format!("\"{key}\":["));
++        for k in 0..film.names.len() {
++            if k > 0 { s.push(','); }
++            s.push('[');
++            for si in 0..n {
++                if si > 0 { s.push(','); }
++                let p = &scenes[si].planets[k];
++                s.push_str(&match pick { 0 => format!("{:.3}", p.az), 1 => format!("{:.3}", p.alt),
++                                         2 => format!("{:.2}", p.mag), _ => format!("{:.4}", p.ang_size_deg) });
++            }
++            s.push(']');
++        }
++        s.push_str("],\n");
++    }
++    s.truncate(s.trim_end().trim_end_matches(',').len());
++    s.push_str("}\n");
++    let path = format!("{outdir}/bodies.json");
++    match std::fs::write(&path, s.as_bytes()) {
++        Ok(()) => eprintln!("bodies {path}  {n} samples, {} bodies, {} KB", 2 + film.names.len(), s.len() / 1024),
++        Err(e) => eprintln!("write {path}: {e}"),
++    }
++}
++
+ /// The Rey stick figures, resolved to sky coordinates for the player.
+ ///
+ /// `rey_lines::segments()` already holds H.A. Rey's classical figures as pairs of

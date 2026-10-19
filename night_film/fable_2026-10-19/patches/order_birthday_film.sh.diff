@@ -1,5 +1,5 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/order_birthday_film.sh	2026-10-18 16:20:37.000000000 +0000
-+++ order_birthday_film.sh	2026-10-19 00:15:00.449240152 +0000
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/order_birthday_film.sh	2026-10-18 16:20:37.000000000 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/order_birthday_film.sh	2026-10-19 00:15:00.449240152 +0000
 @@ -72,7 +72,20 @@
  [ -x target/release/examples/sky_track_bake ] || cargo build --release -q -p morpheus --example sky_track_bake || exit 1
  
