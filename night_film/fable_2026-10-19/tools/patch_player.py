@@ -244,7 +244,18 @@ async function applyShape(k){
   await S.staging[first];
   S.staging[first] = null;
   if (S.pending !== token) return;
-  S.staging[second] = bring(second).then(() => { S.staging[second] = null; });
+  // The hidden cut waits until the one now on screen has buffered through
+  // (or 4 s): staging two 4K streams at once starves the one being watched.
+  // Measured under 4K software decode on a shaped line: with both staged
+  // together the running film stalled 2 s. A Sun switch meanwhile waits on
+  // `S.staging`, so nothing is lost but a little of the switch's latency.
+  const settled = new Promise(res => {
+    const v = vid();
+    if (v.readyState >= 4) return res();
+    v.addEventListener('canplaythrough', () => res(), { once:true });
+    setTimeout(res, 4000);
+  });
+  S.staging[second] = settled.then(() => bring(second)).then(() => { S.staging[second] = null; });
   // A plain swap of the hidden cut, or no swap at all: the geometry still
   // follows the shape (first boot lands here).
   if (S.shape !== k){ S.shape = k; S.crop = sh.scale; S.Wn = sh.w; S.Hn = sh.h; S.seek = await seekIdx; fit(); }

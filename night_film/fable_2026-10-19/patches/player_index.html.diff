@@ -1,5 +1,5 @@
 --- player/index.orig.html	2026-10-19 00:08:10.736983745 +0000
-+++ player/index.html	2026-10-19 00:23:36.144624351 +0000
++++ player/index.html	2026-10-19 00:27:10.115432073 +0000
 @@ -66,6 +66,17 @@
    video.off { opacity:0; pointer-events:none; }
    #overlay { position:absolute; inset:0; width:100%; height:100%; z-index:2;
@@ -158,7 +158,7 @@
  
    const c = camNow(), cb = cameraBasis(c.az, c.alt, c.fov);
    const at = (ra, dec, loose) => {
-@@ -1069,20 +1149,81 @@
+@@ -1069,20 +1149,92 @@
    return list.includes('h264') ? 'h264' : list[0];
  }
  
@@ -244,7 +244,18 @@
 +  await S.staging[first];
 +  S.staging[first] = null;
 +  if (S.pending !== token) return;
-+  S.staging[second] = bring(second).then(() => { S.staging[second] = null; });
++  // The hidden cut waits until the one now on screen has buffered through
++  // (or 4 s): staging two 4K streams at once starves the one being watched.
++  // Measured under 4K software decode on a shaped line: with both staged
++  // together the running film stalled 2 s. A Sun switch meanwhile waits on
++  // `S.staging`, so nothing is lost but a little of the switch's latency.
++  const settled = new Promise(res => {
++    const v = vid();
++    if (v.readyState >= 4) return res();
++    v.addEventListener('canplaythrough', () => res(), { once:true });
++    setTimeout(res, 4000);
++  });
++  S.staging[second] = settled.then(() => bring(second)).then(() => { S.staging[second] = null; });
 +  // A plain swap of the hidden cut, or no swap at all: the geometry still
 +  // follows the shape (first boot lands here).
 +  if (S.shape !== k){ S.shape = k; S.crop = sh.scale; S.Wn = sh.w; S.Hn = sh.h; S.seek = await seekIdx; fit(); }
@@ -252,7 +263,7 @@
  }
  
  // The installed app: register the worker, then have it store — whole, once — the
-@@ -1091,7 +1232,18 @@
+@@ -1091,7 +1243,18 @@
  // else is downloaded; a phone never stores the tablet cuts.
  function installOffline(){
    if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
@@ -272,7 +283,7 @@
      const sh = S.film && S.film.shapes;
      let files;
      if (sh){
-@@ -1134,10 +1286,50 @@
+@@ -1134,10 +1297,50 @@
    if (ev.key.toLowerCase() === 'f') document.documentElement.requestFullscreen?.();
  });
  
@@ -323,7 +334,7 @@
    requestAnimationFrame(tick);
  }
  
-@@ -1154,7 +1346,6 @@
+@@ -1154,7 +1357,6 @@
    // The tables are optional: a film baked without them simply has no day card.
    S.facts = await load('facts.json').catch(() => null);
    if (S.facts){ $('dayb').style.display = ''; $('dayb').onclick = showDay; }
@@ -331,7 +342,7 @@
    // A square master: pick this screen's shape, which also loads its search
    // index and its two cuts. A plain bake: the one index and the plain files.
    const k0 = pickShape();
-@@ -1176,6 +1367,11 @@
+@@ -1176,6 +1378,11 @@
    // English constellation names, so "the hunting dogs" can find Canes Venatici.
    for (const e of seek) if (e.kind === 'con' && e.english) CON_EN[e.con] = e.english;
  
