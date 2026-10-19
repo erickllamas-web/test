@@ -62,7 +62,7 @@ rep("""  @media (max-width:760px) {
     #body { max-height:56vh; overflow-y:auto; }
     #res { max-height:24vh; }
     #cap { top:14px; bottom:auto; }
-    #hint { top:30%; white-space:normal; max-width:78vw; }
+    #hint { top:22%; white-space:normal; max-width:86vw; }
   }
 </style>""")
 

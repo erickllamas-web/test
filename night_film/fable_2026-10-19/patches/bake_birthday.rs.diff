@@ -1,4 +1,4 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/examples/bake_birthday.rs	2026-10-18 16:20:38.000000000 +0000
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/examples/bake_birthday.rs	2026-10-18 16:20:38.000000000 +0000
 +++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/examples/bake_birthday.rs	2026-10-19 00:53:34.640119660 +0000
 @@ -70,9 +70,17 @@
      // SKY_NO_COMPASS=1: the E/W horizon marks are drawn by the player as

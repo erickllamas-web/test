@@ -227,6 +227,38 @@ Checks: all eight pass (`results/ux/ux.json`, no page errors); the seam harness 
 passes on the combined player (`results/after.txt`); the bundler's strip, parse and leak
 checks pass (54.9 KB stripped). The sidecar itself is unbuilt Rust, like the rest.
 
+## Three languages (third round)
+
+The player speaks English, Spanish and French. The language is `?lang=es` in the link,
+else `data-lang` stamped on `<html>` by the bundler (new optional ninth argument), else
+the device's language; English otherwise. Every word the customer reads comes from one
+table (`I18N` at the top of the script), so a sentence can never be half in one
+language. Catalogue names stay as the IAU spells them (Sirius, Cygnus); the Sun, the
+Moon, the planets and the everyday names of all 88 constellations are translated, and
+the search accepts them ("el cisne", "le cygne", "luna" all resolve).
+
+Grammar that is handled, not templated around: gender agreement in Spanish and French
+(stars and the Moon feminine, planets by name, so "oculta / oculto", "noyée / noyé",
+"s'est levée / levé"), the French elision and contraction before a compass point ("à
+l'est-sud-est", "au sud-ouest", "vers le nord"), Spanish dates with "de" ("4 de
+septiembre de 2026"), number spelling by locale (8.6 / 8,6; 370,765 / 370.765 /
+370 765), and the percent space (52% / 52 %). The west compass mark on the sky becomes
+an O (Oeste, Ouest), drawn like the other two letters.
+
+`tools/ux_check.mjs <site> <index> <out> 375x667 es` runs the same checks in a
+language; what every card said in each language is in `results/ux_es`, `results/ux_fr`,
+`results/ux_en` (`ux.json` plus screenshots). Sirius in Spanish: "La estrella más
+brillante del cielo nocturno. Una estrella blanca, más caliente que el Sol. Brilla con la
+luz de 23 soles. · A 8,6 años luz: la luz que ves esta noche salió de ella en 2017. · Ese
+día salió a las 02:43 por el estesureste, culminó a las 08:20, a 54° de altura, se puso a
+las 13:57 por el oestesuroeste. · A las 10:00, la hora para la que está hecho este cielo,
+Sirius estaba a 46° de altura por el suroeste, oculta por la luz del día."
+
+The caption's month comes from the order script, which now takes `FILM_LANG=es|fr`
+and `FILM_DEDICATION`, spells the month under that locale and refuses the order if the
+locale is not installed on the box (so a Spanish film can never ship with "4 SEPTEMBER").
+The order script change is unrun here, like the rest of the shell and Rust.
+
 ## Costs, summarised
 
 | patch | render | encode | other |
@@ -234,7 +266,7 @@ checks pass (54.9 KB stripped). The sidecar itself is unbuilt Rust, like the res
 | track density | 0 | 0 | track bake 6× samples; +1.4 MB on disk, nothing shipped grows |
 | dither | unmeasured, expected small; read off the next shard log | 0 | none |
 | night loop | 0 (the pass is re-rendered regardless) | 0 | none |
-| player | 0 | 0 | +25 KB of page before strip (+15 KB after); two decoders for the length of a rotate, three briefly if the Sun is switched mid-rotate |
+| player | 0 | 0 | +40 KB of page before strip (+34 KB after, mostly the three-language table); two decoders for the length of a rotate, three briefly if the Sun is switched mid-rotate |
 | bodies.json | 0 | 0 | 187 KB shipped at 720 samples, ~1.1 MB at 4320 (read once at boot; could be thinned to every 4th sample if that matters) |
 
 ## Open decisions (Erick's, not picked)

@@ -1,0 +1,165 @@
+{
+ "hintShown": true,
+ "hintText": "Tap a star to name it · type a name to fly there · drag to look around",
+ "dayLine": "This day · Sun 06:12–18:39 · Moon 52% ›",
+ "clockAt30": {
+  "clk": "20:58",
+  "now": "night · 4 September",
+  "sample": 315,
+  "sun": -32.687
+ },
+ "tap_Sirius": {
+  "at": {
+   "x": 191.405259731462,
+   "y": 333.1316155773083,
+   "t": 4.002,
+   "sample": 48,
+   "alt": 28.59973292521495
+  },
+  "card": {
+   "on": true,
+   "name": "Sirius",
+   "kind": "Star · Canis Major, the Great Dog",
+   "says": [
+    "The brightest star of the night sky. A white star, hotter than the Sun. It shines with the light of 23 Suns.",
+    "8.6 light-years away: the light you see tonight left it in 2017.",
+    "That day it rose at 02:43 in the east-south-east, stood highest at 08:20, 54° up, set at 13:57 in the west-south-west.",
+    "At 10:00, the hour this sky is made for, Sirius stood 46° up in the south-west, hidden in daylight."
+   ],
+   "btn": "Show Canis Major, the Great Dog",
+   "details": [
+    "altitude 28.6°",
+    "azimuth 237.4°",
+    "magnitude -1.44",
+    "distance 8.6 light-years",
+    "type A0m",
+    "luminosity 23 × the Sun",
+    "rises 02:43",
+    "highest 08:20 · 54° up",
+    "sets 13:57",
+    "HIP 32349"
+   ]
+  }
+ },
+ "figure_Sirius": "Canis Major",
+ "tap_Moon": {
+  "at": {
+   "x": 192.5961851579112,
+   "y": 266.52218877206394,
+   "t": 48.694,
+   "sample": 584,
+   "alt": 78.971
+  },
+  "card": {
+   "on": true,
+   "name": "Moon",
+   "kind": "The Moon",
+   "says": [
+    "43% lit and waning at this moment. 370,765 km away that day.",
+    "That day the Moon rose at 23:56, stood highest at 05:48, set at 12:41.",
+    "At 10:00, the hour this sky is made for, the Moon stood 34° up in the west-north-west."
+   ],
+   "details": [
+    "altitude 79.0°",
+    "azimuth 35.5°",
+    "apparent size 32.9′",
+    "illuminated 43%",
+    "distance 370,765 km",
+    "age 21.9 days",
+    "rises 23:56",
+    "highest 05:48",
+    "sets 12:41"
+   ]
+  }
+ },
+ "tap_Jupiter": {
+  "at": {
+   "x": 191.0992311957574,
+   "y": 296.9035641194012,
+   "t": 2.034,
+   "sample": 24,
+   "alt": 86.822
+  },
+  "card": {
+   "on": true,
+   "name": "Jupiter",
+   "kind": "Planet",
+   "says": [
+    "Shining at magnitude -1.8 at this moment, brighter than almost every star.",
+    "That day Jupiter rose at 04:10, stood highest at 10:40, 88° up, set at 17:06.",
+    "At 10:00, the hour this sky is made for, Jupiter stood 80° up in the east-south-east, hidden in daylight."
+   ],
+   "details": [
+    "altitude 86.8°",
+    "azimuth 223.3°",
+    "magnitude -1.80",
+    "apparent size 31.3″",
+    "rises 04:10",
+    "highest 10:40 · 88° up",
+    "sets 17:06"
+   ]
+  }
+ },
+ "tap_Vega": {
+  "at": {
+   "x": 173.4671630945731,
+   "y": 329.1832900096354,
+   "t": 37.254,
+   "sample": 447,
+   "alt": 18.302442184828497
+  },
+  "card": {
+   "on": true,
+   "name": "Vega",
+   "kind": "Star · Lyra, the Lyre",
+   "says": [
+    "The 5th brightest star of the night sky. A white star, hotter than the Sun. It shines with the light of 50 Suns.",
+    "25 light-years away: the light you see tonight left it in 2001.",
+    "That day it rose at 13:02 in the north-east, stood highest at 20:09, 71° up, set at 03:17 in the north-west.",
+    "At 10:00, the hour this sky is made for, Vega was below the horizon, 26° down in the north-north-east."
+   ],
+   "btn": "Show Lyra, the Lyre",
+   "details": [
+    "altitude 18.3°",
+    "azimuth 305.7°",
+    "magnitude 0.03",
+    "distance 25 light-years",
+    "type A0Vvar",
+    "luminosity 50 × the Sun",
+    "rises 13:02",
+    "highest 20:09 · 71° up",
+    "sets 03:17",
+    "HIP 91262"
+   ]
+  }
+ },
+ "figure_Vega": "Lyra",
+ "hintAfterTap": true,
+ "searchSwan": [
+  "Cygnus/con",
+  "Deneb/star",
+  "Sadr/star"
+ ],
+ "searchMoon": [
+  "Moon/moon"
+ ],
+ "conCard": {
+  "name": "Cygnus",
+  "kind": "Constellation",
+  "says": [
+   "The Swan. Drawn here as H. A. Rey drew it, over the real stars."
+  ],
+  "toast": "Cygnus — tap the sky to clear the figure",
+  "results0": "Cygnus"
+ },
+ "placeholder": "Orion, Sirius, the swan…",
+ "detailsOfLast": [
+  "altitude 38.2°",
+  "azimuth 308.1°"
+ ],
+ "namesOn": true,
+ "dayCard": "The day 4 September 2026 · local time · Asia/Bangkok sunrise06:12sunset18:39 daylight12 h 27 min fully dark19:53 – 04:58 moonrise23:56moonset12:41 moon lit52% · waning risessetsMercury06:4419:03Venus09:1820:44Mars02:0115:16Jupiter04:1017:06Saturn20:1808:32Uranus23:1112:20Neptune19:4307:50Pluto16:310",
+ "dedHiddenWhenEmpty": true,
+ "dedShown": true,
+ "errors": []
+}

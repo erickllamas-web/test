@@ -1,0 +1,165 @@
+{
+ "hintShown": true,
+ "hintText": "Toca una estrella para saber su nombre · escribe un nombre para volar hasta ella · arrastra para mirar alrededor",
+ "dayLine": "Este día · Sol 06:12–18:39 · Luna 52 % ›",
+ "clockAt30": {
+  "clk": "20:58",
+  "now": "noche · 4 de septiembre",
+  "sample": 315,
+  "sun": -32.687
+ },
+ "tap_Sirius": {
+  "at": {
+   "x": 191.405259731462,
+   "y": 333.1316155773083,
+   "t": 4.002,
+   "sample": 48,
+   "alt": 28.59973292521495
+  },
+  "card": {
+   "on": true,
+   "name": "Sirius",
+   "kind": "Estrella · Canis Major, el Can Mayor",
+   "says": [
+    "La estrella más brillante del cielo nocturno. Una estrella blanca, más caliente que el Sol. Brilla con la luz de 23 soles.",
+    "A 8,6 años luz: la luz que ves esta noche salió de ella en 2017.",
+    "Ese día salió a las 02:43 por el estesureste, culminó a las 08:20, a 54° de altura, se puso a las 13:57 por el oestesuroeste.",
+    "A las 10:00, la hora para la que está hecho este cielo, Sirius estaba a 46° de altura por el suroeste, oculta por la luz del día."
+   ],
+   "btn": "Ver Canis Major, el Can Mayor",
+   "details": [
+    "altura 28,6°",
+    "acimut 237,4°",
+    "magnitud -1,44",
+    "distancia 8,6 años luz",
+    "tipo A0m",
+    "luminosidad 23 × el Sol",
+    "sale 02:43",
+    "culmina 08:20 · 54° de altura",
+    "se pone 13:57",
+    "HIP 32349"
+   ]
+  }
+ },
+ "figure_Sirius": "Canis Major",
+ "tap_Moon": {
+  "at": {
+   "x": 192.5961851579112,
+   "y": 266.52218877206394,
+   "t": 48.694,
+   "sample": 584,
+   "alt": 78.971
+  },
+  "card": {
+   "on": true,
+   "name": "Luna",
+   "kind": "La Luna",
+   "says": [
+    "Iluminada al 43 % y menguante en este momento. A 370.765 km ese día.",
+    "Ese día la Luna salió a las 23:56, culminó a las 05:48, se puso a las 12:41.",
+    "A las 10:00, la hora para la que está hecho este cielo, la Luna estaba a 34° de altura por el oestenoroeste."
+   ],
+   "details": [
+    "altura 79,0°",
+    "acimut 35,5°",
+    "tamaño aparente 32.9′",
+    "iluminada 43 %",
+    "distancia 370.765 km",
+    "edad 21,9 días",
+    "sale 23:56",
+    "culmina 05:48",
+    "se pone 12:41"
+   ]
+  }
+ },
+ "tap_Jupiter": {
+  "at": {
+   "x": 191.0992311957574,
+   "y": 296.9035641194012,
+   "t": 2.034,
+   "sample": 24,
+   "alt": 86.822
+  },
+  "card": {
+   "on": true,
+   "name": "Júpiter",
+   "kind": "Planeta",
+   "says": [
+    "Brilla con magnitud -1,8 en este momento, más que casi cualquier estrella.",
+    "Ese día Júpiter salió a las 04:10, culminó a las 10:40, a 88° de altura, se puso a las 17:06.",
+    "A las 10:00, la hora para la que está hecho este cielo, Júpiter estaba a 80° de altura por el estesureste, oculto por la luz del día."
+   ],
+   "details": [
+    "altura 86,8°",
+    "acimut 223,3°",
+    "magnitud -1,80",
+    "tamaño aparente 31.3″",
+    "sale 04:10",
+    "culmina 10:40 · 88° de altura",
+    "se pone 17:06"
+   ]
+  }
+ },
+ "tap_Vega": {
+  "at": {
+   "x": 173.4671630945731,
+   "y": 329.1832900096354,
+   "t": 37.254,
+   "sample": 447,
+   "alt": 18.302442184828497
+  },
+  "card": {
+   "on": true,
+   "name": "Vega",
+   "kind": "Estrella · Lyra, la Lira",
+   "says": [
+    "La quinta estrella más brillante del cielo nocturno. Una estrella blanca, más caliente que el Sol. Brilla con la luz de 50 soles.",
+    "A 25 años luz: la luz que ves esta noche salió de ella en 2001.",
+    "Ese día salió a las 13:02 por el noreste, culminó a las 20:09, a 71° de altura, se puso a las 03:17 por el noroeste.",
+    "A las 10:00, la hora para la que está hecho este cielo, Vega estaba bajo el horizonte, 26° por debajo, hacia el nornoreste."
+   ],
+   "btn": "Ver Lyra, la Lira",
+   "details": [
+    "altura 18,3°",
+    "acimut 305,7°",
+    "magnitud 0,03",
+    "distancia 25 años luz",
+    "tipo A0Vvar",
+    "luminosidad 50 × el Sol",
+    "sale 13:02",
+    "culmina 20:09 · 71° de altura",
+    "se pone 03:17",
+    "HIP 91262"
+   ]
+  }
+ },
+ "figure_Vega": "Lyra",
+ "hintAfterTap": true,
+ "searchSwan": [
+  "Cygnus/con",
+  "Deneb/star",
+  "Sadr/star"
+ ],
+ "searchMoon": [
+  "Moon/moon"
+ ],
+ "conCard": {
+  "name": "Cygnus",
+  "kind": "Constelación",
+  "says": [
+   "El Cisne. Dibujada como la dibujó H. A. Rey, sobre las estrellas reales."
+  ],
+  "toast": "Cygnus: toca el cielo para quitar la figura",
+  "results0": "Cygnus"
+ },
+ "placeholder": "Orión, Sirius, el cisne…",
+ "detailsOfLast": [
+  "altura 38,2°",
+  "acimut 308,1°"
+ ],
+ "namesOn": true,
+ "dayCard": "El día 4 de septiembre de 2026 · hora local · Asia/Bangkok amanecer06:12atardecer18:39 luz de día12 h 27 min noche cerrada19:53 – 04:58 sale la Luna23:56se pone la Luna12:41 Luna iluminada52 % · menguante salese poneMercurio06:4419:03Venus09:1820:44Marte02:0115:16Júpiter04:1017:06Saturno20:1808:32Ur",
+ "dedHiddenWhenEmpty": true,
+ "dedShown": true,
+ "errors": []
+}

@@ -1,24 +1,30 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/bundle_birthday.sh	2026-10-18 16:20:37.000000000 +0000
-+++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/bundle_birthday.sh	2026-10-19 00:52:36.422605139 +0000
-@@ -52,6 +52,9 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/bundle_birthday.sh	2026-10-18 16:20:37.000000000 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/bundle_birthday.sh	2026-10-19 01:06:05.668257521 +0000
+@@ -52,6 +52,14 @@
  when="${5:?need the date line, e.g. \"4 SEPTEMBER 2026 · 10:00\"}"
  lat="${6:?need the latitude the film was rendered for}"
  lon="${7:?need the longitude the film was rendered for}"
 +# Optional: a dedication, set into the caption under the place and date
 +# ("For Jane, who was born under this sky"). Empty means no third line.
 +dedication="${8:-}"
++# Optional: the language of the player's words — en, es or fr. Stamped on
++# <html data-lang>; the player otherwise follows the device's language, and
++# `?lang=` in the link overrides both. The caption is stamped as given.
++lang="${9:-}"
++case "$lang" in ""|en|es|fr) ;; *) echo "unknown language '$lang' (en|es|fr)" >&2; exit 1;; esac
  title="$place — $when"
  
  [ -r "$player" ] || { echo "no player at $player" >&2; exit 1; }
-@@ -270,6 +273,7 @@
+@@ -270,6 +278,8 @@
  sed -e "s|<title>[^<]*</title>|<title>$title</title>|" \
      -e "s|\(id=\"capPlace\"[^>]*>\)[^<]*|\1$place|" \
      -e "s|\(id=\"capDate\"[^>]*>\)[^<]*|\1$when|" \
 +    -e "s|\(id=\"capDed\"[^>]*>\)[^<]*|\1$dedication|" \
++    -e "s|<html lang=\"en\">|<html lang=\"${lang:-en}\"${lang:+ data-lang=\"$lang\"}>|" \
      "$player" > "$out/site/index.html"
  
  # Both halves of the caption must have landed in their own node...
-@@ -277,13 +281,15 @@
+@@ -277,13 +287,15 @@
    echo "caption stamp failed — '$place' did not land in #capPlace" >&2; exit 1; }
  grep -q -F "id=\"capDate\">$when<" "$out/site/index.html" || {
    echo "caption stamp failed — '$when' did not land in #capDate" >&2; exit 1; }
@@ -35,7 +41,7 @@
    n=$(grep -o "<div[^>]*>[^<]*" "$out/site/index.html" | grep -c -F "$pat")
    [ "$n" = 1 ] || {
      echo "caption stamp hit $n <div> nodes with '$pat', expected exactly 1" >&2
-@@ -363,6 +369,14 @@
+@@ -363,6 +375,14 @@
    cp "$film/facts.json" "$out/site/facts.json"
  fi
  cp "$film/figures.json" "$out/site/figures.json"

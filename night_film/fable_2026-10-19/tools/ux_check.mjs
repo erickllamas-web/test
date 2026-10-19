@@ -4,7 +4,7 @@
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs'; import path from 'node:path';
-const [site, indexFile, out, vp = '375x667'] = process.argv.slice(2);
+const [site, indexFile, out, vp = '375x667', lang = ''] = process.argv.slice(2);
 const [VW, VH] = vp.split('x').map(Number);
 fs.rmSync(out, { recursive: true, force: true }); fs.mkdirSync(out, { recursive: true });
 const srv = fs.mkdtempSync('/tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/srv-');
@@ -19,7 +19,7 @@ const page = await ctx.newPage();
 const errors = []; page.on('pageerror', e => errors.push(e.message));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const R = {};
-await page.goto(`http://127.0.0.1:${port}/index.html`);
+await page.goto(`http://127.0.0.1:${port}/index.html${lang ? '?lang=' + lang : ''}`);
 await page.waitForFunction(() => typeof S !== 'undefined' && S.film && S.seek && S.aim && S.bodies && vFilm.readyState >= 2, null, { timeout: 15000 });
 await sleep(2200);
 R.hintShown = await page.evaluate(() => !document.getElementById('hint').classList.contains('off'));
@@ -70,6 +70,17 @@ for (const name of ['Sirius', 'Moon', 'Jupiter', 'Vega']) {
   if (card.btn) { await page.click('#showcon'); await sleep(700); R['figure_' + name] = await page.evaluate(() => S.figure && S.figure.name); await page.screenshot({ path: path.join(out, `figure_${name}.png`) }); }
 }
 R.hintAfterTap = await page.evaluate(() => document.getElementById('hint').classList.contains('off'));
+const swan = { en: 'the swan', es: 'el cisne', fr: 'le cygne' }[lang || 'en'];
+R.searchSwan = await page.evaluate((q) => searchIndex(q, 3).map(e => e.name + '/' + e.kind), swan);
+R.searchMoon = await page.evaluate((q) => searchIndex(q, 2).map(e => e.name + '/' + e.kind), { en: 'moon', es: 'luna', fr: 'lune' }[lang || 'en']);
+await page.evaluate(() => { hideFigure(); goTo(S.seek.find(e => e.kind === 'con' && e.con === 'Cyg')); });
+await sleep(1500);
+R.conCard = await page.evaluate(() => ({ name: document.querySelector('#info .n').textContent, kind: document.querySelector('#info .d').textContent,
+  says: [...document.querySelectorAll('#info .say')].map(p => p.textContent), toast: document.getElementById('toast').textContent,
+  results0: document.getElementById('q').value }));
+await page.screenshot({ path: path.join(out, 'card_Cygnus.png') });
+R.placeholder = await page.evaluate(() => document.getElementById('q').placeholder);
+R.detailsOfLast = await page.evaluate(() => [...document.querySelectorAll('#info dt')].map(d => d.textContent + ' ' + d.nextElementSibling.textContent));
 // names layer
 await page.evaluate(() => { document.getElementById('info').classList.remove('on'); S.marked = null; hideFigure(); setNames(true); draw(); });
 await sleep(500);

@@ -1,6 +1,36 @@
---- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/upload/night_film_fable_2026-10-18/01_SOURCE/crate/order_birthday_film.sh	2026-10-18 16:20:37.000000000 +0000
-+++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/order_birthday_film.sh	2026-10-19 00:15:00.449240152 +0000
-@@ -72,7 +72,20 @@
+--- /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/../upload/night_film_fable_2026-10-18/01_SOURCE/crate/order_birthday_film.sh	2026-10-18 16:20:37.000000000 +0000
++++ /tmp/claude-0/-home-user-test/6d9528b0-6431-5225-87a4-8233b3d39536/scratchpad/work/crate/order_birthday_film.sh	2026-10-19 01:06:05.668901805 +0000
+@@ -60,8 +60,28 @@
+ offh=$(awk -v s="$off" 'BEGIN{ printf "%.6f", s / 3600 }')
+ hour=$(awk -v c="$clock" 'BEGIN{ split(c, a, ":"); printf "%.6f", a[1] + a[2] / 60 }')
+ 
++# FILM_LANG=en|es|fr (default en): the language of the player's words and of
++# the month in the caption. The month is spelled by `date` under that
++# language's locale when the box has it; where it does not, `date` falls back
++# to English, so the caption is checked against the language's own month
++# names and the order refuses rather than ship "4 SEPTEMBER" on a Spanish film.
++# FILM_DEDICATION (optional): a third caption line, e.g. "Para Jane".
++film_lang="${FILM_LANG:-en}"
++case "$film_lang" in en|es|fr) ;; *) echo "FILM_LANG must be en, es or fr" >&2; exit 1;; esac
++case "$film_lang" in es) loc=es_ES.UTF-8;; fr) loc=fr_FR.UTF-8;; *) loc=C;; esac
++month=$(LC_ALL=$loc date -u -d "$date" +'%B' 2>/dev/null || date -u -d "$date" +'%B')
++case "$film_lang:$month" in
++  es:enero|es:febrero|es:marzo|es:abril|es:mayo|es:junio|es:julio|es:agosto|es:septiembre|es:octubre|es:noviembre|es:diciembre) ;;
++  fr:janvier|fr:février|fr:mars|fr:avril|fr:mai|fr:juin|fr:juillet|fr:août|fr:septembre|fr:octobre|fr:novembre|fr:décembre) ;;
++  en:*) ;;
++  *) echo "the $film_lang locale is not installed here ($loc): the caption month came out as '$month'" >&2; exit 1;;
++esac
+ caption_place=$(printf '%s' "$place" | tr '[:lower:]' '[:upper:]')
+-caption_date="$(date -u -d "$date" +'%-d %B %Y' | tr '[:lower:]' '[:upper:]') · $clock"
++day_no=$(date -u -d "$date" +'%-d'); year_no=$(date -u -d "$date" +'%Y')
++case "$film_lang" in
++  es) caption_date="$day_no DE ${month^^} DE $year_no · $clock" ;;
++  *)  caption_date="$day_no ${month^^} $year_no · $clock" ;;
++esac
+ echo "order: $place → $lat, $lon ($tzid, UTC$( [ "$off" -ge 0 ] && echo + )$offh h) · $date $clock"
+ echo "caption: $caption_place / $caption_date"
+ # ORDER_DRY=1 stops here: resolve the order and show the caption, bake nothing.
+@@ -72,12 +92,25 @@
  [ -x target/release/examples/sky_track_bake ] || cargo build --release -q -p morpheus --example sky_track_bake || exit 1
  
  # ── the track, the two cuts, the tables, the bundle ─────────────────────────
@@ -22,3 +52,9 @@
    || { echo "track bake failed" >&2; exit 1; }
  export BIRTHDAY_MASTER=square BIRTHDAY_CODEC="${BIRTHDAY_CODEC:-hevc10,h264}"
  nice -n 19 bash "$here/bake_all.sh" "$out/track.json" "$out/film" "$size" 30 0 || exit 1
+ nice -n 19 bash "$here/facts_birthday.sh" "$date" "$hour" "$lat" "$lon" "$out/film/facts.json" || exit 1
+ BIRTHDAY_NIGHT=1 nice -n 19 bash "$here/bake_all.sh" "$out/track.json" "$out/night" "$size" 30 60 || exit 1
+ bash "$here/bundle_birthday.sh" "$out/film" "$out/night" "$out/deliver" \
+-  "$caption_place" "$caption_date" "$lat" "$lon" || exit 1
++  "$caption_place" "$caption_date" "$lat" "$lon" "${FILM_DEDICATION:-}" "$film_lang" || exit 1
+ echo "order done → $out/deliver/site"
