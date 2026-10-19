@@ -160,6 +160,19 @@ coarse (one sample per 300–600 ms); the counters are exact. `results/4k_before
 | Sun switch | **a black sample right after the click** (luminance 2.9) while the destination still had no frame, then the dissolve | luminance flat at 49.8 through the whole switch; the old picture holds until the new cut has painted its frame, then fades in on top |
 | fly-to to Vega | **124 seeks issued, 4 landed, 2 frames presented** in 1.9 s | 6 seeks issued, 4 landed, 4 frames presented; arrives at the same 37.254 s |
 
+| rotate 16:9 → 9:16 | the film is re-sourced at once: **1.1 s frozen on the poster** (in the product that is the 12 s hero frame, so a different picture), then playback resumes at the same moment | the 16:9 film keeps playing while the 9:16 cut stages behind it; on this machine's software decoder the second 4K stream then **stalls the playing one** after ~2 s, and the swap had not completed within the 2 s window (`results/4k_rot_after2.txt`). A second turn cancels the pending swap cleanly. |
+
+The rotate result is the one measurement that depends on the device rather than the
+player: two 4K streams decoding at once is routine for a phone's or tablet's hardware
+HEVC decoder and impossible for 4 CPU cores in software, which is all this container
+has. The design (old cut stays up until the new one is decodable; the hidden cut waits
+until the live one has buffered through; an 8 s timeout so a swap can never wedge) is
+the right one for hardware decode, and it needs one check on a real phone and tablet
+before it is called done: turn the device during the night pass and during the film and
+confirm the picture never goes black or freezes for more than a frame. If a device
+does stall, the fallback is the old single-element swap behind the veil (a dip through
+black instead of a poster), which is a ten-line change in `applyShape`.
+
 The drag scenario did not register in headless Chromium at 4K in either run (no pointer
 capture under load), so there is no 4K number for it; the tiny-cut run shows it going
 through the same one-seek-at-a-time path as fly-to.
@@ -171,7 +184,7 @@ through the same one-seek-at-a-time path as fly-to.
 | track density | 0 | 0 | track bake 6× samples; +1.4 MB on disk, nothing shipped grows |
 | dither | unmeasured, expected small; read off the next shard log | 0 | none |
 | night loop | 0 (the pass is re-rendered regardless) | 0 | none |
-| player | 0 | 0 | +10 KB of page before strip; three decoders for the length of a rotate |
+| player | 0 | 0 | +10 KB of page before strip (+0.4 KB after); two decoders for the length of a rotate, three briefly if the Sun is switched mid-rotate |
 
 ## Open decisions (Erick's, not picked)
 
@@ -185,7 +198,9 @@ through the same one-seek-at-a-time path as fly-to.
    end the animation at exactly 24 h with the sweep returning to the establishing shot;
    that is a change to the grid-searched `SWEEP` and I did not make it.
 3. **Venus** (above): a look call on how the brightest planets are drawn.
-4. The poster is still the 12 s hero frame because the app icon is cut from it; with the
+4. **A device check for the rotate swap** (above): one phone, one tablet, both cuts. I
+   could not do it from here.
+5. The poster is still the 12 s hero frame because the app icon is cut from it; with the
    veil it is never seen as a poster. If a frame-0 poster is wanted anyway, `-ss 12` → `-ss 0`
    in `bake_all.sh` and the icon needs its own source.
 

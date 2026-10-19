@@ -1,0 +1,10 @@
+
+### rotate: 2 samples over 2008 ms | lum min 50.0 median 50.1 max 50.2 | black samples 0 | biggest visual jump 3.0 at 2008 ms
+     14 ms  lum  50.2  shape 169  veil 0  [ 30.51s film_169. op1 rs4]  [  0.00s night_169 op0 rs4]
+   2008 ms  lum  50.0  shape 169  veil 0  [ 32.45s film_169. op1 rs2]  [  0.00s night_169 op0 rs4]
+
+### rotateback: 2 samples over 2473 ms | lum min 49.7 median 49.8 max 49.9 | black samples 0 | biggest visual jump 3.0 at 2473 ms
+      4 ms  lum  49.7  shape 169  veil 0  [ 32.45s film_169. op1 rs2]  [  0.00s night_169 op0 rs4]
+   2473 ms  lum  49.9  shape 169  veil 0  [ 32.45s film_169. op1 rs2]  [  0.00s night_169 op0 rs4]
+
+## {"tag": "rotate-summary", "beforeShape": "169", "beforeT": 30.497, "afterShape": "169", "afterT": 32.447, "counters": {"film": {"seeking": 0, "seeked": 0, "frames": 8, "stalled": 0, "waiting": 2}, "night": {"seeking": 0, "seeked": 0, "frames": 0, "stalled": 0, "waiting": 0}}, "after": {"vids": [{"t": 32.447, "paused": false, "rs": 2, "seeking": false, "src": "film_169.h264.mp4", "op": "1", "cls": "", "w": 3840, "h": 2160}, {"t": 0, "paused": true, "rs": 4, "seeking": false, "src": "night_169.h264.mp4", "op": "0", "cls": "off", "w": 3840, "h": 2160}], "sunOff": false, "shape": "169", "Wn": 3840, "Hn": 2160, "look": false, "frame": {"w": 1185.78, "h": 667}, "xf": "translate(0px, 0px) scale(1)", "veil": 0}}
